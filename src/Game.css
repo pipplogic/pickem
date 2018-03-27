@@ -1,7 +1,16 @@
 .game {
-    border: 1px solid #ccc;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 5px;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 5px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.game:nth-child(even) {
+  background-color: #ddf;
+}
+.game:nth-child(odd) {
+  background-color: #dff;
 }
