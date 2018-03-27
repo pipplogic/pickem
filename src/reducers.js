@@ -8,6 +8,9 @@ const picks = (state = {}, action) => {
       });
       break;
     }
+    default: {
+      break;
+    }
   }
   return state;
 };
@@ -52,6 +55,9 @@ const week = (
         loaded: true,
         error: true
       };
+      break;
+    }
+    default: {
       break;
     }
   }
