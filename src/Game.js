@@ -15,12 +15,12 @@ class Game extends Component {
   };
 
   handleClickHome = () => {
-    let { store, game: { gameId }, homeTeam } = this.props;
+    let { store, game: { gameId, homeTeam } } = this.props;
     store.dispatch({ type: "PICK", gameId, team: homeTeam.teamId });
   };
 
   handleClickAway = () => {
-    let { store, game: { gameId }, awayTeam } = this.props;
+    let { store, game: { gameId, awayTeam } } = this.props;
     store.dispatch({ type: "PICK", gameId, team: awayTeam.teamId });
   };
 
