@@ -5,6 +5,7 @@
   "dependencies": {
     "bootstrap": "^4.0.0",
     "compression": "^1.7.2",
+    "eslint": "^4.19.1",
     "express": "^4.16.3",
     "npm": "^5.8.0",
     "react": "^16.2.0",
