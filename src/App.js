@@ -17,7 +17,6 @@ import {
   DropdownItem
 } from "reactstrap";
 
-import { Draggable, Droppable } from "react-drag-and-drop";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,15 +24,13 @@ class App extends Component {
     this.state = {
       navBarOpen: false
     };
-
-    this.toggleNavbar = this.toggleNavbar.bind(this);
   }
 
-  toggleNavbar() {
+  toggleNavbar = () => {
     this.setState({
       navBarOpen: !this.state.navBarOpen
     });
-  }
+  };
 
   render() {
     let { store } = this.props;
@@ -73,31 +70,6 @@ class App extends Component {
         <section className="main-body container">
           <Week store={store} week={week} picks={picks} />
         </section>
-
-        <div>
-          <ul>
-            <Draggable type="fruit" data="banana">
-              <li>Banana</li>
-            </Draggable>
-            <Draggable type="fruit" data="apple">
-              <li>Apple</li>
-            </Draggable>
-            <Draggable type="metal" data="silver">
-              <li>Silver</li>
-            </Draggable>
-          </ul>
-          <Droppable
-            style={{ border: "1px solid red" }}
-            types={["fruit"]} // <= allowed drop types
-            onDrop={() => this.onDrop()}
-          >
-            <ul className="Smoothie" />
-          </Droppable>
-        </div>
-
-        <footer className="page-footer">
-          Developed by quadglacier and pipplogic
-        </footer>
       </div>
     );
   }

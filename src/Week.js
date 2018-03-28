@@ -19,7 +19,7 @@ class App extends Component {
     this.loadGames();
   }
 
-  loadGames() {
+  loadGames = () => {
     let { store } = this.props;
     let { week } = store.getState();
     let url = `${API_HOST}/api/v1/games/season/${week.year}/week/${week.number}`;
@@ -32,19 +32,19 @@ class App extends Component {
           store.dispatch({ type: "WEEK_ERROR" });
         }
       });
-  }
+  };
 
-  handleWeekChange(ev) {
+  handleWeekChange = ev => {
     let { store } = this.props;
     store.dispatch({ type: "NEW_WEEK", number: ev.target.value });
     this.loadGames();
-  }
+  };
 
-  handleYearChange(ev) {
+  handleYearChange = ev => {
     let { store } = this.props;
-    store.dispatch({ type: "NEW_YEAR", number: ev.target.value });
+    store.dispatch({ type: "NEW_YEAR", year: ev.target.value });
     this.loadGames();
-  }
+  };
 
   render() {
     let { store } = this.props;

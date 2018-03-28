@@ -14,15 +14,15 @@ class Game extends Component {
     currentPick: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   };
 
-  handleClickHome() {
+  handleClickHome = () => {
     let { store, game: { gameId }, homeTeam } = this.props;
     store.dispatch({ type: "PICK", gameId, team: homeTeam.teamId });
-  }
+  };
 
-  handleClickAway() {
+  handleClickAway = () => {
     let { store, game: { gameId }, awayTeam } = this.props;
     store.dispatch({ type: "PICK", gameId, team: awayTeam.teamId });
-  }
+  };
 
   render() {
     let { currentPick, game: { homeTeam, awayTeam } } = this.props;
