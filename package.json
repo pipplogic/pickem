@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "compression": "^1.7.2",
     "express": "^4.16.3",
     "npm": "^5.8.0",
     "react": "^16.2.0",
