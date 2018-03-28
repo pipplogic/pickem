@@ -1,7 +1,7 @@
 # pickem
 
 Project started in collaboration with [@jordangerads](https://github.com/jordangerads) to do the scoring for a football pick'em league we play in.
-This is the front end, with the backend being hosted [here](https://github.com/jordangerads/pickem-api).
+This is the front end, with the backend code [here](https://github.com/jordangerads/pickem-api).
 
 To start the server in development mode, check out the repository then run the commands
 ```
