@@ -23,5 +23,4 @@ app.listen(port, err => {
     console.error(err);
   }
   console.info(`Listening on port ${port}`);
-  console.info(`Hi ${JSON.stringify(process.env, true, true)}`);
 });
