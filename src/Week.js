@@ -1,7 +1,21 @@
-import Game from "./Game.js";
 import React, { Component } from "react";
 
+import { withStyles } from "material-ui/styles";
+import Table, {
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from "material-ui/Table";
+
 const API_HOST = process.env.REACT_APP_API_HOST;
+
+const formatDate = date =>
+  new Date(date).toLocaleString("en-us", {
+    weekday: "short",
+    hour: "numeric",
+    minute: "2-digit"
+  });
 
 class App extends Component {
   constructor() {
@@ -72,14 +86,61 @@ class App extends Component {
         </select>
         {!week.loaded && <h3>Loading...</h3>}
         {week.error && <h3>An error occured</h3>}
-        {week.games.map(game => (
-          <Game
-            game={game}
-            currentPick={picks[game.gameId]}
-            store={store}
-            key={game.gameId}
-          />
-        ))}
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Time</TableCell>
+              <TableCell numeric>Away</TableCell>
+              <TableCell />
+              <TableCell>Home</TableCell>
+              <TableCell>Pts</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {week.games.map(game => {
+              return (
+                <TableRow key={game.gameId}>
+                  <TableCell>{formatDate(game.gameTime)}</TableCell>
+                  <TableCell
+                    numeric
+                    style={{
+                      backgroundColor:
+                        picks[game.gameId] === game.awayTeam.teamId
+                          ? "gold"
+                          : ""
+                    }}
+                    onClick={() =>
+                      store.dispatch({
+                        type: "PICK",
+                        gameId: game.gameId,
+                        team: game.awayTeam.teamId
+                      })}
+                  >
+                    {game.awayTeam.city} {game.awayTeam.teamName}
+                  </TableCell>
+                  <TableCell>&nbsp;@&nbsp;</TableCell>
+                  <TableCell
+                    style={{
+                      backgroundColor:
+                        picks[game.gameId] === game.homeTeam.teamId
+                          ? "gold"
+                          : ""
+                    }}
+                    onClick={() =>
+                      store.dispatch({
+                        type: "PICK",
+                        gameId: game.gameId,
+                        team: game.homeTeam.teamId
+                      })}
+                  >
+                    {game.homeTeam.city} {game.homeTeam.teamName}
+                  </TableCell>
+                  <TableCell>10</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
       </div>
     );
   }

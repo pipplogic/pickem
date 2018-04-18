@@ -15,7 +15,10 @@ class Team extends Component {
   render() {
     let { team, picked, ...rest } = this.props;
     return (
-      <div className={"team " + (picked ? "team-picked" : "")} {...rest}>
+      <div
+        className={"team " + (picked ? "team-picked" : "team-not-picked")}
+        {...rest}
+      >
         {team.city} {team.teamName}
       </div>
     );

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Game.css";
 import Team from "./Team";
 import PropTypes from "prop-types";
 
