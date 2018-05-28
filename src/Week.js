@@ -1,34 +1,57 @@
 import React, { Component } from "react";
 
-import { withStyles } from "material-ui/styles";
-import Table, {
+import {
+  Table,
+  TableHead,
+  TableRow,
   TableBody,
   TableCell,
-  TableHead,
-  TableRow
-} from "material-ui/Table";
+  withStyles
+} from "@material-ui/core";
 
-const API_HOST = process.env.REACT_APP_API_HOST;
+import { loadWeek } from "./api";
 
-const formatDate = date =>
-  new Date(date).toLocaleString("en-us", {
-    weekday: "short",
+const mobile = "@media (max-width: 767px)";
+
+const DateTime = withStyles({
+  [mobile]: {
+    part: {
+      display: "block"
+    }
+  }
+})(function DateTime({ date, classes }) {
+  const dateObj = new Date(date);
+  const weekday = dateObj.toLocaleString("en-us", {
+    weekday: "short"
+  });
+  const time = dateObj.toLocaleString("en-us", {
     hour: "numeric",
     minute: "2-digit"
   });
 
-class App extends Component {
-  constructor() {
-    super();
+  return [
+    <span key="date" className={classes.part}>
+      {weekday}
+    </span>,
+    <span key="time" className={classes.part}>
+      {time}
+    </span>
+  ];
+});
 
-    this.years = ["2016", "2017"];
-
-    this.weeks = [];
-    for (let i = 1; i <= 17; i++) {
-      this.weeks.push(i);
+const CustomTableCell = withStyles(theme => ({
+  root: {
+    backgroundColor: "#ffc",
+    textAlign: "center",
+    padding: "4px 40px",
+    [mobile]: {
+      padding: 0,
+      backgroundColor: "#fcf"
     }
   }
+}))(TableCell);
 
+class Week extends Component {
   componentDidMount() {
     this.loadGames();
   }
@@ -36,114 +59,138 @@ class App extends Component {
   loadGames = () => {
     let { store } = this.props;
     let { week } = store.getState();
-    let url = `${API_HOST}/api/v1/games/season/${week.year}/week/${week.number}`;
-    fetch(url)
-      .then(res => res.json())
-      .then(result => {
-        if (result.games) {
-          store.dispatch({ type: "WEEK_LOADED", games: result.games });
-        } else {
-          store.dispatch({ type: "WEEK_ERROR" });
-        }
+
+    loadWeek(week.year, week.number)
+      .then(games => {
+        store.dispatch({ type: "WEEK_LOADED", games });
+      })
+      .catch(err => {
+        store.dispatch({ type: "WEEK_ERROR" });
       });
   };
 
-  handleWeekChange = ev => {
-    let { store } = this.props;
-    store.dispatch({ type: "NEW_WEEK", number: ev.target.value });
-    this.loadGames();
-  };
-
-  handleYearChange = ev => {
-    let { store } = this.props;
-    store.dispatch({ type: "NEW_YEAR", year: ev.target.value });
-    this.loadGames();
-  };
-
   render() {
-    let { store } = this.props;
+    let { store, classes } = this.props;
     let { week, picks } = store.getState();
 
     return (
       <div className="week">
-        <select value={week.year} onChange={this.handleYearChange}>
-          {this.years.map(year => {
-            return (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            );
-          })}
-        </select>
-        <select value={week.number} onChange={this.handleWeekChange}>
-          {this.weeks.map(weekNum => {
-            return (
-              <option key={weekNum} value={weekNum}>
-                Week {weekNum}
-              </option>
-            );
-          })}
-        </select>
         {!week.loaded && <h3>Loading...</h3>}
         {week.error && <h3>An error occured</h3>}
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Time</TableCell>
-              <TableCell numeric>Away</TableCell>
-              <TableCell />
-              <TableCell>Home</TableCell>
-              <TableCell>Pts</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {week.games.map(game => {
-              return (
-                <TableRow key={game.gameId}>
-                  <TableCell>{formatDate(game.gameTime)}</TableCell>
-                  <TableCell
+        {week.loaded &&
+          !week.error && (
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <CustomTableCell classes={{ root: classes["col-time"] }}>
+                    Time
+                  </CustomTableCell>
+                  <CustomTableCell
                     numeric
-                    style={{
-                      backgroundColor:
-                        picks[game.gameId] === game.awayTeam.teamId
-                          ? "gold"
-                          : ""
-                    }}
-                    onClick={() =>
-                      store.dispatch({
-                        type: "PICK",
-                        gameId: game.gameId,
-                        team: game.awayTeam.teamId
-                      })}
+                    classes={{ root: classes["col-team-away"] }}
                   >
-                    {game.awayTeam.city} {game.awayTeam.teamName}
-                  </TableCell>
-                  <TableCell>&nbsp;@&nbsp;</TableCell>
-                  <TableCell
-                    style={{
-                      backgroundColor:
-                        picks[game.gameId] === game.homeTeam.teamId
-                          ? "gold"
-                          : ""
-                    }}
-                    onClick={() =>
-                      store.dispatch({
-                        type: "PICK",
-                        gameId: game.gameId,
-                        team: game.homeTeam.teamId
-                      })}
-                  >
-                    {game.homeTeam.city} {game.homeTeam.teamName}
-                  </TableCell>
-                  <TableCell>10</TableCell>
+                    Away
+                  </CustomTableCell>
+                  <CustomTableCell classes={{ root: classes["col-at"] }} />
+                  <CustomTableCell classes={{ root: classes["col-team-home"] }}>
+                    Home
+                  </CustomTableCell>
+                  <CustomTableCell classes={{ root: classes["col-pts"] }}>
+                    Pts
+                  </CustomTableCell>
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+              </TableHead>
+              <TableBody>
+                {week.games.map(game => {
+                  return (
+                    <TableRow key={game.gameId}>
+                      <CustomTableCell classes={{ root: classes["col-time"] }}>
+                        <DateTime date={game.gameTime} />
+                      </CustomTableCell>
+                      <CustomTableCell
+                        classes={{ root: classes["col-team-away"] }}
+                        style={{
+                          backgroundColor:
+                            picks[game.gameId] === game.awayTeam.teamId
+                              ? "gold"
+                              : ""
+                        }}
+                        onClick={() =>
+                          store.dispatch({
+                            type: "PICK",
+                            gameId: game.gameId,
+                            team: game.awayTeam.teamId
+                          })}
+                      >
+                        <span className={classes.teamCity}>
+                          {game.awayTeam.city}
+                        </span>
+                        <span className={classes.teamName}>
+                          {game.awayTeam.teamName}
+                        </span>
+                      </CustomTableCell>
+                      <CustomTableCell classes={{ root: classes["col-at"] }}>
+                        @
+                      </CustomTableCell>
+                      <CustomTableCell
+                        classes={{ root: classes["col-team-home"] }}
+                        style={{
+                          backgroundColor:
+                            picks[game.gameId] === game.homeTeam.teamId
+                              ? "gold"
+                              : ""
+                        }}
+                        onClick={() =>
+                          store.dispatch({
+                            type: "PICK",
+                            gameId: game.gameId,
+                            team: game.homeTeam.teamId
+                          })}
+                      >
+                        <span className={classes.teamCity}>
+                          {game.homeTeam.city}
+                        </span>
+                        <span className={classes.teamName}>
+                          {game.homeTeam.teamName}
+                        </span>{" "}
+                      </CustomTableCell>
+                      <CustomTableCell classes={{ root: classes["col-pts"] }}>
+                        10
+                      </CustomTableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
       </div>
     );
   }
 }
 
-export default App;
+const styles = {
+  teamCity: {
+    marginRight: "1ch",
+    [mobile]: {
+      marginRight: "none",
+      display: "block"
+    }
+  },
+  teamName: {
+    [mobile]: {
+      display: "block"
+    }
+  },
+  "col-time": {},
+  "col-team-away": {},
+  "col-at": {
+    [mobile]: {
+      backgroundColor: "red",
+      display: "none"
+    }
+  },
+  "col-team-home": {},
+  "col-pts": {}
+};
+
+export default withStyles(styles)(Week);

@@ -45,7 +45,8 @@ const week = (
       state = {
         ...state,
         loaded: true,
-        games: action.games
+        games: action.games,
+        error: false
       };
       break;
     }
