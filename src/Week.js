@@ -1,55 +1,10 @@
 import React, { Component } from "react";
-
-import {
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
-  withStyles
-} from "@material-ui/core";
+import { connect } from "react-redux";
 
 import { loadWeek } from "./api";
-
-const mobile = "@media (max-width: 767px)";
-
-const DateTime = withStyles({
-  [mobile]: {
-    part: {
-      display: "block"
-    }
-  }
-})(function DateTime({ date, classes }) {
-  const dateObj = new Date(date);
-  const weekday = dateObj.toLocaleString("en-us", {
-    weekday: "short"
-  });
-  const time = dateObj.toLocaleString("en-us", {
-    hour: "numeric",
-    minute: "2-digit"
-  });
-
-  return [
-    <span key="date" className={classes.part}>
-      {weekday}
-    </span>,
-    <span key="time" className={classes.part}>
-      {time}
-    </span>
-  ];
-});
-
-const CustomTableCell = withStyles(theme => ({
-  root: {
-    backgroundColor: "#ffc",
-    textAlign: "center",
-    padding: "4px 40px",
-    [mobile]: {
-      padding: 0,
-      backgroundColor: "#fcf"
-    }
-  }
-}))(TableCell);
+import DateTime from "./DateTime";
+import Team from "./Team";
+import "./Week.css";
 
 class Week extends Component {
   componentDidMount() {
@@ -57,140 +12,75 @@ class Week extends Component {
   }
 
   loadGames = () => {
-    let { store } = this.props;
-    let { week } = store.getState();
+    const { dispatch, week } = this.props;
 
     loadWeek(week.year, week.number)
       .then(games => {
-        store.dispatch({ type: "WEEK_LOADED", games });
+        dispatch({ type: "WEEK_LOADED", games });
       })
       .catch(err => {
-        store.dispatch({ type: "WEEK_ERROR" });
+        dispatch({ type: "WEEK_ERROR" });
       });
   };
 
+  select = (gameId, teamId) => () => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: "PICK",
+      gameId: gameId,
+      team: teamId
+    });
+  };
+
   render() {
-    let { store, classes } = this.props;
-    let { week, picks } = store.getState();
+    const { week, picks } = this.props;
+
+    if (!week.loaded) {
+      return <h3>Loading...</h3>;
+    }
+
+    if (week.error) {
+      return <h3>Error!</h3>;
+    }
 
     return (
       <div className="week">
-        {!week.loaded && <h3>Loading...</h3>}
-        {week.error && <h3>An error occured</h3>}
-        {week.loaded &&
-          !week.error && (
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <CustomTableCell classes={{ root: classes["col-time"] }}>
-                    Time
-                  </CustomTableCell>
-                  <CustomTableCell
-                    numeric
-                    classes={{ root: classes["col-team-away"] }}
-                  >
-                    Away
-                  </CustomTableCell>
-                  <CustomTableCell classes={{ root: classes["col-at"] }} />
-                  <CustomTableCell classes={{ root: classes["col-team-home"] }}>
-                    Home
-                  </CustomTableCell>
-                  <CustomTableCell classes={{ root: classes["col-pts"] }}>
-                    Pts
-                  </CustomTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {week.games.map(game => {
-                  return (
-                    <TableRow key={game.gameId}>
-                      <CustomTableCell classes={{ root: classes["col-time"] }}>
-                        <DateTime date={game.gameTime} />
-                      </CustomTableCell>
-                      <CustomTableCell
-                        classes={{ root: classes["col-team-away"] }}
-                        style={{
-                          backgroundColor:
-                            picks[game.gameId] === game.awayTeam.teamId
-                              ? "gold"
-                              : ""
-                        }}
-                        onClick={() =>
-                          store.dispatch({
-                            type: "PICK",
-                            gameId: game.gameId,
-                            team: game.awayTeam.teamId
-                          })}
-                      >
-                        <span className={classes.teamCity}>
-                          {game.awayTeam.city}
-                        </span>
-                        <span className={classes.teamName}>
-                          {game.awayTeam.teamName}
-                        </span>
-                      </CustomTableCell>
-                      <CustomTableCell classes={{ root: classes["col-at"] }}>
-                        @
-                      </CustomTableCell>
-                      <CustomTableCell
-                        classes={{ root: classes["col-team-home"] }}
-                        style={{
-                          backgroundColor:
-                            picks[game.gameId] === game.homeTeam.teamId
-                              ? "gold"
-                              : ""
-                        }}
-                        onClick={() =>
-                          store.dispatch({
-                            type: "PICK",
-                            gameId: game.gameId,
-                            team: game.homeTeam.teamId
-                          })}
-                      >
-                        <span className={classes.teamCity}>
-                          {game.homeTeam.city}
-                        </span>
-                        <span className={classes.teamName}>
-                          {game.homeTeam.teamName}
-                        </span>{" "}
-                      </CustomTableCell>
-                      <CustomTableCell classes={{ root: classes["col-pts"] }}>
-                        10
-                      </CustomTableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          )}
+        <div className="game game-header clearfix">
+          <span className="game-time">Time</span>
+          <span className="game-away">Away</span>
+          <span className="game-at">&nbsp;</span>
+          <span className="game-home">Home</span>
+          <span className="game-pts">Pts</span>
+        </div>
+        {week.games.map(game => {
+          return (
+            <div key={game.gameId} className="game clearfix">
+              <span className="game-time">
+                <DateTime date={game.gameTime} />
+              </span>
+              <div className="game-away">
+                <Team
+                  selected={picks[game.gameId] === game.awayTeam.teamId}
+                  team={game.awayTeam}
+                  onClick={this.select(game.gameId, game.awayTeam.teamId)}
+                />
+              </div>
+              <span className="game-at">@</span>
+              <div className="game-home">
+                <Team
+                  selected={picks[game.gameId] === game.homeTeam.teamId}
+                  team={game.homeTeam}
+                  onClick={this.select(game.gameId, game.homeTeam.teamId)}
+                />
+              </div>
+              <span className="game-pts">10</span>
+            </div>
+          );
+        })}
       </div>
     );
   }
 }
 
-const styles = {
-  teamCity: {
-    marginRight: "1ch",
-    [mobile]: {
-      marginRight: "none",
-      display: "block"
-    }
-  },
-  teamName: {
-    [mobile]: {
-      display: "block"
-    }
-  },
-  "col-time": {},
-  "col-team-away": {},
-  "col-at": {
-    [mobile]: {
-      backgroundColor: "red",
-      display: "none"
-    }
-  },
-  "col-team-home": {},
-  "col-pts": {}
-};
-
-export default withStyles(styles)(Week);
+export default connect(state => state)(Week);

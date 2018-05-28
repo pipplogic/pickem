@@ -1,0 +1,32 @@
+.game-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  padding-bottom: 2px;
+}
+
+.game {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1em 2fr 1fr;
+  grid-template-areas: "time away at home pts";
+  margin-bottom: 10px;
+  align-items: center;
+  text-align: center;
+}
+
+.game-time {
+  grid-area: time;
+}
+.game-away {
+  grid-area: away;
+}
+.game-at {
+  grid-area: at;
+}
+.game-home {
+  grid-area: home;
+}
+.game-pts {
+  grid-area: pts;
+}

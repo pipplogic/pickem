@@ -1,0 +1,17 @@
+.team {
+  cursor: pointer;
+}
+
+.team.selected {
+  background-color: gold;
+}
+
+@media (min-width: 768px) {
+  .team-location {
+    display: inline;
+    margin-right: 1ch;
+  }
+  .team-name {
+    display: inline;
+  }
+}

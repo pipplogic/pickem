@@ -1,0 +1,9 @@
+@media (min-width: 768px) {
+  .day {
+    display: inline;
+    margin-right: 1ch;
+  }
+  .time {
+    display: inline;
+  }
+}

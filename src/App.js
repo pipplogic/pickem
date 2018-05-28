@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import Week from "./Week";
 import Selections from "./Selections";
+import "./App.css";
 
 class App extends Component {
   render() {
-    let { store } = this.props;
     return (
       <div>
-        <Selections store={store} />
-
-        <Week store={store} />
+        <Selections className="selections" />
+        <Week />
       </div>
     );
   }
