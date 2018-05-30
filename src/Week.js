@@ -1,88 +1,95 @@
-import Game from "./Game.js";
+import {
+  Divider,
+  List,
+  ListItem,
+  ListSubheader,
+  withStyles
+} from "@material-ui/core";
+import PropTypes from "prop-types";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-const API_HOST = process.env.REACT_APP_API_HOST;
+import { loadGames } from "./loadActions";
+import { getAvailableScores } from "./scoreUtils";
+import Game from "./Game";
+import GameHeader from "./GameHeader";
+import WeekStatus from "./WeekStatus";
 
-class App extends Component {
-  constructor() {
-    super();
-
-    this.years = ["2016", "2017"];
-
-    this.weeks = [];
-    for (let i = 1; i <= 17; i++) {
-      this.weeks.push(i);
-    }
-  }
-
+class Week extends Component {
   componentDidMount() {
-    this.loadGames();
+    const { dispatch, picks, week } = this.props;
+
+    loadGames(dispatch, picks, week);
   }
-
-  loadGames = () => {
-    let { store } = this.props;
-    let { week } = store.getState();
-    let url = `${API_HOST}/api/v1/games/season/${week.year}/week/${week.number}`;
-    fetch(url)
-      .then(res => res.json())
-      .then(result => {
-        if (result.games) {
-          store.dispatch({ type: "WEEK_LOADED", games: result.games });
-        } else {
-          store.dispatch({ type: "WEEK_ERROR" });
-        }
-      });
-  };
-
-  handleWeekChange = ev => {
-    let { store } = this.props;
-    store.dispatch({ type: "NEW_WEEK", number: ev.target.value });
-    this.loadGames();
-  };
-
-  handleYearChange = ev => {
-    let { store } = this.props;
-    store.dispatch({ type: "NEW_YEAR", year: ev.target.value });
-    this.loadGames();
-  };
 
   render() {
-    let { store } = this.props;
-    let { week, picks } = store.getState();
+    const { week, picks, classes, className } = this.props;
 
+    if (!week.loaded) {
+      return <WeekStatus status="loading" />;
+    }
+
+    if (week.error) {
+      return <WeekStatus status="error" />;
+    }
+
+    const gameIds = [...week.games.keys()];
+    const availableScores = getAvailableScores(gameIds, picks);
     return (
-      <div className="week">
-        <select value={week.year} onChange={this.handleYearChange}>
-          {this.years.map(year => {
-            return (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            );
-          })}
-        </select>
-        <select value={week.number} onChange={this.handleWeekChange}>
-          {this.weeks.map(weekNum => {
-            return (
-              <option key={weekNum} value={weekNum}>
-                Week {weekNum}
-              </option>
-            );
-          })}
-        </select>
-        {!week.loaded && <h3>Loading...</h3>}
-        {week.error && <h3>An error occured</h3>}
-        {week.games.map(game => (
-          <Game
-            game={game}
-            currentPick={picks[game.gameId]}
-            store={store}
-            key={game.gameId}
-          />
-        ))}
-      </div>
+      <List className={className}>
+        <ListSubheader classes={{ root: classes.header }}>
+          <GameHeader />
+        </ListSubheader>
+        {gameIds.map(gameId => {
+          const pick = picks.get(gameId) || {};
+          const game = week.games.get(gameId) || {};
+
+          return (
+            <React.Fragment key={gameId}>
+              <ListItem>
+                <Game
+                  game={game}
+                  pick={pick}
+                  gameIds={gameIds}
+                  availableScores={availableScores}
+                />
+              </ListItem>
+              <Divider />
+            </React.Fragment>
+          );
+        })}
+      </List>
     );
   }
 }
+Week.defaultProps = {
+  className: ""
+};
 
-export default App;
+Week.propTypes = {
+  className: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
+  picks: PropTypes.instanceOf(Map).isRequired,
+  week: PropTypes.shape({
+    games: PropTypes.instanceOf(Map).isRequired,
+    loaded: PropTypes.bool,
+    error: PropTypes.bool
+  }).isRequired
+};
+
+const mapState = state => {
+  const { picks, week } = state;
+  return { picks, week };
+};
+
+const styles = theme => {
+  const headerColor = theme.palette.grey[200];
+  return {
+    header: {
+      color: theme.palette.getContrastText(headerColor),
+      backgroundColor: headerColor
+    }
+  };
+};
+
+export default connect(mapState)(withStyles(styles)(Week));

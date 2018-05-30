@@ -1,25 +1,57 @@
-import React, { Component } from "react";
+import { Button, Typography, withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
+import React from "react";
 
-import "./Team.css";
-
-class Team extends Component {
-  static propTypes = {
-    picked: PropTypes.bool,
-    team: PropTypes.shape({
-      city: PropTypes.string.isRequired,
-      teamName: PropTypes.string.isRequired
-    })
-  };
-
-  render() {
-    let { team, picked, ...rest } = this.props;
-    return (
-      <div className={"team " + (picked ? "team-picked" : "")} {...rest}>
-        {team.city} {team.teamName}
-      </div>
-    );
+const styles = theme => ({
+  btn: {
+    [theme.breakpoints.up("sm")]: {
+      margin: `0 ${theme.spacing.unit}px`
+    }
+  },
+  team: {
+    display: "flex",
+    flexDirection: "column",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row"
+    }
+  },
+  location: {
+    [theme.breakpoints.up("sm")]: {
+      marginRight: theme.spacing.unit
+    }
   }
+});
+
+function Team({ selected, locked, team, className, classes, ...rest }) {
+  return (
+    <Button
+      disabled={locked}
+      variant={selected ? "raised" : "flat"}
+      color={selected ? "primary" : "default"}
+      {...rest}
+      className={className}
+      classes={{ root: classes.btn, label: classes.team }}
+    >
+      <Typography color="inherit" className={classes.location}>
+        {team.city}
+      </Typography>
+      <Typography color="inherit">{team.teamName}</Typography>
+    </Button>
+  );
 }
 
-export default Team;
+Team.defaultProps = {
+  locked: false,
+  selected: false
+};
+
+Team.propTypes = {
+  selected: PropTypes.bool,
+  locked: PropTypes.bool,
+  team: PropTypes.shape({
+    city: PropTypes.string.isRequired,
+    teamName: PropTypes.string.isRequired
+  }).isRequired
+};
+
+export default withStyles(styles)(Team);

@@ -1,78 +1,41 @@
-import React, { Component } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import Week from "./Week.js";
-import "./App.css";
+import { Paper, withStyles } from "@material-ui/core";
+import cx from "classnames";
+import React from "react";
+import Footer from "./Footer";
+import Header from "./Header";
+import Selections from "./Selections";
+import Week from "./Week";
 
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap";
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      navBarOpen: false
-    };
+const style = theme => ({
+  root: {
+    backgroundColor: theme.palette.background.default,
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh"
+  },
+  center: {
+    display: "flex",
+    justifyContent: "center"
+  },
+  body: {
+    width: "100vw",
+    maxWidth: theme.breakpoints.values.md,
+    margin: "0 auto",
+    flexGrow: "1"
   }
+});
 
-  toggleNavbar = () => {
-    this.setState({
-      navBarOpen: !this.state.navBarOpen
-    });
-  };
-
-  render() {
-    let { store } = this.props;
-    let { week, picks } = store.getState();
-
-    return (
-      <div className="app">
-        <Navbar color="dark" dark expand="md">
-          <NavbarBrand href="/">Pick em</NavbarBrand>
-          <NavbarToggler onClick={this.toggleNavbar} />
-          <Collapse isOpen={this.state.navBarOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/">Season Standings</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/">Week Standings</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/">Switch League</NavLink>
-              </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Options
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem>Option 1</DropdownItem>
-                  <DropdownItem>Option 2</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>Reset</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Nav>
-          </Collapse>
-        </Navbar>
-
-        <section className="main-body container">
-          <Week store={store} week={week} picks={picks} />
-        </section>
-      </div>
-    );
-  }
+function App({ classes }) {
+  return (
+    <div className={classes.root}>
+      <Header />
+      <Paper classes={{ root: classes.body }}>
+        <Selections className={cx(classes.center, classes.contained)} />
+        <Week className={classes.contained} />
+      </Paper>
+      <Footer />
+    </div>
+  );
 }
 
-export default App;
+export default withStyles(style)(App);
