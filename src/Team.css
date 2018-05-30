@@ -2,6 +2,11 @@
   cursor: pointer;
 }
 
+.team.locked {
+  cursor: default;
+  background-color: #eee;
+}
+
 .team.selected {
   background-color: gold;
 }

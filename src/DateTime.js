@@ -1,19 +1,12 @@
 import React from "react";
+import moment from "moment";
 
 import "./DateTime.css";
 
 function DateTime({ date }) {
-  const dateObj = new Date(date);
-  const weekday = dateObj.toLocaleString("en-us", {
-    weekday: "short"
-  });
-  const time = dateObj
-    .toLocaleString("en-us", {
-      hour: "numeric",
-      minute: "2-digit"
-    })
-    // Get rid of AM/PM
-    .slice(0, -3);
+  const mo = moment(date);
+  const weekday = mo.format("ddd");
+  const time = mo.format("hh:mm");
 
   return [
     <div key="date" className="day">

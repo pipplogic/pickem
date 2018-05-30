@@ -1,21 +1,20 @@
 const path = require("path");
 const express = require("express");
-
-const isDeveloping = process.env.NODE_ENV !== "production";
-const port = process.env.PORT || 3000;
-const app = express();
 const compression = require("compression");
+
+const port = process.env.PORT || 3002;
+const app = express();
 
 app.use(compression());
 
-app.use(express.static(__dirname + "/build"));
+app.use(express.static(path.join(__dirname, "/build")));
 
 app.get(["/api", "/api/*"], (req, res) => {
   res.status(404).send("Not implemented");
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build/index.html"));
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.listen(port);

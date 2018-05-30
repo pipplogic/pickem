@@ -1,17 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
 import Week from "./Week";
 import Selections from "./Selections";
 import "./App.css";
+import Header from "./Header";
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <Selections className="selections" />
-        <Week />
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div>
+      <Header />
+      <Selections />
+      <Week />
+    </div>
+  );
 }
 
 export default App;

@@ -1,37 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-import { loadWeek } from "./api";
-import DateTime from "./DateTime";
-import Team from "./Team";
-import "./Week.css";
+import { getAvailableScores } from "./scoreUtils";
+import { loadGames } from "./loadActions";
+import Game from "./Game";
+import GameHeader from "./GameHeader";
 
 class Week extends Component {
   componentDidMount() {
-    this.loadGames();
+    const { dispatch, picks, week } = this.props;
+
+    loadGames(dispatch, picks, week);
   }
 
-  loadGames = () => {
-    const { dispatch, week } = this.props;
+  select() {
+    return (gameId, teamId) => {
+      const { dispatch } = this.props;
 
-    loadWeek(week.year, week.number)
-      .then(games => {
-        dispatch({ type: "WEEK_LOADED", games });
-      })
-      .catch(err => {
-        dispatch({ type: "WEEK_ERROR" });
+      dispatch({
+        type: "PICK",
+        gameId,
+        teamId
       });
-  };
-
-  select = (gameId, teamId) => () => {
-    const { dispatch } = this.props;
-
-    dispatch({
-      type: "PICK",
-      gameId: gameId,
-      team: teamId
-    });
-  };
+    };
+  }
 
   render() {
     const { week, picks } = this.props;
@@ -44,38 +37,23 @@ class Week extends Component {
       return <h3>Error!</h3>;
     }
 
+    const gameIds = [...week.games.keys()];
+    const availableScores = getAvailableScores(gameIds, picks);
     return (
       <div className="week">
-        <div className="game game-header clearfix">
-          <span className="game-time">Time</span>
-          <span className="game-away">Away</span>
-          <span className="game-at">&nbsp;</span>
-          <span className="game-home">Home</span>
-          <span className="game-pts">Pts</span>
-        </div>
-        {week.games.map(game => {
+        <GameHeader />
+        {gameIds.map(gameId => {
+          const pick = picks.get(gameId) || {};
+          const game = week.games.get(gameId) || {};
+
           return (
-            <div key={game.gameId} className="game clearfix">
-              <span className="game-time">
-                <DateTime date={game.gameTime} />
-              </span>
-              <div className="game-away">
-                <Team
-                  selected={picks[game.gameId] === game.awayTeam.teamId}
-                  team={game.awayTeam}
-                  onClick={this.select(game.gameId, game.awayTeam.teamId)}
-                />
-              </div>
-              <span className="game-at">@</span>
-              <div className="game-home">
-                <Team
-                  selected={picks[game.gameId] === game.homeTeam.teamId}
-                  team={game.homeTeam}
-                  onClick={this.select(game.gameId, game.homeTeam.teamId)}
-                />
-              </div>
-              <span className="game-pts">10</span>
-            </div>
+            <Game
+              key={gameId}
+              game={game}
+              pick={pick}
+              gameIds={gameIds}
+              availableScores={availableScores}
+            />
           );
         })}
       </div>
@@ -83,4 +61,19 @@ class Week extends Component {
   }
 }
 
-export default connect(state => state)(Week);
+Week.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  picks: PropTypes.instanceOf(Map).isRequired,
+  week: PropTypes.shape({
+    games: PropTypes.instanceOf(Map).isRequired,
+    loaded: PropTypes.bool,
+    error: PropTypes.bool
+  }).isRequired
+};
+
+const mapState = state => {
+  const { picks, week } = state;
+  return { picks, week };
+};
+
+export default connect(mapState)(Week);

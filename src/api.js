@@ -1,4 +1,4 @@
-const API_HOST = process.env.REACT_APP_API_HOST;
+export const API_HOST = process.env.REACT_APP_API_HOST;
 
 export function loadWeek(year, week) {
   const url = `${API_HOST}/api/v1/games/season/${year}/week/${week}`;

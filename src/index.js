@@ -1,18 +1,20 @@
+import { createStore } from "redux";
+import { enableBatching } from "redux-batched-actions";
+import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
 import App from "./App";
-import reducers from "./reducers";
+import reducers from "./reducers/reducers";
 
-const store = createStore(reducers);
+const store = createStore(enableBatching(reducers));
 
-const render = () =>
+const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <App />
     </Provider>,
     document.getElementById("root")
   );
+};
 store.subscribe(render);
 render();

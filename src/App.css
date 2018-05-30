@@ -1,4 +1,10 @@
 .selections {
   display: flex;
   justify-content: center;
+  margin-bottom: 15px;
+}
+
+.week {
+  max-width: 1200px;
+  margin: 0 auto;
 }
