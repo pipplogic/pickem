@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
 import { FormControl, MenuItem, Select } from "@material-ui/core";
 import { Lock } from "@material-ui/icons";
 import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class PointPicker extends Component {
   handlePointChange(ev) {
@@ -16,7 +16,7 @@ class PointPicker extends Component {
 
     const selectProps = {
       IconComponent: locked ? Lock : undefined,
-      readOnly: locked
+      disabled: locked
     };
     const displayOptions = locked ? [score] : options;
 

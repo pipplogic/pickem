@@ -1,11 +1,19 @@
+import {
+  Divider,
+  List,
+  ListItem,
+  ListSubheader,
+  withStyles
+} from "@material-ui/core";
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
-import { getAvailableScores } from "./scoreUtils";
 import { loadGames } from "./loadActions";
+import { getAvailableScores } from "./scoreUtils";
 import Game from "./Game";
 import GameHeader from "./GameHeader";
+import WeekStatus from "./WeekStatus";
 
 class Week extends Component {
   componentDidMount() {
@@ -14,54 +22,52 @@ class Week extends Component {
     loadGames(dispatch, picks, week);
   }
 
-  select() {
-    return (gameId, teamId) => {
-      const { dispatch } = this.props;
-
-      dispatch({
-        type: "PICK",
-        gameId,
-        teamId
-      });
-    };
-  }
-
   render() {
-    const { week, picks } = this.props;
+    const { week, picks, classes, className } = this.props;
 
     if (!week.loaded) {
-      return <h3>Loading...</h3>;
+      return <WeekStatus status="loading" />;
     }
 
     if (week.error) {
-      return <h3>Error!</h3>;
+      return <WeekStatus status="error" />;
     }
 
     const gameIds = [...week.games.keys()];
     const availableScores = getAvailableScores(gameIds, picks);
     return (
-      <div className="week">
-        <GameHeader />
+      <List className={className}>
+        <ListSubheader classes={{ root: classes.header }}>
+          <GameHeader />
+        </ListSubheader>
         {gameIds.map(gameId => {
           const pick = picks.get(gameId) || {};
           const game = week.games.get(gameId) || {};
 
           return (
-            <Game
-              key={gameId}
-              game={game}
-              pick={pick}
-              gameIds={gameIds}
-              availableScores={availableScores}
-            />
+            <React.Fragment key={gameId}>
+              <ListItem>
+                <Game
+                  game={game}
+                  pick={pick}
+                  gameIds={gameIds}
+                  availableScores={availableScores}
+                />
+              </ListItem>
+              <Divider />
+            </React.Fragment>
           );
         })}
-      </div>
+      </List>
     );
   }
 }
+Week.defaultProps = {
+  className: ""
+};
 
 Week.propTypes = {
+  className: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   picks: PropTypes.instanceOf(Map).isRequired,
   week: PropTypes.shape({
@@ -76,4 +82,14 @@ const mapState = state => {
   return { picks, week };
 };
 
-export default connect(mapState)(Week);
+const styles = theme => {
+  const headerColor = theme.palette.grey[200];
+  return {
+    header: {
+      color: theme.palette.getContrastText(headerColor),
+      backgroundColor: headerColor
+    }
+  };
+};
+
+export default connect(mapState)(withStyles(styles)(Week));

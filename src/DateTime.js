@@ -1,21 +1,36 @@
-import React from "react";
+import { Typography, withStyles } from "@material-ui/core";
 import moment from "moment";
+import React from "react";
+import cx from "classnames";
 
-import "./DateTime.css";
-
-function DateTime({ date }) {
+function DateTime({ date, classes, className }) {
   const mo = moment(date);
   const weekday = mo.format("ddd");
   const time = mo.format("hh:mm");
 
-  return [
-    <div key="date" className="day">
-      {weekday}
-    </div>,
-    <div key="time" className="time">
-      {time}
+  return (
+    <div className={cx(classes.root, className)}>
+      <Typography color="inherit" className={classes.day}>
+        {weekday}
+      </Typography>
+      <Typography color="inherit">{time}</Typography>
     </div>
-  ];
+  );
 }
 
-export default DateTime;
+const styles = theme => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row"
+    }
+  },
+  day: {
+    [theme.breakpoints.up("sm")]: {
+      marginRight: theme.spacing.unit
+    }
+  }
+});
+
+export default withStyles(styles)(DateTime);

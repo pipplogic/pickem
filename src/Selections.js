@@ -1,7 +1,9 @@
+import { FormControl, Select, MenuItem } from "@material-ui/core";
+import cx from "classnames";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FormControl, Select, MenuItem } from "@material-ui/core";
+
 import { loadWeek } from "./api";
 import { actionsForGames } from "./loadActions";
 
@@ -41,10 +43,10 @@ class Selections extends Component {
   }
 
   render() {
-    const { week } = this.props;
+    const { week, className } = this.props;
 
     return (
-      <div className="selections">
+      <div className={cx(className)}>
         <FormControl>
           <Select value={week.year} onChange={ev => this.handleYearChange(ev)}>
             {years.map(year => (

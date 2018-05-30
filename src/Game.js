@@ -1,12 +1,48 @@
+import { Typography, withStyles } from "@material-ui/core";
+import cx from "classnames";
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import PropTypes from "prop-types";
-
 import DateTime from "./DateTime";
+import PointPicker from "./PointPicker";
 import Team from "./Team";
 
-import PointPicker from "./PointPicker";
+export const styles = theme => ({
+  game: {
+    display: "grid",
+    gridTemplateColumns: "1fr 2fr 1em 2fr 1fr",
+    gridTemplateAreas: '"time away at home pts"',
+    alignItems: "center",
+    textAlign: "center",
+    width: "100%",
+    time: {
+      gridArea: "time"
+    },
+    away: {
+      gridArea: "away"
+    },
+    at: {
+      gridArea: "at"
+    },
+    home: {
+      gridArea: "home"
+    },
+    pts: {
+      gridArea: "pts"
+    }
+  },
+  locked: {
+    color: theme.palette.text.disabled
+  },
+
+  team: {
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+});
 
 class Game extends Component {
   select(gameId, teamId) {
@@ -20,31 +56,32 @@ class Game extends Component {
   }
 
   render() {
-    const { game, pick, gameIds, teams, availableScores } = this.props;
+    const { game, pick, gameIds, teams, availableScores, classes } = this.props;
 
     return (
-      <div key={game.gameId} className="game">
-        <span className="game-time">
-          <DateTime date={game.gameTime} />
-        </span>
-        <div className="game-away">
-          <Team
-            locked={pick.locked}
-            selected={pick.teamId === game.awayTeam}
-            team={teams.get(game.awayTeam)}
-            onClick={() => this.select(game.gameId, game.awayTeam)}
-          />
-        </div>
-        <span className="game-at">@</span>
-        <div className="game-home">
-          <Team
-            locked={pick.locked}
-            selected={pick.teamId === game.homeTeam}
-            team={teams.get(game.homeTeam)}
-            onClick={() => this.select(game.gameId, game.homeTeam)}
-          />
-        </div>
-        <span className="game-pts">
+      <div
+        key={game.gameId}
+        className={cx(classes.game, { [classes.locked]: pick.locked })}
+      >
+        <DateTime className={classes.time} date={game.gameTime} />
+        <Team
+          className={cx(classes.team, classes.away)}
+          locked={pick.locked}
+          selected={pick.teamId === game.awayTeam}
+          team={teams.get(game.awayTeam)}
+          onClick={() => this.select(game.gameId, game.awayTeam)}
+        />
+        <Typography color="inherit" className={classes.at}>
+          @
+        </Typography>
+        <Team
+          className={cx(classes.team, classes.home)}
+          locked={pick.locked}
+          selected={pick.teamId === game.homeTeam}
+          team={teams.get(game.homeTeam)}
+          onClick={() => this.select(game.gameId, game.homeTeam)}
+        />
+        <div className={classes.pts}>
           <PointPicker
             locked={pick.locked}
             options={availableScores}
@@ -52,7 +89,7 @@ class Game extends Component {
             gameIds={gameIds}
             score={pick.score}
           />
-        </span>
+        </div>
       </div>
     );
   }
@@ -77,4 +114,4 @@ const mapState = state => {
   return { teams };
 };
 
-export default connect(mapState)(Game);
+export default connect(mapState)(withStyles(styles)(Game));

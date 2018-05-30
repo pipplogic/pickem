@@ -1,17 +1,17 @@
+import { Typography, withStyles } from "@material-ui/core";
 import React from "react";
+import { styles } from "./Game";
 
-import "./Game.css";
-
-function GameHeader() {
+function GameHeader({ classes }) {
   return (
-    <div className="game game-header">
-      <span className="game-time">Time</span>
-      <span className="game-away">Away</span>
-      <span className="game-at">&nbsp;</span>
-      <span className="game-home">Home</span>
-      <span className="game-pts">Pts</span>
+    <div className={classes.game}>
+      <Typography>Time</Typography>
+      <Typography>Away</Typography>
+      <Typography />
+      <Typography>Home</Typography>
+      <Typography>Pts</Typography>
     </div>
   );
 }
 
-export default GameHeader;
+export default withStyles(styles)(GameHeader);

@@ -1,4 +1,5 @@
 import { batchActions } from "redux-batched-actions";
+
 import { loadWeek } from "./api";
 import { getAvailableScores } from "./scoreUtils";
 
