@@ -4,11 +4,12 @@ import { AppBar, Typography, withStyles } from "@material-ui/core";
 function Footer({ classes, className }) {
   return (
     <AppBar
+      component="footer"
       position="static"
       classes={{ root: classes.root }}
       className={className}
     >
-      <Typography align="center" variant="subheading" color="inherit">
+      <Typography variant="subheading" align="center">
         Written by @PippLogic
       </Typography>
     </AppBar>

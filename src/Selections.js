@@ -1,16 +1,14 @@
 import { FormControl, Select, MenuItem } from "@material-ui/core";
-import cx from "classnames";
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { loadWeek } from "./api";
 import { actionsForGames } from "./loadActions";
 
-const years = [2016, 2017, 2018];
-const weeks = [];
+const yearOptions = [2016, 2017, 2018];
+const weekOptions = [];
 for (let i = 1; i <= 17; i += 1) {
-  weeks.push(i);
+  weekOptions.push(i);
 }
 
 class Selections extends Component {
@@ -46,12 +44,12 @@ class Selections extends Component {
     const { week, className } = this.props;
 
     return (
-      <div className={cx(className)}>
+      <div className={className}>
         <FormControl>
           <Select value={week.year} onChange={ev => this.handleYearChange(ev)}>
-            {years.map(year => (
-              <MenuItem key={year} value={year}>
-                {year}
+            {yearOptions.map(yearOption => (
+              <MenuItem key={yearOption} value={yearOption}>
+                {yearOption}
               </MenuItem>
             ))}
           </Select>
@@ -61,9 +59,9 @@ class Selections extends Component {
             value={week.number}
             onChange={ev => this.handleWeekChange(ev)}
           >
-            {weeks.map(weekNum => (
-              <MenuItem key={weekNum} value={weekNum}>
-                Week {weekNum}
+            {weekOptions.map(weekOption => (
+              <MenuItem key={weekOption} value={weekOption}>
+                Week {weekOption}
               </MenuItem>
             ))}
           </Select>
@@ -73,16 +71,9 @@ class Selections extends Component {
   }
 }
 
-Selections.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  picks: PropTypes.instanceOf(Map).isRequired,
-  week: PropTypes.shape({
-    year: PropTypes.number.isRequired,
-    number: PropTypes.number.isRequired
-  }).isRequired
-};
-
-export default connect(state => {
+const mapState = function(state) {
   const { picks, week } = state;
   return { picks, week };
-})(Selections);
+};
+
+export default connect(mapState)(Selections);

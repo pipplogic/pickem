@@ -3,8 +3,9 @@ import ReactDOM from "react-dom";
 import { createStore } from "redux";
 import { enableBatching } from "redux-batched-actions";
 import { Provider } from "react-redux";
-import App from "./App";
-import reducers from "./reducers/reducers";
+import reducers from "../reducers/reducers";
+
+import App from "../App";
 
 const store = createStore(enableBatching(reducers));
 

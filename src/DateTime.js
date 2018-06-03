@@ -10,10 +10,8 @@ function DateTime({ date, classes, className }) {
 
   return (
     <div className={cx(classes.root, className)}>
-      <Typography color="inherit" className={classes.day}>
-        {weekday}
-      </Typography>
-      <Typography color="inherit">{time}</Typography>
+      <Typography className={classes.day}>{weekday}</Typography>
+      <Typography>{time}</Typography>
     </div>
   );
 }

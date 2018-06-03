@@ -1,6 +1,6 @@
 import { Button, Typography, withStyles } from "@material-ui/core";
-import PropTypes from "prop-types";
 import React from "react";
+import { connect } from "react-redux";
 
 const styles = theme => ({
   btn: {
@@ -22,36 +22,28 @@ const styles = theme => ({
   }
 });
 
-function Team({ selected, locked, team, className, classes, ...rest }) {
+function Team({ classes, className, team, onClick, selected, locked }) {
   return (
     <Button
-      disabled={locked}
-      variant={selected ? "raised" : "flat"}
-      color={selected ? "primary" : "default"}
-      {...rest}
       className={className}
       classes={{ root: classes.btn, label: classes.team }}
+      disabled={locked}
+      onClick={onClick}
+      variant={selected ? "raised" : "flat"}
+      color={selected ? "primary" : "default"}
     >
-      <Typography color="inherit" className={classes.location}>
-        {team.city}
-      </Typography>
-      <Typography color="inherit">{team.teamName}</Typography>
+      <Typography className={classes.location}>{team.city}</Typography>
+      <Typography>{team.teamName}</Typography>
     </Button>
   );
 }
 
-Team.defaultProps = {
-  locked: false,
-  selected: false
+const mapState = ({ picks, teams }, { gameId, teamId }) => {
+  const team = teams.get(teamId);
+  const { locked, teamId: pickedTeam } = picks.get(gameId);
+  const selected = pickedTeam === teamId;
+
+  return { team, selected, locked };
 };
 
-Team.propTypes = {
-  selected: PropTypes.bool,
-  locked: PropTypes.bool,
-  team: PropTypes.shape({
-    city: PropTypes.string.isRequired,
-    teamName: PropTypes.string.isRequired
-  }).isRequired
-};
-
-export default withStyles(styles)(Team);
+export default connect(mapState)(withStyles(styles)(Team));

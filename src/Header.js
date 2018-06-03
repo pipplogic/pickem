@@ -6,9 +6,7 @@ function Header() {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="title" color="inherit">
-          Pick &apos;Em
-        </Typography>
+        <Typography variant="title">Pick &apos;Em</Typography>
       </Toolbar>
     </AppBar>
   );

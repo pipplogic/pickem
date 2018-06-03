@@ -1,6 +1,6 @@
 import { Typography, withStyles } from "@material-ui/core";
 import React from "react";
-import { styles } from "./Game";
+import styles from "./Game/styles";
 
 function GameHeader({ classes }) {
   return (
