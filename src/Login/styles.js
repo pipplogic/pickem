@@ -1,3 +1,7 @@
+const expand = {
+  flexGrow: "1"
+};
+
 export default theme => ({
   root: {
     display: "flex",
@@ -5,6 +9,7 @@ export default theme => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    height: "100%"
+    height: "100%",
+    ...expand
   }
 });

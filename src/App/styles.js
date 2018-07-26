@@ -26,7 +26,8 @@ export default theme => ({
   },
   body: {
     ...mdContainer(theme),
-    ...expand
+    ...expand,
+    ...flexColumn
   },
   selections: {
     ...center

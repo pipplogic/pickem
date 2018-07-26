@@ -4,7 +4,6 @@ const compression = require("compression");
 const request = require("request");
 
 const { PORT = 3002, API_HOST, SERVER_USERNAME, SERVER_PASSWORD } = process.env;
-console.log("Port guesses", PORT, process.env.PORT, process.env.port);
 
 const authHeader = `Basic ${new Buffer(
   SERVER_USERNAME + ":" + SERVER_PASSWORD
