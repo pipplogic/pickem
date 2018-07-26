@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^1.1.0",
     "@material-ui/icons": "^1.1.0",
+    "body-parser": "^1.18.3",
     "classnames": "^2.2.5",
     "compression": "^1.7.2",
     "eslint": "^4.19.1",
