@@ -3,7 +3,8 @@ const express = require("express");
 const compression = require("compression");
 const request = require("request");
 
-const { port = 3002, API_HOST, SERVER_USERNAME, SERVER_PASSWORD } = process.env;
+const { PORT = 3002, API_HOST, SERVER_USERNAME, SERVER_PASSWORD } = process.env;
+console.log("Port guesses", PORT, process.env.PORT, process.env.port);
 
 const authHeader = `Basic ${new Buffer(
   SERVER_USERNAME + ":" + SERVER_PASSWORD
@@ -64,5 +65,5 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-app.listen(port);
-console.log(`Running on port ${port}`);
+app.listen(PORT);
+console.log(`Running on port ${PORT}`);
