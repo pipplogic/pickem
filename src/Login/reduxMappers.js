@@ -37,7 +37,5 @@ export const mapDispatch = dispatch => ({
           type: "LOGIN_FAIL"
         });
       });
-
-    console.log("something", { user, pass });
   }
 });

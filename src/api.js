@@ -1,11 +1,12 @@
 const API_HOST = process.env.REACT_APP_API_HOST;
-const SELF = process.env.REACT_APP_SLEF || "http://localhost:3002";
-
+const SELF =
+  process.env.REACT_APP_SELF === "empty"
+    ? ""
+    : process.env.REACT_APP_SELF || "";
 let bearer = "idiot";
 
 export function loadWeek(year, week) {
   const url = `${API_HOST}/api/v1/games/season/${year}/week/${week}`;
-  console.log("bearer", bearer);
   return fetch(url, {
     headers: {
       Authorization: `Bearer ${bearer}`
@@ -34,7 +35,6 @@ export function login(user, pass) {
       }
       return resp.text().then(newBearer => {
         bearer = newBearer;
-        console.log("new bearer", bearer);
         return;
       });
     })

@@ -3,12 +3,7 @@ const express = require("express");
 const compression = require("compression");
 const request = require("request");
 
-const {
-  port = 3002,
-  API_HOST = "https://gci-pickem.herokuapp.com",
-  SERVER_USERNAME = "1b2dfab081098556f73039459c53b37f",
-  SERVER_PASSWORD = "20a9add1d496051bf5f58b980a5a7799b3a71cf8302a375068d12e779414e28d"
-} = process.env;
+const { port = 3002, API_HOST, SERVER_USERNAME, SERVER_PASSWORD } = process.env;
 
 const authHeader = `Basic ${new Buffer(
   SERVER_USERNAME + ":" + SERVER_PASSWORD
@@ -31,7 +26,6 @@ app.use(function(req, res, next) {
 
 app.post("/login", (req, res) => {
   const { body: { username, password } } = req;
-  console.log({ username, password });
 
   request(
     {
@@ -51,8 +45,6 @@ app.post("/login", (req, res) => {
       res.status(statusCode);
 
       const respBody = JSON.parse(body);
-
-      console.log("body", { respBody });
 
       if (statusCode !== 200) {
         res.send("Unable to log in");
