@@ -6,15 +6,13 @@
     "@material-ui/core": "^1.1.0",
     "@material-ui/icons": "^1.1.0",
     "axios": "^0.18.0",
-    "body-parser": "^1.18.3",
     "classnames": "^2.2.5",
     "compression": "^1.7.2",
     "dotenv": "^6.0.0",
     "eslint": "^4.19.1",
     "express": "^4.16.3",
+    "express-http-to-https": "^1.1.4",
     "moment": "^2.22.1",
-    "pg": "^7.4.3",
-    "pg-hstore": "^2.3.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
@@ -22,13 +20,12 @@
     "react-scripts": "^1.1.4",
     "redux": "^3.7.2",
     "redux-batched-actions": "^0.3.0",
-    "request": "^2.87.0",
-    "sequelize": "^4.37.10"
+    "request": "^2.87.0"
   },
   "scripts": {
     "dev": "react-scripts start",
     "build": "react-scripts build",
-    "postinstall": "npm run build",
+    "heroku-postbuild": "npm run build",
     "test": "react-scripts test --env=jsdom",
     "start": "node server.js",
     "lint": "eslint src --ext js"
