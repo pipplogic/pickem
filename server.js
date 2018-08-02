@@ -3,11 +3,24 @@ const express = require("express");
 const compression = require("compression");
 const request = require("request");
 
-const { PORT = 3002, API_HOST, SERVER_USERNAME, SERVER_PASSWORD } = process.env;
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").load();
+}
+
+const {
+  PORT = 3002,
+  API_HOST,
+  API_HOST_USERNAME,
+  API_HOST_PASSWORD
+} = process.env;
 
 const authHeader = `Basic ${new Buffer(
-  SERVER_USERNAME + ":" + SERVER_PASSWORD
+  API_HOST_USERNAME + ":" + API_HOST_PASSWORD
 ).toString("base64")}`;
+
+if (!API_HOST_USERNAME || !API_HOST_PASSWORD) {
+  console.warn("missing authentication headers");
+}
 
 const app = express();
 
@@ -44,7 +57,14 @@ app.post("/login", (req, res) => {
       const statusCode = (response && response.statusCode) || 502;
       res.status(statusCode);
 
-      const respBody = JSON.parse(body);
+      let respBody;
+      try {
+        respBody = JSON.parse(body);
+      } catch (e) {
+        console.log("Bad response", body);
+        res.status(502).send("Bad upstream server");
+        return;
+      }
 
       if (statusCode !== 200) {
         res.send("Unable to log in");
@@ -52,6 +72,41 @@ app.post("/login", (req, res) => {
       }
 
       res.send(respBody.access_token);
+    }
+  );
+});
+
+app.get("/api/v1/games/season/:year/week/:week", (req, res) => {
+  const { params: { year, week } } = req;
+  const clientAuth = req.header("Authorization");
+
+  request(
+    {
+      url: `${API_HOST}/api/v1/games/season/${year}/week/${week}`,
+      method: "GET",
+      headers: {
+        Authorization: clientAuth
+      }
+    },
+    function(error, response, body) {
+      const statusCode = (response && response.statusCode) || 502;
+      res.status(statusCode);
+
+      let respBody;
+      try {
+        respBody = JSON.parse(body);
+      } catch (e) {
+        console.log("Bad response", body);
+        res.status(502).send("Bad upstream server");
+        return;
+      }
+
+      if (statusCode !== 200) {
+        res.send("Could not retreive week");
+        return;
+      }
+
+      res.send(respBody);
     }
   );
 });

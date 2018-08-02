@@ -1,44 +1,36 @@
-const API_HOST = process.env.REACT_APP_API_HOST;
-const SELF =
-  process.env.REACT_APP_SELF === "empty"
-    ? ""
-    : process.env.REACT_APP_SELF || "";
-let bearer = "idiot";
+import axios from "axios";
+let bearer = null;
 
 export function loadWeek(year, week) {
-  const url = `${API_HOST}/api/v1/games/season/${year}/week/${week}`;
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${bearer}`
-    }
-  })
-    .then(res => res.json())
-    .then(result => {
-      if (!result.games) {
-        throw result;
+  const url = `/api/v1/games/season/${year}/week/${week}`;
+
+  return axios
+    .get(url, {
+      headers: {
+        Authorization: `Bearer ${bearer}`
       }
-      return result.games;
+    })
+    .then(({ data: { games } }) => {
+      if (!games) {
+        throw new Error("Error loading week");
+      }
+      return games;
+    })
+    .catch(function() {
+      console.warn("error", arguments);
     });
 }
 
 export function login(user, pass) {
-  return fetch(`${SELF}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8"
-    },
-    body: JSON.stringify({ username: user, password: pass })
-  })
+  return axios
+    .post("/login", { username: user, password: pass })
     .then(resp => {
       if (resp.status !== 200) {
-        throw "Bad Password";
+        throw new Error("Bad Password");
       }
-      return resp.text().then(newBearer => {
-        bearer = newBearer;
-        return;
-      });
+      bearer = resp.data;
     })
     .catch(resp => {
-      throw "Unable to log in";
+      throw new Error("Unable to log in");
     });
 }
