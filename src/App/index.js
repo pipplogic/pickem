@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core";
 
 import App from "./component";
-import { mapState } from "./reduxMappers";
+import { mapState, mapDispatch } from "./reduxMappers";
 import styles from "./styles";
 
-export default connect(mapState)(withStyles(styles)(App));
+export default connect(mapState, mapDispatch)(withStyles(styles)(App));

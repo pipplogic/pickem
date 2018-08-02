@@ -1,8 +1,22 @@
+export const initializeToken = token => {
+  if (token) {
+    return { type: "LOGGED_IN" };
+  } else {
+    return { type: "NOT_LOGGED_IN" };
+  }
+};
+
 export default (
-  state = { user: "", pass: "", status: "NOT_LOGGED_IN" },
+  state = { user: "", pass: "", status: "UNINITIALIZED" },
   action = {}
 ) => {
   switch (action.type) {
+    case "LOGGED_IN": {
+      return { ...state, status: "LOGGED_IN" };
+    }
+    case "NOT_LOGGED_IN": {
+      return { ...state, status: "NOT_LOGGED_IN" };
+    }
     case "LOGIN_USER": {
       return {
         ...state,
@@ -26,13 +40,15 @@ export default (
     case "LOGIN_SUCCESS": {
       return {
         ...state,
-        status: "SUCCESS"
+        pass: "",
+        status: "LOGGED_IN"
       };
     }
     case "LOGIN_FAIL": {
       return {
         ...state,
-        status: "FAIL"
+        pass: "",
+        status: "ERROR"
       };
     }
 

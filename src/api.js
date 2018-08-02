@@ -1,5 +1,39 @@
 import axios from "axios";
-let bearer = null;
+let authToken = null;
+
+class BadAuthentication extends Error {
+  constructor(msg) {
+    super(msg);
+    this.name = "BadAuth";
+  }
+}
+
+export function loadToken() {
+  authToken = window.localStorage.getItem("token");
+  return authToken;
+}
+
+function setToken(token) {
+  if (token) {
+    authToken = `Bearer ${token}`;
+    window.localStorage.setItem("token", authToken);
+  } else {
+    authToken = null;
+    window.localStorage.removeItem("token");
+  }
+}
+
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response.status === 401) {
+      setToken(null);
+      throw new BadAuthentication("User not authenticated");
+      //place your reentry code
+    }
+    return error;
+  }
+);
 
 export function loadWeek(year, week) {
   const url = `/api/v1/games/season/${year}/week/${week}`;
@@ -7,7 +41,7 @@ export function loadWeek(year, week) {
   return axios
     .get(url, {
       headers: {
-        Authorization: `Bearer ${bearer}`
+        Authorization: authToken
       }
     })
     .then(({ data: { games } }) => {
@@ -15,9 +49,6 @@ export function loadWeek(year, week) {
         throw new Error("Error loading week");
       }
       return games;
-    })
-    .catch(function() {
-      console.warn("error", arguments);
     });
 }
 
@@ -28,7 +59,7 @@ export function login(user, pass) {
       if (resp.status !== 200) {
         throw new Error("Bad Password");
       }
-      bearer = resp.data;
+      setToken(resp.data);
     })
     .catch(resp => {
       throw new Error("Unable to log in");

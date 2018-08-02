@@ -20,7 +20,7 @@ const authHeader = `Basic ${new Buffer(
 ).toString("base64")}`;
 
 if (!API_HOST_USERNAME || !API_HOST_PASSWORD) {
-  console.warn("missing authentication headers");
+  console.warn("No server authentication provided");
 }
 
 const app = express();
@@ -57,8 +57,8 @@ app.post("/login", (req, res) => {
       try {
         respBody = JSON.parse(body);
       } catch (e) {
-        console.log("Bad response", body);
-        res.status(502).send("Bad upstream server");
+        console.log("Expected json response for login", body);
+        res.status(502).send("Unexpected response from server");
         return;
       }
 
@@ -92,8 +92,8 @@ app.get("/api/v1/games/season/:year/week/:week", (req, res) => {
       try {
         respBody = JSON.parse(body);
       } catch (e) {
-        console.log("Bad response", body);
-        res.status(502).send("Bad upstream server");
+        console.log("Expected json response for week info", body);
+        res.status(502).send("Unexpected response from server");
         return;
       }
 

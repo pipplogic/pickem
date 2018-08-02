@@ -59,7 +59,10 @@ export function loadGames(dispatch, picks, week) {
     .then(games => {
       actionsForGames(dispatch, picks, games);
     })
-    .catch(() => {
+    .catch(err => {
+      if (err.name === "BadAuth") {
+        dispatch({ type: "NOT_LOGGED_IN" });
+      }
       dispatch({ type: "WEEK_ERROR" });
     });
 }
