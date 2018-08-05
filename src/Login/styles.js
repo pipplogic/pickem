@@ -11,5 +11,15 @@ export default theme => ({
     justifyContent: "center",
     height: "100%",
     ...expand
+  },
+  load: {
+    animation: "spin 2s linear infinite"
+  },
+  "@keyframes spin": {
+    from: { transform: "rotate(0deg)" },
+    to: { transform: "rotate(360deg)" }
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
   }
 });

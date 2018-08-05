@@ -1,5 +1,6 @@
 import { Paper } from "@material-ui/core";
 import React from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
 import Login from "../Login";
 import Footer from "../Footer";
@@ -17,17 +18,36 @@ export default class App extends React.Component {
       <Theme>
         <div className={classes.root}>
           <Header />
-          {!loggedIn && (
-            <Paper classes={{ root: classes.body }}>
-              <Login />
-            </Paper>
-          )}
-          {loggedIn && (
-            <Paper classes={{ root: classes.body }}>
-              <Selections className={classes.selections} />
-              <Week className={classes.week} />
-            </Paper>
-          )}
+          <Paper classes={{ root: classes.body }}>
+            <BrowserRouter>
+              <Switch>
+                <Route
+                  path="/login"
+                  render={() => {
+                    if (loggedIn) {
+                      return <Redirect to="/week" />;
+                    }
+                    return <Login />;
+                  }}
+                />
+                <Route
+                  path="/week"
+                  render={() => {
+                    if (!loggedIn) {
+                      return <Redirect to="/login" />;
+                    }
+                    return (
+                      <React.Fragment>
+                        <Selections className={classes.selections} />
+                        <Week className={classes.week} />
+                      </React.Fragment>
+                    );
+                  }}
+                />
+                <Redirect to="/login" />
+              </Switch>
+            </BrowserRouter>
+          </Paper>
           <Footer />
         </div>
       </Theme>

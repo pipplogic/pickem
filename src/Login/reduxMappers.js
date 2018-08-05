@@ -1,7 +1,9 @@
 import { login } from "../api";
 
-export const mapState = ({ login: { user, pass } }) => {
-  return { user, pass };
+export const mapState = ({ login: { user, pass, status } }) => {
+  const loading = status === "PROCESSING";
+  const error = status === "ERROR";
+  return { user, pass, loading, error };
 };
 
 export const mapDispatch = dispatch => ({
