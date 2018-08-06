@@ -27,10 +27,10 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, "/build")));
 app.use(express.json());
-app.use(compression());
 
 if (process.env.NODE_ENV === "production") {
   app.use(redirectToHTTPS());
+  app.use(compression());
 }
 
 app.post("/login", (req, res) => {
