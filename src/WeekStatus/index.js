@@ -1,4 +1,4 @@
-import { withStyles } from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 
 import styles from "./styles";

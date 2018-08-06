@@ -1,4 +1,4 @@
-import { Paper } from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 

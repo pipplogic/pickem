@@ -1,5 +1,7 @@
-import { FormControl, MenuItem, Select } from "@material-ui/core";
-import { Lock } from "@material-ui/icons";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import Lock from "@material-ui/icons/Lock";
 import React from "react";
 
 function PointPicker({ className, pick, options, handlePointChange }) {

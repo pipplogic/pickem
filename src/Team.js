@@ -1,4 +1,6 @@
-import { Button, Typography, withStyles } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import withStyles from "@material-ui/core/styles/withStyles";
 import React from "react";
 import { connect } from "react-redux";
 

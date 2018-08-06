@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { withStyles } from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 import Game from "./component";
 import { mapState, mapDispatch } from "./reduxMappers";

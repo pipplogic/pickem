@@ -1,10 +1,9 @@
-import {
-  Divider,
-  List,
-  ListItem,
-  ListSubheader,
-  withStyles
-} from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import withStyles from "@material-ui/core/styles/withStyles";
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 

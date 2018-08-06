@@ -1,11 +1,13 @@
-import { FormControl, Select, MenuItem } from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import moment from "moment";
 
 import { loadWeek } from "./api";
 import { actionsForGames } from "./loadActions";
 
-const yearOptions = [2016, 2017, 2018];
 const weekOptions = [];
 for (let i = 1; i <= 17; i += 1) {
   weekOptions.push(i);
@@ -41,19 +43,10 @@ class Selections extends Component {
   }
 
   render() {
-    const { week, className } = this.props;
+    const { week, className, msg } = this.props;
 
     return (
       <div className={className}>
-        <FormControl>
-          <Select value={week.year} onChange={ev => this.handleYearChange(ev)}>
-            {yearOptions.map(yearOption => (
-              <MenuItem key={yearOption} value={yearOption}>
-                {yearOption}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
         <FormControl>
           <Select
             value={week.number}
@@ -71,9 +64,24 @@ class Selections extends Component {
   }
 }
 
+function formatDate(date) {
+  return moment(date).format("ddd, MMM DD");
+}
+
 const mapState = function(state) {
   const { picks, week } = state;
-  return { picks, week };
+  const games = Array.from(week.games.values());
+  const gameTimes = games.map(game => game.gameTime);
+
+  const firstGame = Math.min.apply(null, gameTimes);
+  const lastGame = Math.max.apply(null, gameTimes);
+
+  let msg = "Loading...";
+  if (Number.isFinite(firstGame)) {
+    msg = `${formatDate(firstGame)} to ${formatDate(lastGame)}`;
+  }
+
+  return { picks, week, msg };
 };
 
 export default connect(mapState)(Selections);

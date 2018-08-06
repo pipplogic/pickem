@@ -1,6 +1,6 @@
 export default (
   state = {
-    year: 2017,
+    year: 2018,
     number: 1,
     games: new Map(),
     loaded: false,

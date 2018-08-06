@@ -1,4 +1,5 @@
-import { Autorenew, Error } from "@material-ui/icons";
+import Autorenew from "@material-ui/icons/Autorenew";
+import Error from "@material-ui/icons/Error";
 
 const getInfo = status => {
   switch (status) {
