@@ -6,7 +6,7 @@ import cx from "classnames";
 function DateTime({ date, classes, className }) {
   const mo = moment(date);
   const weekday = mo.format("ddd");
-  const time = mo.format("hh:mm");
+  const time = mo.format("hh:mm A");
 
   return (
     <div className={cx(classes.root, className)}>

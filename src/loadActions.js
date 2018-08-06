@@ -34,7 +34,7 @@ export function actionsForGames(dispatch, picks, games) {
 
   const entityGames = games.map(game => ({
     gameId: game.gameId,
-    gameTime: game.gameTime,
+    gameTime: game.gameTimeEpoch,
     homeTeam: game.homeTeam.teamId,
     awayTeam: game.awayTeam.teamId
   }));
