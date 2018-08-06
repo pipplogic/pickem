@@ -25,13 +25,13 @@ if (!API_HOST_USERNAME || !API_HOST_PASSWORD) {
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "/build")));
 app.use(express.json());
-
 if (process.env.NODE_ENV === "production") {
   app.use(redirectToHTTPS());
   app.use(compression());
 }
+
+app.use(express.static(path.join(__dirname, "/build")));
 
 app.post("/login", (req, res) => {
   const { body: { username, password } } = req;
