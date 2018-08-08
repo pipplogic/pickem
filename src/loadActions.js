@@ -1,5 +1,3 @@
-import { batchActions } from "redux-batched-actions";
-
 import { loadWeek } from "./api";
 import { getAvailableScores } from "./scoreUtils";
 
@@ -44,12 +42,9 @@ export function actionsForGames(dispatch, picks, games) {
   const actions = defaultActions(gameIds, picks);
   const mockActionList = mockActions(games);
 
-  const batch = batchActions([
-    { type: "TEAMS", teams },
-    ...actions,
-    ...mockActionList
-  ]);
-  dispatch(batch);
+  dispatch({ type: "TEAMS", teams });
+  actions.forEach(action => dispatch(action));
+  mockActionList.forEach(action => dispatch(action));
 
   dispatch({ type: "WEEK_LOADED", games: entityGames });
 }

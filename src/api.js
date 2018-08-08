@@ -36,10 +36,8 @@ axios.interceptors.response.use(
 );
 
 export function loadWeek(year, week) {
-  const url = `/api/v1/games/season/${year}/week/${week}`;
-
   return axios
-    .get(url, {
+    .get(`/api/seasons/${year}/weeks/${week}`, {
       headers: {
         Authorization: authToken
       }
@@ -52,9 +50,17 @@ export function loadWeek(year, week) {
     });
 }
 
+export const registerUser = payload =>
+  axios.post("/api/register", payload).then(resp => {
+    console.log(resp);
+    if (resp.status !== 200) {
+      throw new Error("Unable to register");
+    }
+  });
+
 export function login(user, pass) {
   return axios
-    .post("/login", { username: user, password: pass })
+    .post("/api/login", { username: user, password: pass })
     .then(resp => {
       if (resp.status !== 200) {
         throw new Error("Bad Password");

@@ -3,11 +3,13 @@ import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
 import Login from "../Login";
+import Register from "../Register";
 import Footer from "../Footer";
 import Header from "../Header";
 import Selections from "../Selections";
 import Week from "../Week";
 import Theme from "../Theme";
+
 export default class App extends React.Component {
   componentDidMount() {
     this.props.loadExistingSession();
@@ -22,6 +24,14 @@ export default class App extends React.Component {
             <BrowserRouter>
               <Switch>
                 <Route
+                  exact
+                  path="/register"
+                  render={() => {
+                    return <Register />;
+                  }}
+                />
+                <Route
+                  exact
                   path="/login"
                   render={() => {
                     if (loggedIn) {

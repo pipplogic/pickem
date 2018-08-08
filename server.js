@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(express.static(path.join(__dirname, "/build")));
 
-app.post("/login", (req, res) => {
+app.post("/api/login", (req, res) => {
   const { body: { username, password } } = req;
 
   request(
@@ -72,7 +72,47 @@ app.post("/login", (req, res) => {
   );
 });
 
-app.get("/api/v1/games/season/:year/week/:week", (req, res) => {
+app.post("/api/register", (req, res) => {
+  const { body: { first, last, email } } = req;
+
+  const host = req.get("host");
+  const confirmUrl = `https://${host}/confirm?token=`;
+
+  const createUserBody = {
+    firstName: first,
+    lastName: last,
+    email,
+    clientUrl: confirmUrl
+  };
+
+  request(
+    {
+      url: `${API_HOST}/api/v1/user/register`,
+      method: "POST",
+      headers: {
+        Authorization: authHeader
+      },
+      json: true,
+      body: createUserBody
+    },
+    function(error, response, body) {
+      const statusCode = (response && response.statusCode) || 502;
+      res.status(statusCode);
+
+      if (statusCode >= 400) {
+        console.warn(`Unable to register: ${body}`);
+        res.send(`Unable to register: ${body}`);
+        return;
+      }
+      if (!body) {
+        res.status(204);
+      }
+      res.send(body);
+    }
+  );
+});
+
+app.get("/api/seasons/:year/weeks/:week", (req, res) => {
   const { params: { year, week } } = req;
   const clientAuth = req.header("Authorization");
 
