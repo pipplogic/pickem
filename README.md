@@ -1,22 +1,29 @@
 # pickem
 
 Project started in collaboration with [@jordangerads](https://github.com/jordangerads) to do the scoring for a football pick'em league we play in.
-This is the front end, with the backend code [here](https://github.com/jordangerads/pickem-api).
+This is the front end, which relies on an  [API host](https://github.com/jordangerads/pickem-api).
 
-To set up, create a `.env` file at the project root. A `.env.sample` can be copied and modified as needed.
+## Setup
 
-API host is specified in `.env` file, with the current default hosted at [https://gci-pickem.herokuapp.com](https://gci-pickem.herokuapp.com).
+Create a `.env` file at the project root. The `.env.sample` can be copied and updated with your API authorization.
 
-To start the server in development mode, check out the repository then run the commands
+## Running the Server Locally
+
+### Dev Mode
+
 ```
     npm install
     npm run dev
 ```
-To run the server in production mode, run the commands
+
+### Production mode
+
 ```
-    yarn [or npm install]
-    yarn build [or npm run build]
-    yarn start [or npm run start]
-``` 
+    npm install
+    npm run build
+    npm start
+```
+
+## Example
 
 This app is deployed at [https://pickem-football.herokuapp.com](https://pickem-football.herokuapp.com).
