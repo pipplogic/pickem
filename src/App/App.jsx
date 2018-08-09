@@ -1,4 +1,5 @@
 import Paper from "@material-ui/core/Paper";
+import PropTypes from "prop-types";
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
@@ -10,10 +11,29 @@ import Selections from "../Selections";
 import Week from "../Week";
 import Theme from "../Theme";
 
+const classesProp = (...classNames) =>
+  PropTypes.shape(
+    classNames.reduce(
+      (propType, className) => ({
+        ...propType,
+        [className]: PropTypes.string.isRequired
+      }),
+      {}
+    )
+  );
+
 export default class App extends React.Component {
+  static propTypes = {
+    classes: classesProp("body", "root", "selections", "week").isRequired,
+    loadExistingSession: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool.isRequired
+  };
+
   componentDidMount() {
-    this.props.loadExistingSession();
+    const { loadExistingSession } = this.props;
+    loadExistingSession();
   }
+
   render() {
     const { classes, loggedIn } = this.props;
     return (
@@ -23,13 +43,7 @@ export default class App extends React.Component {
           <Paper classes={{ root: classes.body }}>
             <BrowserRouter>
               <Switch>
-                <Route
-                  exact
-                  path="/register"
-                  render={() => {
-                    return <Register />;
-                  }}
-                />
+                <Route exact path="/register" render={() => <Register />} />
                 <Route
                   exact
                   path="/login"

@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import Login from "./component";
+import Login from "./Login";
 import { mapState, mapDispatch } from "./reduxMappers";
 import styles from "./styles";
 

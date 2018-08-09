@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { registerUser } from "../api";
+
 const INPUT = "pickem/register/input";
 const SUBMIT = "pickem/register/submit";
 const SUCCESS = "pickem/register/success";
@@ -35,6 +36,7 @@ const errorReducer = (state = null, action = {}) => {
     case SUBMIT:
       return null;
     case ERROR:
+      console.log("handling error", typeof action.error, action.error);
       return action.error;
     default:
       return state;
@@ -84,7 +86,11 @@ export const buildHandleSubmit = getRegisterState => ev => {
 
     registerUser(inputValues)
       .then(() => dispatch({ type: SUCCESS }))
-      .catch(error => dispatch({ type: ERROR, error: error || "Error" }));
+      .catch(err => {
+        const error = (err || {}).message;
+
+        dispatch({ type: ERROR, error });
+      });
   };
 };
 

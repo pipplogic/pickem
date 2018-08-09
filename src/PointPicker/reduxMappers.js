@@ -11,7 +11,7 @@ export const mapState = ({ picks, week: { games } }, { gameId }) => {
   return { pick, picks, gameIds, options };
 };
 
-export const mapDispatch = (dispatch, { gameId, gameIds }) => ({
+export const mapDispatch = (dispatch, { gameId }) => ({
   handlePointChangeForGames: gameIds => ev => {
     const score = ev.target.value;
 
@@ -19,12 +19,9 @@ export const mapDispatch = (dispatch, { gameId, gameIds }) => ({
   }
 });
 
-export const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  return {
-    ...stateProps,
-    handlePointChange: ev => {
-      return dispatchProps.handlePointChangeForGames(stateProps.gameIds)(ev);
-    },
-    ...ownProps
-  };
-};
+export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  handlePointChange: ev =>
+    dispatchProps.handlePointChangeForGames(stateProps.gameIds)(ev),
+  ...ownProps
+});

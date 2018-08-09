@@ -1,7 +1,8 @@
-import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+import PropTypes from "prop-types";
+import React from "react";
 
 function Footer({ classes, className }) {
   return (
@@ -17,6 +18,15 @@ function Footer({ classes, className }) {
     </AppBar>
   );
 }
+
+Footer.propTypes = {
+  classes: PropTypes.shape({ root: PropTypes.string.isRequired }).isRequired,
+  className: PropTypes.string
+};
+
+Footer.defaultProps = {
+  className: null
+};
 
 const styles = theme => ({
   root: {

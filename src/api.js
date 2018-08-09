@@ -1,4 +1,5 @@
 import axios from "axios";
+
 let authToken = null;
 
 class BadAuthentication extends Error {
@@ -29,7 +30,6 @@ axios.interceptors.response.use(
     if (error.response.status === 401) {
       setToken(null);
       throw new BadAuthentication("User not authenticated");
-      //place your reentry code
     }
     return error;
   }
@@ -52,7 +52,6 @@ export function loadWeek(year, week) {
 
 export const registerUser = payload =>
   axios.post("/api/register", payload).then(resp => {
-    console.log(resp);
     if (resp.status !== 200) {
       throw new Error("Unable to register");
     }
@@ -67,7 +66,7 @@ export function login(user, pass) {
       }
       setToken(resp.data);
     })
-    .catch(resp => {
+    .catch(() => {
       throw new Error("Unable to log in");
     });
 }

@@ -1,8 +1,9 @@
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import moment from "moment";
-import React from "react";
 import cx from "classnames";
+import moment from "moment";
+import PropTypes from "prop-types";
+import React from "react";
 
 function DateTime({ date, classes, className }) {
   const mo = moment(date);
@@ -16,6 +17,19 @@ function DateTime({ date, classes, className }) {
     </div>
   );
 }
+
+DateTime.propTypes = {
+  date: PropTypes.number.isRequired,
+  classes: PropTypes.shape({
+    day: PropTypes.string.isRequired,
+    root: PropTypes.string.isRequired
+  }).isRequired,
+  className: PropTypes.string
+};
+
+DateTime.defaultProps = {
+  className: null
+};
 
 const styles = theme => ({
   root: {

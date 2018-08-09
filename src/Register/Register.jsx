@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Autorenew from "@material-ui/icons/Autorenew";
 import Error from "@material-ui/icons/Error";
 import Send from "@material-ui/icons/Send";
-import cx from "classnames";
+import PropTypes from "prop-types";
 import React from "react";
 
 export default function Register({
@@ -56,7 +56,7 @@ export default function Register({
       <Button type="submit" variant="raised" color="primary">
         Register
         {submitting && (
-          <Autorenew className={cx(classes.rightIcon, classes.load)} />
+          <Autorenew className={`${classes.rightIcon} ${classes.load}`} />
         )}
         {error && <Error className={classes.rightIcon} color="error" />}
         {!submitting && !error && <Send className={classes.rightIcon} />}
@@ -64,3 +64,23 @@ export default function Register({
     </form>
   );
 }
+
+Register.propTypes = {
+  classes: PropTypes.shape({
+    load: PropTypes.string.isRequired,
+    root: PropTypes.string.isRequired,
+    rightIcon: PropTypes.string.isRequired
+  }).isRequired,
+  email: PropTypes.string.isRequired,
+  error: PropTypes.string,
+  first: PropTypes.string.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  last: PropTypes.string.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired
+};
+
+Register.defaultProps = {
+  error: null
+};

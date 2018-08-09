@@ -1,3 +1,6 @@
+// TODO This whole file should be reworked. Enable eslint then.
+/* eslint-disable  */
+
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";

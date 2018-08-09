@@ -5,17 +5,18 @@ import Autorenew from "@material-ui/icons/Autorenew";
 import Error from "@material-ui/icons/Error";
 import Send from "@material-ui/icons/Send";
 import cx from "classnames";
+import PropTypes from "prop-types";
 import React from "react";
 
 export default function Login({
   classes,
-  user,
-  pass,
-  loading,
   error,
-  userChange,
+  loading,
+  loginAction,
+  pass,
   passChange,
-  loginAction
+  user,
+  userChange
 }) {
   return (
     <form
@@ -50,3 +51,18 @@ export default function Login({
     </form>
   );
 }
+
+Login.propTypes = {
+  classes: PropTypes.shape({
+    load: PropTypes.string.isRequired,
+    rightIcon: PropTypes.string.isRequired,
+    root: PropTypes.string.isRequired
+  }).isRequired,
+  error: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  loginAction: PropTypes.func.isRequired,
+  pass: PropTypes.string.isRequired,
+  passChange: PropTypes.func.isRequired,
+  user: PropTypes.string.isRequired,
+  userChange: PropTypes.func.isRequired
+};

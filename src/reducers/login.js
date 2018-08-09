@@ -1,9 +1,9 @@
 export const initializeToken = token => {
   if (token) {
     return { type: "LOGGED_IN" };
-  } else {
-    return { type: "NOT_LOGGED_IN" };
   }
+
+  return { type: "NOT_LOGGED_IN" };
 };
 
 export default (

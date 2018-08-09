@@ -1,5 +1,6 @@
 import Typography from "@material-ui/core/Typography";
 import cx from "classnames";
+import PropTypes from "prop-types";
 import React from "react";
 
 import DateTime from "../DateTime";
@@ -33,3 +34,30 @@ export default function Game({ classes, className, game, locked, selectTeam }) {
     </div>
   );
 }
+
+const idType = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
+
+Game.propTypes = {
+  classes: PropTypes.shape({
+    at: PropTypes.string.isRequired,
+    away: PropTypes.string.isRequired,
+    game: PropTypes.string.isRequired,
+    home: PropTypes.string.isRequired,
+    locked: PropTypes.string.isRequired,
+    pts: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired
+  }).isRequired,
+  className: PropTypes.string,
+  game: PropTypes.shape({
+    awayTeam: idType.isRequired,
+    gameId: idType.isRequired,
+    gameTime: PropTypes.number.isRequired,
+    homeTeam: idType.isRequired
+  }).isRequired,
+  locked: PropTypes.bool.isRequired,
+  selectTeam: PropTypes.func.isRequired
+};
+
+Game.defaultProps = {
+  className: ""
+};

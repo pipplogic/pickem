@@ -1,11 +1,9 @@
 module.exports = {
-  plugins: ["react", "jest"],
+  parser: "babel-eslint",
+  plugins: ["react"],
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:jest/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
     "airbnb",
     "prettier"
   ],
@@ -13,6 +11,9 @@ module.exports = {
     browser: true
   },
   rules: {
-    "react/jsx-filename-extension": [1, { extensions: [".js"] }]
+    // Allow jsx in .js files
+    // "react/jsx-filename-extension": ["error", { extensions: [".js"] }],
+    // Turn off jsx formatting rule managed by prettier
+    "react/jsx-one-expression-per-line": "off"
   }
 };

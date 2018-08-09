@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const compression = require("compression");
 const request = require("request");
-const redirectToHTTPS = require("express-http-to-https").redirectToHTTPS;
+const { redirectToHTTPS } = require("express-http-to-https");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").load();
@@ -14,10 +14,6 @@ const {
   API_HOST_USERNAME,
   API_HOST_PASSWORD
 } = process.env;
-
-const authHeader = `Basic ${new Buffer(
-  API_HOST_USERNAME + ":" + API_HOST_PASSWORD
-).toString("base64")}`;
 
 if (!API_HOST_USERNAME || !API_HOST_PASSWORD) {
   console.warn("No server authentication provided");
@@ -40,8 +36,9 @@ app.post("/api/login", (req, res) => {
     {
       url: `${API_HOST}/oauth/token`,
       method: "POST",
-      headers: {
-        Authorization: authHeader
+      auth: {
+        username: API_HOST_USERNAME,
+        password: API_HOST_PASSWORD
       },
       form: {
         grant_type: "password",
@@ -49,7 +46,7 @@ app.post("/api/login", (req, res) => {
         password
       }
     },
-    function(error, response, body) {
+    (error, response, body) => {
       const statusCode = (response && response.statusCode) || 502;
       res.status(statusCode);
 
@@ -89,13 +86,14 @@ app.post("/api/register", (req, res) => {
     {
       url: `${API_HOST}/api/v1/user/register`,
       method: "POST",
-      headers: {
-        Authorization: authHeader
+      auth: {
+        username: API_HOST_USERNAME,
+        password: API_HOST_PASSWORD
       },
       json: true,
       body: createUserBody
     },
-    function(error, response, body) {
+    (error, response, body) => {
       const statusCode = (response && response.statusCode) || 502;
       res.status(statusCode);
 
@@ -124,7 +122,7 @@ app.get("/api/seasons/:year/weeks/:week", (req, res) => {
         Authorization: clientAuth
       }
     },
-    function(error, response, body) {
+    (error, response, body) => {
       const statusCode = (response && response.statusCode) || 502;
       res.status(statusCode);
 

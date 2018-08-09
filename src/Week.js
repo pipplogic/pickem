@@ -1,3 +1,5 @@
+// TODO This whole file should be reworked. Enable eslint then.
+/* eslint-disable  */
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";

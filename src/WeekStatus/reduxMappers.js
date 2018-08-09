@@ -29,3 +29,5 @@ const getInfo = status => {
 };
 
 export const mapState = (state, { status }) => ({ info: getInfo(status) });
+
+export const mapDispatch = () => {};

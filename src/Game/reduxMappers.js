@@ -1,6 +1,6 @@
 export const mapState = ({ week: { games }, picks }, { gameId }) => {
   const game = games.get(gameId);
-  const { locked } = picks.get(gameId);
+  const { locked = false } = picks.get(gameId);
 
   return { game, locked };
 };
