@@ -2,11 +2,7 @@
   "name": "pickem",
   "description": "Pick 'em League",
   "version": "0.2.0",
-  "keywords": [
-    "sports",
-    "pick em",
-    "pickem"
-  ],
+  "keywords": ["sports", "pick em", "pickem"],
   "homepage": "https://gitlab.com/pipplogic/pickem",
   "author": "pipplogic",
   "private": true,
@@ -14,9 +10,10 @@
   "repository": "gitlab:pipplogic/pickem",
   "scripts": {
     "build": "react-scripts build",
-    "dev": "concurrently --kill-others \"npm run dev-server\" \"npm run dev-client\"",
+    "dev":
+      "concurrently --kill-others \"npm run dev-server\" \"npm run dev-client\"",
     "dev-client": "react-scripts start",
-    "dev-server": "nodemon server.js",
+    "dev-server": "nodemon server.js --ignore src",
     "heroku-postbuild": "npm run build",
     "lint": "eslint src --ext=js,jsx",
     "start": "node server.js",
@@ -56,7 +53,6 @@
     "eslint-plugin-jest": "^21.18.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
-    "kexec": "^3.0.0",
     "nodemon": "^1.18.3",
     "npm": "^6.3.0"
   },
