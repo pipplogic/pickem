@@ -15,14 +15,14 @@ Create a `.env` file at the project root. The `.env.sample` can be copied and up
 
 ### Dev Mode
 
-```
+```bash
     npm install
     npm run dev
 ```
 
 ### Production mode
 
-```
+```bash
     npm install
     npm run build
     npm start
