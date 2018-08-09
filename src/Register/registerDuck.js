@@ -1,99 +1,99 @@
-import { combineReducers } from "redux";
-import { registerUser } from "../api";
+import { combineReducers } from 'redux'
+import { registerUser } from '../api'
 
-const INPUT = "pickem/register/input";
-const SUBMIT = "pickem/register/submit";
-const SUCCESS = "pickem/register/success";
-const ERROR = "pickem/register/error";
+const INPUT = 'pickem/register/input'
+const SUBMIT = 'pickem/register/submit'
+const SUCCESS = 'pickem/register/success'
+const ERROR = 'pickem/register/error'
 
 const submittingReducer = (state = false, action = {}) => {
   switch (action.type) {
     case SUBMIT:
-      return true;
+      return true
     case SUCCESS:
     case ERROR:
-      return false;
+      return false
     default:
-      return state;
+      return state
   }
-};
+}
 
 const successReducer = (state = false, action = {}) => {
   switch (action.type) {
     case SUCCESS:
-      return true;
+      return true
     case ERROR:
     case SUBMIT:
-      return false;
+      return false
     default:
-      return state;
+      return state
   }
-};
+}
 
 const errorReducer = (state = null, action = {}) => {
   switch (action.type) {
     case INPUT:
     case SUBMIT:
-      return null;
+      return null
     case ERROR:
-      return action.error;
+      return action.error
     default:
-      return state;
+      return state
   }
-};
+}
 
-const buildInputReducer = inputName => (state = "", action = {}) => {
+const buildInputReducer = inputName => (state = '', action = {}) => {
   if (action.name !== inputName) {
-    return state;
+    return state
   }
   switch (action.type) {
     case INPUT:
-      return action.value;
+      return action.value
     default:
-      return state;
+      return state
   }
-};
+}
 
 export default combineReducers({
-  first: buildInputReducer("first"),
-  last: buildInputReducer("last"),
-  email: buildInputReducer("email"),
+  first: buildInputReducer('first'),
+  last: buildInputReducer('last'),
+  email: buildInputReducer('email'),
   submitting: submittingReducer,
   success: successReducer,
   error: errorReducer
-});
+})
 
 export const getInputs = ({ first, last, email }) => ({
   first,
   last,
   email
-});
+})
 
 export const handleInputChange = ev => ({
   type: INPUT,
   name: ev.target.name,
   value: ev.target.value
-});
+})
 
 export const buildHandleSubmit = getRegisterState => ev => {
-  ev.preventDefault();
+  ev.preventDefault()
   return (dispatch, getState) => {
-    dispatch({ type: SUBMIT });
-    const fullState = getState();
-    const state = getRegisterState(fullState);
-    const inputValues = getInputs(state);
+    dispatch({ type: SUBMIT })
+    const fullState = getState()
+    const state = getRegisterState(fullState)
+    const inputValues = getInputs(state)
 
     registerUser(inputValues)
       .then(() => dispatch({ type: SUCCESS }))
       .catch(err => {
-        const error = (err || {}).message;
+        const error = (err || {}).message
 
-        dispatch({ type: ERROR, error });
-      });
-  };
-};
+        dispatch({ type: ERROR, error })
+      })
+  }
+}
 
 export const buildActionCreators = getRegisterState => ({
   handleInputChange,
   handleSubmit: buildHandleSubmit(getRegisterState)
-});
+})

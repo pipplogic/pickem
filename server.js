@@ -1,11 +1,11 @@
-const path = require("path");
-const express = require("express");
-const compression = require("compression");
-const request = require("request");
-const { redirectToHTTPS } = require("express-http-to-https");
+const path = require('path')
+const express = require('express')
+const compression = require('compression')
+const request = require('request')
+const { redirectToHTTPS } = require('express-http-to-https')
 
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").load();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').load()
 }
 
 const {
@@ -13,79 +13,84 @@ const {
   API_HOST,
   API_HOST_USERNAME,
   API_HOST_PASSWORD
-} = process.env;
+} = process.env
 
 if (!API_HOST_USERNAME || !API_HOST_PASSWORD) {
-  console.warn("No server authentication provided");
+  console.warn('No server authentication provided')
 }
 
-const app = express();
+const app = express()
 
-app.use(express.json());
-if (process.env.NODE_ENV === "production") {
-  app.use(redirectToHTTPS());
-  app.use(compression());
+app.use(express.json())
+if (process.env.NODE_ENV === 'production') {
+  app.use(redirectToHTTPS())
+  app.use(compression())
 }
 
-app.use(express.static(path.join(__dirname, "/build")));
+app.use(express.static(path.join(__dirname, '/build')))
 
-app.post("/api/login", (req, res) => {
-  const { body: { username, password } } = req;
+app.post('/api/login', (req, res) => {
+  const {
+    body: { username, password }
+  } = req
 
   request(
     {
       url: `${API_HOST}/oauth/token`,
-      method: "POST",
+      method: 'POST',
       auth: {
         username: API_HOST_USERNAME,
         password: API_HOST_PASSWORD
       },
       form: {
-        grant_type: "password",
+        grant_type: 'password',
         username,
         password
       }
     },
     (error, response, body) => {
-      const statusCode = (response && response.statusCode) || 502;
-      res.status(statusCode);
+      const statusCode =
+        (error && 502) || (response && response.statusCode) || 502
+      res.status(statusCode)
 
-      let respBody;
+      let respBody
       try {
-        respBody = JSON.parse(body);
+        respBody = JSON.parse(body)
       } catch (e) {
-        console.log("Expected json response for login", body);
-        res.status(502).send("Unexpected response from server");
-        return;
+        console.log('Expected json response for login', body)
+        res.status(502).send('Unexpected response from server')
+        return
       }
 
-      if (statusCode !== 200) {
-        res.send("Unable to log in");
-        return;
+      if (statusCode >= 400) {
+        res.send('Unable to log in')
+        return
       }
 
-      res.send(respBody.access_token);
+      res.send(respBody.access_token)
     }
-  );
-});
+  )
+})
 
-app.post("/api/register", (req, res) => {
-  const { body: { first, last, email } } = req;
+app.post('/api/register', (req, res) => {
+  const {
+    body: { first, last, email }
+  } = req
 
-  const host = req.get("host");
-  const confirmUrl = `https://${host}/confirm?token=`;
+  const host = req.get('host')
+  const confirmUrl = `https://${host}/confirm?token=`
 
   const createUserBody = {
     firstName: first,
     lastName: last,
     email,
     clientUrl: confirmUrl
-  };
+  }
 
   request(
     {
       url: `${API_HOST}/api/v1/user/register`,
-      method: "POST",
+      method: 'POST',
       auth: {
         username: API_HOST_USERNAME,
         password: API_HOST_PASSWORD
@@ -94,64 +99,66 @@ app.post("/api/register", (req, res) => {
       body: createUserBody
     },
     (error, response, body) => {
-      const statusCode = (response && response.statusCode) || 502;
-      res.status(statusCode);
+      const statusCode = (error && 502) || (response && response.statusCode) || 502
+      res.status(statusCode)
 
       if (statusCode >= 400) {
-        console.warn(`Unable to register: ${body}`);
-        res.send(`Unable to register: ${body}`);
-        return;
+        console.warn(`Unable to register: ${body}`)
+        res.send(`Unable to register: ${body}`)
+        return
       }
       if (!body) {
-        res.status(204);
+        res.status(204)
       }
-      res.send(body);
+      res.send(body)
     }
-  );
-});
+  )
+})
 
-app.get("/api/seasons/:year/weeks/:week", (req, res) => {
-  const { params: { year, week } } = req;
-  const clientAuth = req.header("Authorization");
+app.get('/api/seasons/:year/weeks/:week', (req, res) => {
+  const {
+    params: { year, week }
+  } = req
+  const clientAuth = req.header('Authorization')
 
   request(
     {
       url: `${API_HOST}/api/v1/games/season/${year}/week/${week}`,
-      method: "GET",
+      method: 'GET',
       headers: {
         Authorization: clientAuth
       }
     },
     (error, response, body) => {
-      const statusCode = (response && response.statusCode) || 502;
-      res.status(statusCode);
+      const statusCode = (error && 502) || (response && response.statusCode) || 502
+      res.status(statusCode)
 
-      let respBody;
+      let respBody
       try {
-        respBody = JSON.parse(body);
+        respBody = JSON.parse(body)
       } catch (e) {
-        console.log("Expected json response for week info", body);
-        res.status(502).send("Unexpected response from server");
-        return;
+        console.log('Expected json response for week info', body)
+        res.status(502).send('Unexpected response from server')
+        return
       }
 
       if (statusCode !== 200) {
-        res.send("Could not retreive week");
-        return;
+        res.send('Could not retreive week')
+        return
       }
 
-      res.send(respBody);
+      res.send(respBody)
     }
-  );
-});
+  )
+})
 
-app.get(["/api", "/api/*"], (req, res) => {
-  res.status(404).send("Not implemented");
-});
+app.get(['/api', '/api/*'], (req, res) => {
+  res.status(404).send('Not implemented')
+})
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 
-app.listen(PORT);
-console.log(`Running on port ${PORT}`);
+app.listen(PORT)
+console.log(`Running on port ${PORT}`)

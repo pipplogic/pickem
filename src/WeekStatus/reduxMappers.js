@@ -1,33 +1,33 @@
-import Autorenew from "@material-ui/icons/Autorenew";
-import Error from "@material-ui/icons/Error";
+import Autorenew from '@material-ui/icons/Autorenew'
+import Error from '@material-ui/icons/Error'
 
 const getInfo = status => {
   switch (status) {
-    case "loading":
+    case 'loading':
       return {
         Icon: Autorenew,
-        color: "primary",
-        className: "load",
-        text: "Loading..."
-      };
-    case "error":
+        color: 'primary',
+        className: 'load',
+        text: 'Loading...'
+      }
+    case 'error':
       return {
         Icon: Error,
-        color: "error",
-        className: "",
-        text: "Error"
-      };
+        color: 'error',
+        className: '',
+        text: 'Error'
+      }
     default:
       return {
         Icon: Error,
-        color: "error",
-        className: "",
+        color: 'error',
+        className: '',
 
-        text: "Error"
-      };
+        text: 'Error'
+      }
   }
-};
+}
 
-export const mapState = (state, { status }) => ({ info: getInfo(status) });
+export const mapState = (state, { status }) => ({ info: getInfo(status) })
 
-export const mapDispatch = () => {};
+export const mapDispatch = () => {}

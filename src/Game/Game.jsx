@@ -1,13 +1,13 @@
-import Typography from "@material-ui/core/Typography";
-import cx from "classnames";
-import PropTypes from "prop-types";
-import React from "react";
+import Typography from '@material-ui/core/Typography'
+import cx from 'classnames'
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import DateTime from "../DateTime";
-import PointPicker from "../PointPicker";
-import Team from "../Team";
+import DateTime from '../DateTime'
+import PointPicker from '../PointPicker'
+import Team from '../Team'
 
-export default function Game({ classes, className, game, locked, selectTeam }) {
+export default function Game ({ classes, className, game, locked, selectTeam }) {
   return (
     <div
       className={cx(className, classes.game, {
@@ -32,10 +32,10 @@ export default function Game({ classes, className, game, locked, selectTeam }) {
         <PointPicker gameId={game.gameId} />
       </div>
     </div>
-  );
+  )
 }
 
-const idType = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
+const idType = PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 
 Game.propTypes = {
   classes: PropTypes.shape({
@@ -56,8 +56,8 @@ Game.propTypes = {
   }).isRequired,
   locked: PropTypes.bool.isRequired,
   selectTeam: PropTypes.func.isRequired
-};
+}
 
 Game.defaultProps = {
-  className: ""
-};
+  className: ''
+}

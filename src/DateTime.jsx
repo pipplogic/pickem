@@ -1,21 +1,21 @@
-import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
-import cx from "classnames";
-import moment from "moment";
-import PropTypes from "prop-types";
-import React from "react";
+import Typography from '@material-ui/core/Typography'
+import withStyles from '@material-ui/core/styles/withStyles'
+import cx from 'classnames'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import React from 'react'
 
-function DateTime({ date, classes, className }) {
-  const mo = moment(date);
-  const weekday = mo.format("ddd");
-  const time = mo.format("hh:mm A");
+function DateTime ({ date, classes, className }) {
+  const mo = moment(date)
+  const weekday = mo.format('ddd')
+  const time = mo.format('hh:mm A')
 
   return (
     <div className={cx(classes.root, className)}>
       <Typography className={classes.day}>{weekday}</Typography>
       <Typography>{time}</Typography>
     </div>
-  );
+  )
 }
 
 DateTime.propTypes = {
@@ -25,25 +25,25 @@ DateTime.propTypes = {
     root: PropTypes.string.isRequired
   }).isRequired,
   className: PropTypes.string
-};
+}
 
 DateTime.defaultProps = {
   className: null
-};
+}
 
 const styles = theme => ({
   root: {
-    display: "flex",
-    flexDirection: "column",
-    [theme.breakpoints.up("sm")]: {
-      flexDirection: "row"
+    display: 'flex',
+    flexDirection: 'column',
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row'
     }
   },
   day: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       marginRight: theme.spacing.unit
     }
   }
-});
+})
 
-export default withStyles(styles)(DateTime);
+export default withStyles(styles)(DateTime)

@@ -1,52 +1,49 @@
-// TODO This whole file should be reworked. Enable eslint then.
-/* eslint-disable  */
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import moment from 'moment'
 
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import moment from "moment";
+import { loadWeek } from './api'
+import { actionsForGames } from './loadActions'
 
-import { loadWeek } from "./api";
-import { actionsForGames } from "./loadActions";
-
-const weekOptions = [];
+const weekOptions = []
 for (let i = 1; i <= 17; i += 1) {
-  weekOptions.push(i);
+  weekOptions.push(i)
 }
 
 class Selections extends Component {
-  handleWeekChange(ev) {
-    const { dispatch, week, picks } = this.props;
-    const number = ev.target.value;
+  handleWeekChange (ev) {
+    const { dispatch, week, picks } = this.props
+    const number = ev.target.value
 
-    dispatch({ type: "NEW_WEEK", number });
+    dispatch({ type: 'NEW_WEEK', number })
     loadWeek(week.year, number)
       .then(games => {
-        actionsForGames(dispatch, picks, games);
+        actionsForGames(dispatch, picks, games)
       })
       .catch(() => {
-        dispatch({ type: "WEEK_ERROR" });
-      });
+        dispatch({ type: 'WEEK_ERROR' })
+      })
   }
 
-  handleYearChange(ev) {
-    const { dispatch, week, picks } = this.props;
-    const year = ev.target.value;
+  handleYearChange (ev) {
+    const { dispatch, week, picks } = this.props
+    const year = ev.target.value
 
-    dispatch({ type: "NEW_YEAR", year });
+    dispatch({ type: 'NEW_YEAR', year })
     loadWeek(year, week.number)
       .then(games => {
-        actionsForGames(dispatch, picks, games);
+        actionsForGames(dispatch, picks, games)
       })
       .catch(() => {
-        dispatch({ type: "WEEK_ERROR" });
-      });
+        dispatch({ type: 'WEEK_ERROR' })
+      })
   }
 
-  render() {
-    const { week, className, msg } = this.props;
+  render () {
+    const { week, className } = this.props
 
     return (
       <div className={className}>
@@ -63,28 +60,28 @@ class Selections extends Component {
           </Select>
         </FormControl>
       </div>
-    );
+    )
   }
 }
 
-function formatDate(date) {
-  return moment(date).format("ddd, MMM DD");
+function formatDate (date) {
+  return moment(date).format('ddd, MMM DD')
 }
 
-const mapState = function(state) {
-  const { picks, week } = state;
-  const games = Array.from(week.games.values());
-  const gameTimes = games.map(game => game.gameTime);
+const mapState = function (state) {
+  const { picks, week } = state
+  const games = Array.from(week.games.values())
+  const gameTimes = games.map(game => game.gameTime)
 
-  const firstGame = Math.min.apply(null, gameTimes);
-  const lastGame = Math.max.apply(null, gameTimes);
+  const firstGame = Math.min.apply(null, gameTimes)
+  const lastGame = Math.max.apply(null, gameTimes)
 
-  let msg = "Loading...";
+  let msg = 'Loading...'
   if (Number.isFinite(firstGame)) {
-    msg = `${formatDate(firstGame)} to ${formatDate(lastGame)}`;
+    msg = `${formatDate(firstGame)} to ${formatDate(lastGame)}`
   }
 
-  return { picks, week, msg };
-};
+  return { picks, week, msg }
+}
 
-export default connect(mapState)(Selections);
+export default connect(mapState)(Selections)

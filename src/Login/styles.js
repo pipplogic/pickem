@@ -1,25 +1,25 @@
 const expand = {
-  flexGrow: "1"
-};
+  flexGrow: '1'
+}
 
 export default theme => ({
   root: {
-    display: "flex",
+    display: 'flex',
     backgroundColor: theme.palette.background.default,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
     ...expand
   },
   load: {
-    animation: "spin 2s linear infinite"
+    animation: 'spin 2s linear infinite'
   },
-  "@keyframes spin": {
-    from: { transform: "rotate(0deg)" },
-    to: { transform: "rotate(360deg)" }
+  '@keyframes spin': {
+    from: { transform: 'rotate(0deg)' },
+    to: { transform: 'rotate(360deg)' }
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
   }
-});
+})

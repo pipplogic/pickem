@@ -1,54 +1,52 @@
-// TODO This whole file should be reworked. Enable eslint then.
-/* eslint-disable  */
 
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
-import React from "react";
-import { connect } from "react-redux";
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import withStyles from '@material-ui/core/styles/withStyles'
+import React from 'react'
+import { connect } from 'react-redux'
 
 const styles = theme => ({
   btn: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       margin: `0 ${theme.spacing.unit}px`
     }
   },
   team: {
-    display: "flex",
-    flexDirection: "column",
-    [theme.breakpoints.up("sm")]: {
-      flexDirection: "row"
+    display: 'flex',
+    flexDirection: 'column',
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row'
     }
   },
   location: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       marginRight: theme.spacing.unit
     }
   }
-});
+})
 
-function Team({ classes, className, team, onClick, selected, locked }) {
+function Team ({ classes, className, team, onClick, selected, locked }) {
   return (
     <Button
       className={className}
       classes={{ root: classes.btn, label: classes.team }}
       disabled={locked}
       onClick={onClick}
-      variant={selected ? "raised" : "flat"}
-      color={selected ? "primary" : "default"}
+      variant={selected ? 'raised' : 'flat'}
+      color={selected ? 'primary' : 'default'}
     >
       <Typography className={classes.location}>{team.city}</Typography>
       <Typography>{team.teamName}</Typography>
     </Button>
-  );
+  )
 }
 
 const mapState = ({ picks, teams }, { gameId, teamId }) => {
-  const team = teams.get(teamId);
-  const { locked, teamId: pickedTeam } = picks.get(gameId);
-  const selected = pickedTeam === teamId;
+  const team = teams.get(teamId)
+  const { locked, teamId: pickedTeam } = picks.get(gameId)
+  const selected = pickedTeam === teamId
 
-  return { team, selected, locked };
-};
+  return { team, selected, locked }
+}
 
-export default connect(mapState)(withStyles(styles)(Team));
+export default connect(mapState)(withStyles(styles)(Team))

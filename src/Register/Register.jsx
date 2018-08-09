@@ -1,13 +1,13 @@
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import Autorenew from "@material-ui/icons/Autorenew";
-import Error from "@material-ui/icons/Error";
-import Send from "@material-ui/icons/Send";
-import PropTypes from "prop-types";
-import React from "react";
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
+import Autorenew from '@material-ui/icons/Autorenew'
+import Error from '@material-ui/icons/Error'
+import Send from '@material-ui/icons/Send'
+import PropTypes from 'prop-types'
+import React from 'react'
 
-export default function Register({
+export default function Register ({
   classes,
   first,
   last,
@@ -21,48 +21,48 @@ export default function Register({
   if (success) {
     return (
       <div className={classes.root}>
-        <Typography variant="heading">Check your email!</Typography>
+        <Typography variant='heading'>Check your email!</Typography>
       </div>
-    );
+    )
   }
   return (
     <form className={classes.root} noValidate onSubmit={handleSubmit}>
-      <Typography variant="subheading" align="center">
+      <Typography variant='subheading' align='center'>
         Register
       </Typography>
       <TextField
-        label="First Name"
-        name="first"
+        label='First Name'
+        name='first'
         value={first}
         error={Boolean(error)}
         onChange={handleInputChange}
       />
       <TextField
-        label="Last Name"
-        name="last"
+        label='Last Name'
+        name='last'
         value={last}
         error={Boolean(error)}
         onChange={handleInputChange}
       />
       <TextField
-        type="email"
-        label="Email"
-        name="email"
+        type='email'
+        label='Email'
+        name='email'
         value={email}
         error={Boolean(error)}
         onChange={handleInputChange}
       />
 
-      <Button type="submit" variant="raised" color="primary">
+      <Button type='submit' variant='raised' color='primary'>
         Register
         {submitting && (
           <Autorenew className={`${classes.rightIcon} ${classes.load}`} />
         )}
-        {error && <Error className={classes.rightIcon} color="error" />}
+        {error && <Error className={classes.rightIcon} color='error' />}
         {!submitting && !error && <Send className={classes.rightIcon} />}
       </Button>
     </form>
-  );
+  )
 }
 
 Register.propTypes = {
@@ -79,8 +79,8 @@ Register.propTypes = {
   last: PropTypes.string.isRequired,
   submitting: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired
-};
+}
 
 Register.defaultProps = {
   error: null
-};
+}

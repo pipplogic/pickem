@@ -1,4 +1,4 @@
-function updatePick(state, pick, newProps) {
+function updatePick (state, pick, newProps) {
   return new Map([
     ...state,
     [
@@ -8,42 +8,42 @@ function updatePick(state, pick, newProps) {
         ...newProps
       }
     ]
-  ]);
+  ])
 }
 
 export default (state = new Map(), action = {}) => {
-  const currentPick = state.get(action.gameId) || { gameId: action.gameId };
+  const currentPick = state.get(action.gameId) || { gameId: action.gameId }
 
   if (currentPick.locked) {
-    return state;
+    return state
   }
 
   switch (action.type) {
-    case "PICK": {
-      return updatePick(state, currentPick, { teamId: action.teamId });
+    case 'PICK': {
+      return updatePick(state, currentPick, { teamId: action.teamId })
     }
-    case "SCORE": {
-      return updatePick(state, currentPick, { score: action.score });
+    case 'SCORE': {
+      return updatePick(state, currentPick, { score: action.score })
     }
-    case "SCORE_MOVE": {
+    case 'SCORE_MOVE': {
       // TODO find appropriate place for this business logic
       const otherGameWithScore =
         (action.gameIds || [])
           .map(gameId => state.get(gameId) || {})
           .filter(pick => !pick.locked)
-          .find(pick => pick.score === action.score) || {};
+          .find(pick => pick.score === action.score) || {}
 
       return updatePick(
         updatePick(state, currentPick, { score: action.score }),
         otherGameWithScore,
         { score: currentPick.score }
-      );
+      )
     }
-    case "LOCK": {
-      return updatePick(state, currentPick, { locked: true });
+    case 'LOCK': {
+      return updatePick(state, currentPick, { locked: true })
     }
     default: {
-      return state;
+      return state
     }
   }
-};
+}

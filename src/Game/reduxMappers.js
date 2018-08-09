@@ -1,16 +1,16 @@
 export const mapState = ({ week: { games }, picks }, { gameId }) => {
-  const game = games.get(gameId);
-  const { locked = false } = picks.get(gameId);
+  const game = games.get(gameId)
+  const { locked = false } = picks.get(gameId)
 
-  return { game, locked };
-};
+  return { game, locked }
+}
 
 export const mapDispatch = (dispatch, { gameId }) => ({
   selectTeam: teamId => () => {
     dispatch({
-      type: "PICK",
+      type: 'PICK',
       gameId,
       teamId
-    });
+    })
   }
-});
+})

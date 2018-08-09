@@ -2,7 +2,11 @@
   "name": "pickem",
   "description": "Pick 'em League",
   "version": "0.2.0",
-  "keywords": ["sports", "pick em", "pickem"],
+  "keywords": [
+    "sports",
+    "pick em",
+    "pickem"
+  ],
   "homepage": "https://gitlab.com/pipplogic/pickem",
   "author": "pipplogic",
   "private": true,
@@ -14,10 +18,9 @@
     "dev-client": "react-scripts start",
     "dev-server": "nodemon server.js --ignore src",
     "heroku-postbuild": "npm run build",
-    "lint": "eslint src --ext=js,jsx",
+    "standard": "standard",
     "start": "node server.js",
-    "test": "react-scripts test --env=jsdom",
-    "prettier": "prettier src/**/*.js --write"
+    "test": "standard && react-scripts test --env=jsdom"
   },
   "engines": {
     "node": ">=8.11.3",
@@ -30,7 +33,6 @@
     "classnames": "^2.2.6",
     "compression": "^1.7.3",
     "dotenv": "^6.0.0",
-    "eslint": "^5.3.0",
     "express": "^4.16.3",
     "express-http-to-https": "^1.1.4",
     "moment": "^2.22.2",
@@ -45,17 +47,15 @@
     "request": "^2.87.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.6",
+    "ajv": "^5.0.9",
+    "ajv-keywords": "^2.1.1",
     "concurrently": "^3.6.1",
-    "eslint-config-airbnb": "^17.0.0",
-    "eslint-config-prettier": "^2.9.0",
+    "eslint": "^4.1.1",
+    "eslint-config-react-app": "^2.1.0",
     "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jest": "^21.18.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
     "nodemon": "^1.18.3",
-    "npm": "^6.3.0",
-    "prettier": "^1.14.2"
+    "standard": "^11.0.1"
   },
   "proxy": "http://localhost:3002"
 }

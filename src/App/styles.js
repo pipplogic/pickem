@@ -1,27 +1,27 @@
 const mdContainer = theme => ({
-  width: "100vw",
+  width: '100vw',
   maxWidth: theme.breakpoints.values.md,
-  margin: "0 auto"
-});
+  margin: '0 auto'
+})
 
 const flexColumn = {
-  display: "flex",
-  flexDirection: "column"
-};
+  display: 'flex',
+  flexDirection: 'column'
+}
 
 const expand = {
-  flexGrow: "1"
-};
+  flexGrow: '1'
+}
 
 const center = {
-  display: "flex",
-  justifyContent: "center"
-};
+  display: 'flex',
+  justifyContent: 'center'
+}
 
 export default theme => ({
   root: {
     backgroundColor: theme.palette.background.default,
-    minHeight: "100vh",
+    minHeight: '100vh',
     ...flexColumn
   },
   body: {
@@ -35,4 +35,4 @@ export default theme => ({
   week: {
     ...expand
   }
-});
+})
