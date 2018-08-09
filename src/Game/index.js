@@ -5,4 +5,7 @@ import Game from "./Game";
 import { mapState, mapDispatch } from "./reduxMappers";
 import styles from "./styles";
 
-export default connect(mapState, mapDispatch)(withStyles(styles)(Game));
+export default connect(
+  mapState,
+  mapDispatch
+)(withStyles(styles)(Game));

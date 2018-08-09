@@ -5,4 +5,7 @@ import Login from "./Login";
 import { mapState, mapDispatch } from "./reduxMappers";
 import styles from "./styles";
 
-export default connect(mapState, mapDispatch)(withStyles(styles)(Login));
+export default connect(
+  mapState,
+  mapDispatch
+)(withStyles(styles)(Login));
