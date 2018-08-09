@@ -36,7 +36,6 @@ const errorReducer = (state = null, action = {}) => {
     case SUBMIT:
       return null;
     case ERROR:
-      console.log("handling error", typeof action.error, action.error);
       return action.error;
     default:
       return state;
