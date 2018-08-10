@@ -27,10 +27,6 @@ DateTime.propTypes = {
   className: PropTypes.string
 }
 
-DateTime.defaultProps = {
-  className: null
-}
-
 const styles = theme => ({
   root: {
     display: 'flex',

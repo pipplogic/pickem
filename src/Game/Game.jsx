@@ -57,7 +57,3 @@ Game.propTypes = {
   locked: PropTypes.bool.isRequired,
   selectTeam: PropTypes.func.isRequired
 }
-
-Game.defaultProps = {
-  className: ''
-}

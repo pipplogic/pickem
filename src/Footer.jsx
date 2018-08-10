@@ -24,10 +24,6 @@ Footer.propTypes = {
   className: PropTypes.string
 }
 
-Footer.defaultProps = {
-  className: null
-}
-
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.primary.dark,

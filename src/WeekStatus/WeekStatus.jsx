@@ -30,7 +30,3 @@ WeekStatus.propTypes = {
     text: PropTypes.string.isRequired
   }).isRequired
 }
-
-WeekStatus.defaultProps = {
-  className: ''
-}

@@ -34,8 +34,4 @@ PointPicker.propTypes = {
   options: PropTypes.arrayOf(PropTypes.number).isRequired
 }
 
-PointPicker.defaultProps = {
-  className: null
-}
-
 export default PointPicker

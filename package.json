@@ -1,7 +1,7 @@
 {
   "name": "pickem",
   "description": "Pick 'em League",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": [
     "sports",
     "pick em",
@@ -17,9 +17,9 @@
     "dev-client": "react-scripts start",
     "dev-server": "nodemon server.js --ignore src",
     "heroku-postbuild": "npm run build",
-    "standard": "standard",
+    "lint": "standard && eslint src --ext=js,jsx",
     "start": "node server.js",
-    "test": "standard && react-scripts test --env=jsdom"
+    "test": "lint && react-scripts test --env=jsdom"
   },
   "engines": {
     "node": ">=8.11.3",
@@ -46,11 +46,13 @@
     "request": "^2.87.0"
   },
   "devDependencies": {
-    "ajv": "^5.0.9",
+    "ajv": "^5.5.2",
     "ajv-keywords": "^2.1.1",
     "concurrently": "^3.6.1",
-    "eslint": "^4.1.1",
+    "eslint": "^4.19.1",
     "eslint-config-react-app": "^2.1.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard-jsx": "^5.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-react": "^7.10.0",
     "nodemon": "^1.18.3",

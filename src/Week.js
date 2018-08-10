@@ -4,7 +4,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import withStyles from '@material-ui/core/styles/withStyles'
-
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
@@ -68,6 +68,30 @@ const mapState = state => {
   const gameIds = [...games.keys()]
 
   return { picks, week, loaded, error, gameIds }
+}
+
+const classesProp = (...classNames) =>
+  PropTypes.shape(
+    classNames.reduce(
+      (propType, className) => ({
+        ...propType,
+        [className]: PropTypes.string.isRequired
+      }),
+      {}
+    )
+  ).isRequired
+
+const idType = PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+
+Week.propTypes = {
+  classes: classesProp('header'),
+  dispatch: PropTypes.func.isRequired,
+  picks: PropTypes.any,
+  week: PropTypes.any,
+  className: PropTypes.string,
+  error: PropTypes.bool,
+  gameIds: PropTypes.arrayOf(idType.isRequired).isRequired,
+  loaded: PropTypes.bool
 }
 
 export default connect(mapState)(withStyles(styles)(Week))

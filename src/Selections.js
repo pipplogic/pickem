@@ -4,6 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import PropTypes from 'prop-types'
 
 import { loadWeek } from './api'
 import { actionsForGames } from './loadActions'
@@ -81,7 +82,18 @@ const mapState = function (state) {
     msg = `${formatDate(firstGame)} to ${formatDate(lastGame)}`
   }
 
-  return { picks, week, msg }
+  return { picks, week, msg, games }
+}
+
+Selections.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  week: PropTypes.shape({
+    year: PropTypes.number.isRequired,
+    number: PropTypes.number.isRequired
+  }).isRequired,
+  games: PropTypes.arrayOf(PropTypes.shape({ gameTime: PropTypes.number.isRequired })).isRequired,
+  picks: PropTypes.any.isRequired
 }
 
 export default connect(mapState)(Selections)

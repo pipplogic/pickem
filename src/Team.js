@@ -1,7 +1,7 @@
-
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
+import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -39,6 +39,34 @@ function Team ({ classes, className, team, onClick, selected, locked }) {
       <Typography>{team.teamName}</Typography>
     </Button>
   )
+}
+
+const classesProp = (...classNames) =>
+  PropTypes.shape(
+    classNames.reduce(
+      (propType, className) => ({
+        ...propType,
+        [className]: PropTypes.string.isRequired
+      }),
+      {}
+    )
+  ).isRequired
+
+Team.propTypes = {
+  classes: classesProp('btn', 'team', 'location'),
+  className: PropTypes.string,
+  team: PropTypes.shape({
+    city: PropTypes.string.isRequired,
+    teamName: PropTypes.string.isRequired
+  }),
+  onClick: PropTypes.func,
+  selected: PropTypes.bool,
+  locked: PropTypes.bool
+
+}
+
+Team.defaultProps = {
+  // onClick: () => {}
 }
 
 const mapState = ({ picks, teams }, { gameId, teamId }) => {

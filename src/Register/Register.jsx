@@ -80,7 +80,3 @@ Register.propTypes = {
   submitting: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired
 }
-
-Register.defaultProps = {
-  error: null
-}
