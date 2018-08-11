@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import login from './login'
+import login from '../Login/loginDuck'
 import picks from './picks'
 import teams from './teams'
 import week from './week'
@@ -15,3 +15,4 @@ export default combineReducers({
 })
 
 export const getRegisterState = state => state.register
+export const getLoginState = state => state.login

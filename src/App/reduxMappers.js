@@ -1,5 +1,5 @@
 import { loadToken } from '../api'
-import { initializeToken } from '../reducers/login'
+import { initializeToken } from '../Login/loginDuck'
 
 export const mapDispatch = dispatch => ({
   loadExistingSession: () => {

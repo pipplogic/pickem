@@ -1,5 +1,6 @@
 import { loadWeek } from './api'
 import { getAvailableScores } from './scoreUtils'
+import { setInvalidAuth } from './Login/loginDuck'
 
 export function defaultActions (gameIds, picks) {
   const availableScores = getAvailableScores(gameIds, picks)
@@ -56,7 +57,7 @@ export function loadGames (dispatch, picks, week) {
     })
     .catch(err => {
       if (err.name === 'BadAuth') {
-        dispatch({ type: 'NOT_LOGGED_IN' })
+        dispatch(setInvalidAuth(err))
       }
       dispatch({ type: 'WEEK_ERROR' })
     })

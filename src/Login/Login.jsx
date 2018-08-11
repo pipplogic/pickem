@@ -11,42 +11,43 @@ import React from 'react'
 export default function Login ({
   classes,
   error,
-  loading,
-  loginAction,
+  handleInputChange,
+  handleSubmit,
   pass,
-  passChange,
-  user,
-  userChange
+  submitting,
+  user
 }) {
   return (
     <form
       className={classes.root}
       noValidate
-      onSubmit={loginAction(user, pass)}
+      onSubmit={handleSubmit}
     >
       <Typography variant='subheading' align='center'>
         Login
       </Typography>
       <TextField
         label='Email'
+        name='user'
         value={user}
-        onChange={userChange}
+        onChange={handleInputChange}
         error={error}
       />
       <TextField
         label='Password'
         type='password'
+        name='pass'
         value={pass}
-        onChange={passChange}
+        onChange={handleInputChange}
         error={error}
       />
       <Button type='submit' variant='raised' color='primary'>
         Login
-        {loading && (
+        {submitting && (
           <Autorenew className={cx(classes.rightIcon, classes.load)} />
         )}
         {error && <Error className={classes.rightIcon} color='error' />}
-        {!loading && !error && <Send className={classes.rightIcon} />}
+        {!submitting && !error && <Send className={classes.rightIcon} />}
       </Button>
     </form>
   )
@@ -58,11 +59,11 @@ Login.propTypes = {
     rightIcon: PropTypes.string.isRequired,
     root: PropTypes.string.isRequired
   }).isRequired,
+  submitting: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired,
-  loginAction: PropTypes.func.isRequired,
   pass: PropTypes.string.isRequired,
-  passChange: PropTypes.func.isRequired,
   user: PropTypes.string.isRequired,
-  userChange: PropTypes.func.isRequired
+  handleInputChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 }

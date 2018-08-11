@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 
+import { setInvalidAuth } from './Login/loginDuck'
 import { loadWeek } from './api'
 import { actionsForGames } from './loadActions'
 
@@ -24,7 +25,10 @@ class Selections extends Component {
       .then(games => {
         actionsForGames(dispatch, picks, games)
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err.name === 'BadAuth') {
+          dispatch(setInvalidAuth(err))
+        }
         dispatch({ type: 'WEEK_ERROR' })
       })
   }
@@ -38,7 +42,10 @@ class Selections extends Component {
       .then(games => {
         actionsForGames(dispatch, picks, games)
       })
-      .catch(() => {
+      .catch(err => {
+        if (err.name === 'BadAuth') {
+          dispatch(setInvalidAuth(err))
+        }
         dispatch({ type: 'WEEK_ERROR' })
       })
   }

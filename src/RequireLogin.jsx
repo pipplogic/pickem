@@ -1,14 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { getLoginState } from './reducers'
+import { isInitialized, isLoggedIn } from './Login/loginDuck'
 
-const mapState = ({ login: {status} }) => ({
-  loggedIn: status === 'LOGGED_IN'
+const mapState = (state) => ({
+  initialized: isInitialized(getLoginState(state)),
+  loggedIn: isLoggedIn(getLoginState(state))
 })
 
-const RequireLogin = (props) => {
-  const {inverted, loggedIn, children, redirect, redirectTo} = props
-  if (loggedIn ^ inverted) {
+const RequireLogin = ({inverted, initialized, loggedIn, children, redirect, redirectTo}) => {
+  const shouldShow = (loggedIn && !inverted) ||
+    (!loggedIn && initialized && inverted)
+
+  if (shouldShow) {
     return children
   } else {
     return (redirect || redirectTo) ? <Redirect to={redirectTo || '/login'} /> : null

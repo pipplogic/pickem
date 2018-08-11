@@ -57,7 +57,7 @@ export const registerUser = payload =>
     }
   })
 
-export function login (user, pass) {
+export function login ({ user, pass }) {
   return axios
     .post('/api/login', { username: user, password: pass })
     .then(resp => {
