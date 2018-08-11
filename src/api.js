@@ -52,7 +52,7 @@ export function loadWeek (year, week) {
 
 export const registerUser = payload =>
   axios.post('/api/register', payload).then(resp => {
-    if (resp.status !== 200) {
+    if (resp.status >= 400) {
       throw new Error('Unable to register')
     }
   })
@@ -61,7 +61,7 @@ export function login ({ user, pass }) {
   return axios
     .post('/api/login', { username: user, password: pass })
     .then(resp => {
-      if (resp.status !== 200) {
+      if (resp.status >= 400) {
         throw new Error('Bad Password')
       }
       setToken(resp.data)
