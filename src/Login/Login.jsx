@@ -27,6 +27,7 @@ export default function Login ({
         name='user'
         value={user}
         onChange={handleInputChange}
+        disabled={submitting}
         error={error}
       />
       <TextField
@@ -35,9 +36,10 @@ export default function Login ({
         name='pass'
         value={pass}
         onChange={handleInputChange}
+        disabled={submitting}
         error={error}
       />
-      <Button type='submit' variant='raised' color='primary'>
+      <Button type='submit' variant='raised' color='primary' disabled={submitting}>
         Login
         {submitting && (
           <Autorenew className={cx(classes.rightIcon, classes.load)} />

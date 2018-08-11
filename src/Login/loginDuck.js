@@ -46,7 +46,6 @@ const successReducer = (state = false, action = {}) => {
 }
 
 const errorReducer = (state = false, action = {}) => {
-  console.log('action', action)
   switch (action.type) {
     case INPUT:
     case SUBMIT:
