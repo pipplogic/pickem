@@ -7,4 +7,6 @@ import { buildActionCreators } from './loginDuck'
 import { getLoginState } from '../reducers'
 import styles from './styles'
 
-export default connect(getLoginState, buildActionCreators(getLoginState))(withStyles(styles)(Login))
+export default connect(getLoginState, buildActionCreators(getLoginState))(
+  withStyles(styles)(Login)
+)

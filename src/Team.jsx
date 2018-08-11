@@ -62,7 +62,6 @@ Team.propTypes = {
   onClick: PropTypes.func,
   selected: PropTypes.bool,
   locked: PropTypes.bool
-
 }
 
 Team.defaultProps = {

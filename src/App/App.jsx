@@ -42,20 +42,20 @@ export default class App extends React.Component {
                 <Route
                   exact
                   path='/login'
-                  render={() =>
+                  render={() => (
                     <RequireLogin loginPage inverted redirectTo='/week'>
                       <Login />
                     </RequireLogin>
-                  }
+                  )}
                 />
                 <Route
                   path='/week'
-                  render={() =>
+                  render={() => (
                     <RequireLogin weekPage redirect>
                       <Selections className={classes.selections} />
                       <Week className={classes.week} />
                     </RequireLogin>
-                  }
+                  )}
                 />
                 <Redirect to='/login' />
               </Switch>

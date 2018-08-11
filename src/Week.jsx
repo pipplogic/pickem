@@ -1,4 +1,3 @@
-
 import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -60,11 +59,7 @@ class Week extends Component {
 }
 
 const mapState = state => {
-  const {
-    picks,
-    week,
-    week: { loaded, error, games }
-  } = state
+  const { picks, week, week: { loaded, error, games } } = state
   const gameIds = [...games.keys()]
 
   return { picks, week, loaded, error, gameIds }

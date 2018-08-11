@@ -18,11 +18,7 @@ export default function Login ({
   user
 }) {
   return (
-    <form
-      className={classes.root}
-      noValidate
-      onSubmit={handleSubmit}
-    >
+    <form className={classes.root} noValidate onSubmit={handleSubmit}>
       <Typography variant='subheading' align='center'>
         Login
       </Typography>

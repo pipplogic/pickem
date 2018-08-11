@@ -6,7 +6,6 @@ import styles from './styles'
 import { buildActionCreators } from './registerDuck'
 import { getRegisterState } from '../reducers'
 
-export default connect(
-  getRegisterState,
-  buildActionCreators(getRegisterState)
-)(withStyles(styles)(Register))
+export default connect(getRegisterState, buildActionCreators(getRegisterState))(
+  withStyles(styles)(Register)
+)

@@ -25,7 +25,7 @@ class Selections extends Component {
       .then(games => {
         actionsForGames(dispatch, picks, games)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.name === 'BadAuth') {
           dispatch(setInvalidAuth(err))
         }
@@ -99,7 +99,9 @@ Selections.propTypes = {
     year: PropTypes.number.isRequired,
     number: PropTypes.number.isRequired
   }).isRequired,
-  games: PropTypes.arrayOf(PropTypes.shape({ gameTime: PropTypes.number.isRequired })).isRequired,
+  games: PropTypes.arrayOf(
+    PropTypes.shape({ gameTime: PropTypes.number.isRequired })
+  ).isRequired,
   picks: PropTypes.any.isRequired
 }
 

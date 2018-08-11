@@ -13,11 +13,11 @@
   "repository": "gitlab:pipplogic/pickem",
   "scripts": {
     "build": "react-scripts build",
-    "dev": "concurrently --kill-others \"npm run dev-server\" \"npm run dev-client\"",
+    "dev": "concurrently --kill-others 'npm run dev-server' 'npm run dev-client'",
     "dev-client": "react-scripts start",
     "dev-server": "nodemon server.js --ignore src",
     "heroku-postbuild": "npm run build",
-    "lint": "standard && eslint src --ext=js,jsx",
+    "lint": "prettier-standard 'src/**/*.*' && standard --fix && eslint src --ext=js,jsx",
     "start": "node server.js",
     "test": "lint && react-scripts test --env=jsdom"
   },
@@ -56,6 +56,7 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-react": "^7.10.0",
     "nodemon": "^1.18.3",
+    "prettier-standard": "^8.0.1",
     "standard": "^11.0.1"
   },
   "proxy": "http://localhost:3002"

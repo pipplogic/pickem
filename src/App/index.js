@@ -5,6 +5,4 @@ import App from './App'
 import { mapDispatch } from './reduxMappers'
 import styles from './styles'
 
-export default connect(
-  null, mapDispatch
-)(withStyles(styles)(App))
+export default connect(null, mapDispatch)(withStyles(styles)(App))
