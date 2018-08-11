@@ -42,6 +42,7 @@ export default function Register ({
         name='last'
         value={last}
         error={Boolean(error)}
+        disabled={submitting}
         onChange={handleInputChange}
       />
       <TextField
@@ -50,16 +51,16 @@ export default function Register ({
         name='email'
         value={email}
         error={Boolean(error)}
+        disabled={submitting}
         onChange={handleInputChange}
       />
 
-      <Button type='submit' variant='raised' color='primary'>
+      <Button type='submit' variant='raised' color='primary' disabled={submitting}>
         Register
         {submitting && (
           <Autorenew className={`${classes.rightIcon} ${classes.load}`} />
         )}
-        {error && <Error className={classes.rightIcon} color='error' />}
-        {!submitting && !error && <Send className={classes.rightIcon} />}
+        {!submitting && <Send className={classes.rightIcon} />}
       </Button>
     </form>
   )
