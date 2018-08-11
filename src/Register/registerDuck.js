@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { registerUser } from '../api'
+import buildInputReducer from '../reducers/buildInputReducer'
 
 const INPUT = 'pickem/register/input'
 const SUBMIT = 'pickem/register/submit'
@@ -42,22 +43,10 @@ const errorReducer = (state = null, action = {}) => {
   }
 }
 
-const buildInputReducer = inputName => (state = '', action = {}) => {
-  if (action.name !== inputName) {
-    return state
-  }
-  switch (action.type) {
-    case INPUT:
-      return action.value
-    default:
-      return state
-  }
-}
-
 export default combineReducers({
-  first: buildInputReducer('first'),
-  last: buildInputReducer('last'),
-  email: buildInputReducer('email'),
+  first: buildInputReducer(INPUT, 'first'),
+  last: buildInputReducer(INPUT, 'last'),
+  email: buildInputReducer(INPUT, 'email'),
   submitting: submittingReducer,
   success: successReducer,
   error: errorReducer
