@@ -10,6 +10,7 @@ import Header from '../Header'
 import Selections from '../Selections'
 import Week from '../Week'
 import Theme from '../Theme'
+import RequireLogin from '../RequireLogin'
 
 const classesProp = (...classNames) =>
   PropTypes.shape(
@@ -29,7 +30,7 @@ export default class App extends React.Component {
   }
 
   render () {
-    const { classes, loggedIn } = this.props
+    const { classes } = this.props
     return (
       <Theme>
         <div className={classes.root}>
@@ -37,30 +38,24 @@ export default class App extends React.Component {
           <Paper classes={{ root: classes.body }}>
             <BrowserRouter>
               <Switch>
-                <Route exact path='/register' render={() => <Register />} />
+                <Route exact path='/register' component={Register} />
                 <Route
                   exact
                   path='/login'
-                  render={() => {
-                    if (loggedIn) {
-                      return <Redirect to='/week' />
-                    }
-                    return <Login />
-                  }}
+                  render={() =>
+                    <RequireLogin loginPage inverted redirectTo='/week'>
+                      <Login />
+                    </RequireLogin>
+                  }
                 />
                 <Route
                   path='/week'
-                  render={() => {
-                    if (!loggedIn) {
-                      return <Redirect to='/login' />
-                    }
-                    return (
-                      <React.Fragment>
-                        <Selections className={classes.selections} />
-                        <Week className={classes.week} />
-                      </React.Fragment>
-                    )
-                  }}
+                  render={() =>
+                    <RequireLogin weekPage redirect>
+                      <Selections className={classes.selections} />
+                      <Week className={classes.week} />
+                    </RequireLogin>
+                  }
                 />
                 <Redirect to='/login' />
               </Switch>
@@ -75,6 +70,5 @@ export default class App extends React.Component {
 
 App.propTypes = {
   classes: classesProp('body', 'root', 'selections', 'week').isRequired,
-  loadExistingSession: PropTypes.func.isRequired,
-  loggedIn: PropTypes.bool.isRequired
+  loadExistingSession: PropTypes.func.isRequired
 }
