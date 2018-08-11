@@ -2,7 +2,6 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Autorenew from '@material-ui/icons/Autorenew'
-import Error from '@material-ui/icons/Error'
 import Send from '@material-ui/icons/Send'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
@@ -44,8 +43,7 @@ export default function Login ({
         {submitting && (
           <Autorenew className={cx(classes.rightIcon, classes.load)} />
         )}
-        {error && <Error className={classes.rightIcon} color='error' />}
-        {!submitting && !error && <Send className={classes.rightIcon} />}
+        {!submitting && <Send className={classes.rightIcon} />}
       </Button>
     </form>
   )
