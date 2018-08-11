@@ -31,7 +31,7 @@ axios.interceptors.response.use(
       setToken(null)
       throw new BadAuthentication('User not authenticated')
     }
-    return error
+    throw error
   }
 )
 
@@ -51,22 +51,12 @@ export function loadWeek (year, week) {
 }
 
 export const registerUser = payload =>
-  axios.post('/api/register', payload).then(resp => {
-    if (resp.status >= 400) {
-      throw new Error('Unable to register')
-    }
-  })
+  axios.post('/api/register', payload)
 
 export function login ({ user, pass }) {
   return axios
     .post('/api/login', { username: user, password: pass })
     .then(resp => {
-      if (resp.status >= 400) {
-        throw new Error('Bad Password')
-      }
       setToken(resp.data)
-    })
-    .catch(() => {
-      throw new Error('Unable to log in')
     })
 }
