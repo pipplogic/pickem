@@ -38,7 +38,12 @@ export default function Login ({
         disabled={submitting}
         error={error}
       />
-      <Button type='submit' variant='raised' color='primary' disabled={submitting}>
+      <Button
+        type='submit'
+        variant='raised'
+        color='primary'
+        disabled={submitting}
+      >
         Login
         {submitting && (
           <Autorenew className={cx(classes.rightIcon, classes.load)} />

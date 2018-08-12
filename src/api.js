@@ -50,8 +50,7 @@ export function loadWeek (year, week) {
     })
 }
 
-export const registerUser = payload =>
-  axios.post('/api/register', payload)
+export const registerUser = payload => axios.post('/api/register', payload)
 
 export function login ({ user, pass }) {
   return axios

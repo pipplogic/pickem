@@ -54,7 +54,12 @@ export default function Register ({
         onChange={handleInputChange}
       />
 
-      <Button type='submit' variant='raised' color='primary' disabled={submitting}>
+      <Button
+        type='submit'
+        variant='raised'
+        color='primary'
+        disabled={submitting}
+      >
         Register
         {submitting && (
           <Autorenew className={`${classes.rightIcon} ${classes.load}`} />

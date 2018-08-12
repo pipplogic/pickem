@@ -70,14 +70,13 @@ export default combineReducers({
   error: errorReducer,
   showPassword: showPasswordReducer,
   token: tokenReducer
-
 })
 
-export const getPassword = ({password}) => password
+export const getPassword = ({ password }) => password
 
-export const getToken = ({token}) => token
+export const getToken = ({ token }) => token
 
-export const setToken = (token) => ({
+export const setToken = token => ({
   type: SET_TOKEN,
   token
 })
@@ -96,7 +95,7 @@ export const buildHandleSubmit = getConfirmState => ev => {
     const password = getPassword(state)
     const token = getToken(state)
 
-    confirmUser({token, password})
+    confirmUser({ token, password })
       .then(() => dispatch({ type: SUCCESS }))
       .catch(err => {
         const error = (err || {}).message || 'Error'

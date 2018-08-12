@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import withStyles from '@material-ui/core/styles/withStyles'
 
-import Confirm from './Confirm'
+import Confirm from './ConfirmUser'
 import styles from './styles'
 import { buildActionCreators } from './confirmDuck'
 import { getConfirmState } from '../reducers'

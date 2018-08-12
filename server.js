@@ -115,6 +115,44 @@ app.post('/api/register', (req, res) => {
   )
 })
 
+app.post('/api/users/confirm', (req, res) => {
+  const {
+    body: {token, password}
+  } = req
+
+  const confirmUserBody = {
+    nonce: token,
+    password
+  }
+
+  request(
+    {
+      url: `${API_HOST}/api/v1/user/confirm`,
+      method: 'POST',
+      auth: {
+        username: API_HOST_USERNAME,
+        password: API_HOST_PASSWORD
+      },
+      json: true,
+      body: confirmUserBody
+    },
+    (error, response, body) => {
+      const statusCode = (error && 502) || (response && response.statusCode) || 502
+      res.status(statusCode)
+
+      if (statusCode >= 400) {
+        console.warn(`Unable to confirm: ${body}`)
+        res.send(`Unable to confirm: ${body}`)
+        return
+      }
+      if (!body) {
+        res.status(204)
+      }
+      res.send(body)
+    }
+  )
+})
+
 app.get('/api/seasons/:year/weeks/:week', (req, res) => {
   const {
     params: { year, week }

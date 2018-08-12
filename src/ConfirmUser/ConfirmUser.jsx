@@ -4,16 +4,16 @@ import Typography from '@material-ui/core/Typography'
 import Autorenew from '@material-ui/icons/Autorenew'
 import Send from '@material-ui/icons/Send'
 import PropTypes from 'prop-types'
-import queryString from 'qs'
+import qs from 'qs'
 import React from 'react'
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 export default class Register extends React.Component {
   constructor (props) {
     super(props)
-    const {history, location, setToken} = this.props
+    const { history, location, setToken } = this.props
 
-    const {token} = queryString.parse(location.search)
+    const { token } = qs.parse(location.search, { ignoreQueryPrefix: true })
     if (!token) {
       return history.push('/login')
     }
@@ -34,14 +34,12 @@ export default class Register extends React.Component {
 
     if (success) {
       // TODO display some confirm action
-      return (
-        <Redirect to='/login' />
-      )
+      return <Redirect to='/login' />
     }
     return (
       <form className={classes.root} noValidate onSubmit={handleSubmit}>
         <Typography variant='subheading' align='center'>
-        Set up password
+          Set up password
         </Typography>
         <TextField
           label='Password'
@@ -52,8 +50,13 @@ export default class Register extends React.Component {
           onChange={handleInputChange}
         />
 
-        <Button type='submit' variant='raised' color='primary' disabled={submitting}>
-        Set Password
+        <Button
+          type='submit'
+          variant='raised'
+          color='primary'
+          disabled={submitting}
+        >
+          Set Password
           {submitting && (
             <Autorenew className={`${classes.rightIcon} ${classes.load}`} />
           )}
@@ -74,8 +77,8 @@ Register.propTypes = {
   error: PropTypes.string,
   handleInputChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  history: PropTypes.shape({push: PropTypes.func.isRequired}).isRequired,
-  location: PropTypes.shape({search: PropTypes.string.isRequired}).isRequired,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  location: PropTypes.shape({ search: PropTypes.string.isRequired }).isRequired,
   setToken: PropTypes.func.isRequired,
   showPassword: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
