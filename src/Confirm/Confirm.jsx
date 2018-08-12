@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import Autorenew from '@material-ui/icons/Autorenew'
 import Send from '@material-ui/icons/Send'
 import PropTypes from 'prop-types'
-import queryString from 'query-string'
+import queryString from 'qs'
 import React from 'react'
 import {Redirect} from 'react-router-dom'
 
