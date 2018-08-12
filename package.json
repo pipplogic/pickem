@@ -36,6 +36,7 @@
     "express-http-to-https": "^1.1.4",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
+    "query-string": "^6.1.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",

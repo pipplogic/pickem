@@ -60,3 +60,7 @@ export function login ({ user, pass }) {
       setToken(resp.data)
     })
 }
+
+export function confirmUser (payload) {
+  return axios.post('/api/users/confirm', payload)
+}

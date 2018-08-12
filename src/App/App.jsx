@@ -9,6 +9,7 @@ import Footer from '../Footer'
 import Header from '../Header'
 import Selections from '../Selections'
 import Week from '../Week'
+import Confirm from '../Confirm'
 import Theme from '../Theme'
 import RequireLogin from '../RequireLogin'
 
@@ -39,6 +40,7 @@ export default class App extends React.Component {
             <BrowserRouter>
               <Switch>
                 <Route exact path='/register' component={Register} />
+                <Route exact path='/confirm' component={Confirm} />
                 <Route
                   exact
                   path='/login'
