@@ -52,6 +52,9 @@ export function loadWeek (year, week) {
 
 export const registerUser = payload => axios.post('/api/register', payload)
 
+export const forgotPasswordForUser = payload =>
+  axios.post('/api/users/forgot-password', payload)
+
 export function login ({ user, pass }) {
   return axios
     .post('/api/login', { username: user, password: pass })

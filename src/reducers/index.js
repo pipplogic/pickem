@@ -6,6 +6,7 @@ import teams from './teams'
 import week from './week'
 import register from '../Register/registerDuck'
 import confirm from '../ConfirmUser/confirmDuck'
+import forgotPassword from '../ForgotPassword/forgotPasswordDuck'
 
 export default combineReducers({
   login,
@@ -13,9 +14,11 @@ export default combineReducers({
   register,
   week,
   teams,
-  confirm
+  confirm,
+  forgotPassword
 })
 
 export const getRegisterState = state => state.register
 export const getLoginState = state => state.login
 export const getConfirmState = state => state.confirm
+export const getForgotPasswordState = state => state.forgotPassword

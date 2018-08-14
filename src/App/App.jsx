@@ -6,6 +6,7 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import Login from '../Login'
 import Register from '../Register'
 import Footer from '../Footer'
+import ForgotPassword from '../ForgotPassword'
 import Header from '../Header'
 import Selections from '../Selections'
 import Week from '../Week'
@@ -40,6 +41,11 @@ export default class App extends React.Component {
             <BrowserRouter>
               <Switch>
                 <Route exact path='/register' component={Register} />
+                <Route
+                  exact
+                  path='/forgot-password'
+                  component={ForgotPassword}
+                />
                 <Route exact path='/confirm' component={ConfirmUser} />
                 <Route
                   exact
