@@ -10,7 +10,7 @@ import { setInvalidAuth } from './Login/loginDuck'
 import { loadWeek } from './api'
 import { actionsForGames } from './loadActions'
 
-const weekOptions = []
+const weekOptions = [-3, -4, -5]
 for (let i = 1; i <= 17; i += 1) {
   weekOptions.push(i)
 }
@@ -62,7 +62,8 @@ class Selections extends Component {
           >
             {weekOptions.map(weekOption => (
               <MenuItem key={weekOption} value={weekOption}>
-                Week {weekOption}
+                {weekOption < 0 && 'Preseason '}
+                Week {Math.abs(weekOption)}
               </MenuItem>
             ))}
           </Select>
