@@ -11,7 +11,7 @@ export default theme => ({
     height: `${theme.spacing.unit * 6}px`,
     width: `${theme.spacing.unit * 6}px`
   },
-  load: {
+  spin: {
     animation: 'spin 2s linear infinite'
   },
   '@keyframes spin': {

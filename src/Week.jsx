@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import { loadGames } from './loadActions'
 import Game from './Game'
 import GameHeader from './GameHeader'
-import WeekStatus from './WeekStatus'
+import StatusPage from './StatusPage'
 
 const styles = theme => {
   const headerColor = theme.palette.grey[200]
@@ -33,11 +33,11 @@ class Week extends Component {
     const { classes, className, error, gameIds, loaded } = this.props
 
     if (!loaded) {
-      return <WeekStatus className={className} status='loading' />
+      return <StatusPage className={className} status='loading' />
     }
 
     if (error) {
-      return <WeekStatus className={className} status='error' />
+      return <StatusPage className={className} status='error' />
     }
 
     return (

@@ -2,9 +2,12 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Autorenew from '@material-ui/icons/Autorenew'
+import MailOutline from '@material-ui/icons/MailOutline'
 import Send from '@material-ui/icons/Send'
 import PropTypes from 'prop-types'
 import React from 'react'
+
+import StatusPage from '../StatusPage'
 
 export default function Register ({
   classes,
@@ -19,9 +22,11 @@ export default function Register ({
 }) {
   if (success) {
     return (
-      <div className={classes.root}>
-        <Typography variant='heading'>Check your email!</Typography>
-      </div>
+      <StatusPage
+        className={classes.root}
+        Icon={MailOutline}
+        text='Check your email'
+      />
     )
   }
   return (
