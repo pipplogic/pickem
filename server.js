@@ -72,123 +72,108 @@ app.post('/api/login', (req, res) => {
   )
 })
 
-app.post('/api/register', (req, res) => {
-  const {
-    body: { first, last, email }
-  } = req
+const proxyRequest = ({url: urlParam, method = 'GET', reqBodyMapper = () => {}, useClientAuth = true}) => (req, res) => {
+  const url = typeof urlParam === 'function' ? urlParam(req) : urlParam
 
-  const host = req.get('host')
-  const confirmUrl = `https://${host}/confirm?token=`
-
-  const createUserBody = {
-    firstName: first,
-    lastName: last,
-    email,
-    clientUrl: confirmUrl
+  const auth = useClientAuth ? {
+    'bearer': req.header('Authorization').substr('Bearer '.length)
+  } : {
+    username: API_HOST_USERNAME,
+    password: API_HOST_PASSWORD
   }
+  const body = reqBodyMapper(req)
 
+  const reqStartTime = new Date().getTime()
   request(
     {
-      url: `${API_HOST}/api/v1/user/register`,
-      method: 'POST',
-      auth: {
-        username: API_HOST_USERNAME,
-        password: API_HOST_PASSWORD
-      },
+      url: `${API_HOST}${url}`,
+      method,
+      auth,
       json: true,
-      body: createUserBody
+      body
     },
-    (error, response, body) => {
+    (error, response, responseBody) => {
       const statusCode = (error && 502) || (response && response.statusCode) || 502
       res.status(statusCode)
+      const reqEndTime = new Date().getTime()
 
       if (statusCode >= 400) {
-        console.warn(`Unable to register: ${body}`)
-        res.send(`Unable to register: ${body}`)
+        res.send(`Error: ${responseBody}`)
+        console.warn(`${statusCode} ${method}: ${url} in ${reqEndTime - reqStartTime}ms`)
         return
       }
-      if (!body) {
+      if (!responseBody) {
         res.status(204)
       }
-      res.send(body)
+      console.log(`${statusCode} ${method}: ${url} in ${reqEndTime - reqStartTime}ms`)
+
+      res.send(responseBody)
     }
   )
-})
+}
 
-app.post('/api/users/confirm', (req, res) => {
-  const {
-    body: {token, password}
-  } = req
+app.post('/api/register', proxyRequest({
+  url: '/api/v1/user/register',
+  method: 'POST',
+  useClientAuth: false,
+  reqBodyMapper: (req) => {
+    const {
+      body: { first, last, email }
+    } = req
+    const host = req.get('host')
+    const confirmUrl = `https://${host}/confirm?token=`
 
-  const confirmUserBody = {
-    nonce: token,
-    password
+    return {
+      firstName: first,
+      lastName: last,
+      email,
+      clientUrl: confirmUrl
+    }
   }
+}))
 
-  request(
-    {
-      url: `${API_HOST}/api/v1/user/confirm`,
-      method: 'POST',
-      auth: {
-        username: API_HOST_USERNAME,
-        password: API_HOST_PASSWORD
-      },
-      json: true,
-      body: confirmUserBody
-    },
-    (error, response, body) => {
-      const statusCode = (error && 502) || (response && response.statusCode) || 502
-      res.status(statusCode)
+app.post('/api/users/forgot-password', proxyRequest({
+  url: '/api/v1/user/forgot-password',
+  method: 'POST',
+  useClientAuth: false,
+  reqBodyMapper: (req) => {
+    const {
+      body: { email }
+    } = req
+    const host = req.get('host')
+    const confirmUrl = `https://${host}/confirm?token=`
 
-      if (statusCode >= 400) {
-        console.warn(`Unable to confirm: ${body}`)
-        res.send(`Unable to confirm: ${body}`)
-        return
-      }
-      if (!body) {
-        res.status(204)
-      }
-      res.send(body)
+    return {
+      userEmail: email,
+      clientUrl: confirmUrl
     }
-  )
-})
+  }
+}))
 
-app.get('/api/seasons/:year/weeks/:week', (req, res) => {
-  const {
-    params: { year, week }
-  } = req
-  const clientAuth = req.header('Authorization')
+app.post('/api/users/confirm', proxyRequest({
+  url: '/api/v1/user/register',
+  method: 'POST',
+  useClientAuth: false,
+  reqBodyMapper: (req) => {
+    const {
+      body: {token, password}
+    } = req
 
-  request(
-    {
-      url: `${API_HOST}/api/v1/games/season/${year}/week/${week}`,
-      method: 'GET',
-      headers: {
-        Authorization: clientAuth
-      }
-    },
-    (error, response, body) => {
-      const statusCode = (error && 502) || (response && response.statusCode) || 502
-      res.status(statusCode)
-
-      let respBody
-      try {
-        respBody = JSON.parse(body)
-      } catch (e) {
-        console.log('Expected json response for week info', body)
-        res.status(502).send('Unexpected response from server')
-        return
-      }
-
-      if (statusCode !== 200) {
-        res.send('Could not retreive week')
-        return
-      }
-
-      res.send(respBody)
+    return {
+      nonce: token,
+      password
     }
-  )
-})
+  }
+}))
+
+app.get('/api/seasons/:year/weeks/:week', proxyRequest({
+  url: req => {
+    const {
+      params: { year, week }
+    } = req
+    return `/api/v1/games/season/${year}/week/${week}`
+  }
+}))
 
 app.get(['/api', '/api/*'], (req, res) => {
   res.status(404).send('Not implemented')
