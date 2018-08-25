@@ -14,10 +14,7 @@ export const mapState = (state, { gameId }) => {
 }
 
 export const mapDispatch = {
-  // TODO use new picks store
-  selectTeam: ({ poolId, gameId, teamId }) => (dispatch, getState) => (
-    ...args2
-  ) => {
+  selectTeam: ({ poolId, gameId, teamId }) => (dispatch, getState) => () => {
     console.log('selecting')
     return dispatch(updateTeamPick({ poolId, gameId, teamId }))
   }

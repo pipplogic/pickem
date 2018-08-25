@@ -1,92 +1,84 @@
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
+import Button from '@material-ui/core/Button'
+import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import moment from 'moment'
-import PropTypes from 'prop-types'
+import ArrowDropDown from '@material-ui/icons/ArrowDropDown'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { PropTypes } from 'prop-types'
 
-import { setInvalidAuth } from './Login/loginDuck'
-import { loadWeekGames } from './api'
-import { actionsForGames } from './loadActions'
-
-const weekOptions = [-3, -4, -5]
+// TODO Put these somewhere...
+let weekOptionNumbers = [-3, -4, -5]
 for (let i = 1; i <= 17; i += 1) {
-  weekOptions.push(i)
+  weekOptionNumbers.push(i)
 }
 
-class Selections extends Component {
-  handleWeekChange (ev) {
-    const { dispatch, week, picks } = this.props
-    const number = ev.target.value
+const valueToText = week =>
+  `${week < 0 ? 'Preseason' : ''}  Week ${Math.abs(week)}`.trim()
 
-    dispatch({ type: 'NEW_WEEK', number })
-    loadWeekGames(week.year, number)
-      .then(games => {
-        actionsForGames(dispatch, picks, games)
-      })
-      .catch(err => {
-        if (err.name === 'BadAuth') {
-          dispatch(setInvalidAuth(err))
-        }
-        dispatch({ type: 'WEEK_ERROR' })
-      })
+const weekOptions = weekOptionNumbers.map(week => ({
+  label: valueToText(week),
+  value: week
+}))
+
+class Selections extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      open: false
+    }
+    this.handleOpen = this.handleOpen.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+  }
+
+  handleOpen (ev) {
+    this.setState({ open: true })
+  }
+  handleClose (ev) {
+    this.setState({ open: false })
   }
 
   render () {
-    const { week, className } = this.props
-
+    const { open } = this.state
+    const { className, currentWeek } = this.props
     return (
       <div className={className}>
-        <FormControl>
-          <Select
-            value={week.number}
-            onChange={ev => this.handleWeekChange(ev)}
-          >
-            {weekOptions.map(weekOption => (
-              <MenuItem key={weekOption} value={weekOption}>
-                {weekOption < 0 && 'Preseason '}
-                Week {Math.abs(weekOption)}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Button
+          buttonRef={node => {
+            this.anchorEl = node
+          }}
+          onClick={this.handleOpen}
+          aria-owns={open ? 'menu' : null}
+          aria-haspopup='true'
+        >
+          {valueToText(currentWeek)}
+          <ArrowDropDown />
+        </Button>
+
+        <Menu
+          id='menu'
+          anchorEl={this.anchorEl}
+          open={open}
+          onClose={this.handleClose}
+        >
+          {weekOptions.map(weekOption => (
+            <MenuItem
+              key={weekOption.value}
+              component={Link}
+              onClick={this.handleClose}
+              to={`/week/${weekOption.value}`}
+            >
+              {weekOption.label}
+            </MenuItem>
+          ))}
+        </Menu>
       </div>
     )
   }
 }
 
-function formatDate (date) {
-  return moment(date).format('ddd, MMM DD')
-}
-
-const mapState = function (state) {
-  const { picks, week } = state
-  const games = Array.from(week.games.values())
-  const gameTimes = games.map(game => game.gameTime)
-
-  const firstGame = Math.min.apply(null, gameTimes)
-  const lastGame = Math.max.apply(null, gameTimes)
-
-  let msg = 'Loading...'
-  if (Number.isFinite(firstGame)) {
-    msg = `${formatDate(firstGame)} to ${formatDate(lastGame)}`
-  }
-
-  return { picks, week, msg, games }
-}
-
 Selections.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   className: PropTypes.string,
-  week: PropTypes.shape({
-    year: PropTypes.number.isRequired,
-    number: PropTypes.number.isRequired
-  }).isRequired,
-  games: PropTypes.arrayOf(
-    PropTypes.shape({ gameTime: PropTypes.number.isRequired })
-  ).isRequired,
-  picks: PropTypes.any.isRequired
+  currentWeek: PropTypes.string
 }
 
-export default connect(mapState)(Selections)
+export default Selections

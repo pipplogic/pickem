@@ -3,7 +3,8 @@ import {
   getActivePool,
   isGameLocked,
   getPickScore,
-  getScoreOptions, updatePickPoints
+  getScoreOptions,
+  updatePickPoints
 } from '../reducers'
 
 export const mapState = (state, { gameId }) => {
