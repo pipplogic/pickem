@@ -7,7 +7,7 @@ import React from 'react'
 
 function DateTime ({ date, classes, className }) {
   const mo = moment(date)
-  const weekday = mo.format('ddd')
+  const weekday = mo.format('ddd MMM DD')
   const time = mo.format('hh:mm A')
 
   return (
