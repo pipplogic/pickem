@@ -5,6 +5,15 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { requireStrings } from './propType'
+import {
+  getWeekState,
+  isGameLocked,
+  getPickTeamId,
+  getActivePool
+} from './reducers'
+import { getTeamById } from './WeekView/weekDuck'
+
 const styles = theme => ({
   btn: {
     [theme.breakpoints.up('sm')]: {
@@ -40,20 +49,8 @@ function Team ({ classes, className, team, onClick, selected, locked }) {
     </Button>
   )
 }
-
-const classesProp = (...classNames) =>
-  PropTypes.shape(
-    classNames.reduce(
-      (propType, className) => ({
-        ...propType,
-        [className]: PropTypes.string.isRequired
-      }),
-      {}
-    )
-  ).isRequired
-
 Team.propTypes = {
-  classes: classesProp('btn', 'team', 'location'),
+  classes: requireStrings('btn', 'team', 'location'),
   className: PropTypes.string,
   team: PropTypes.shape({
     city: PropTypes.string.isRequired,
@@ -65,13 +62,17 @@ Team.propTypes = {
 }
 
 Team.defaultProps = {
-  // onClick: () => {}
+  onClick: () => {}
 }
 
-const mapState = ({ picks, teams }, { gameId, teamId }) => {
-  const team = teams.get(teamId)
-  const { locked, teamId: pickedTeam } = picks.get(gameId)
-  const selected = pickedTeam === teamId
+const mapState = (state, { gameId, teamId }) => {
+  const weekState = getWeekState(state)
+
+  const team = getTeamById(weekState)(teamId)
+
+  const poolId = getActivePool(state)
+  const selected = getPickTeamId(state)(poolId)(gameId) === teamId
+  const locked = isGameLocked(state)(gameId)
 
   return { team, selected, locked }
 }

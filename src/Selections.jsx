@@ -7,7 +7,7 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 
 import { setInvalidAuth } from './Login/loginDuck'
-import { loadWeek } from './api'
+import { loadWeekGames } from './api'
 import { actionsForGames } from './loadActions'
 
 const weekOptions = [-3, -4, -5]
@@ -21,24 +21,7 @@ class Selections extends Component {
     const number = ev.target.value
 
     dispatch({ type: 'NEW_WEEK', number })
-    loadWeek(week.year, number)
-      .then(games => {
-        actionsForGames(dispatch, picks, games)
-      })
-      .catch(err => {
-        if (err.name === 'BadAuth') {
-          dispatch(setInvalidAuth(err))
-        }
-        dispatch({ type: 'WEEK_ERROR' })
-      })
-  }
-
-  handleYearChange (ev) {
-    const { dispatch, week, picks } = this.props
-    const year = ev.target.value
-
-    dispatch({ type: 'NEW_YEAR', year })
-    loadWeek(year, week.number)
+    loadWeekGames(week.year, number)
       .then(games => {
         actionsForGames(dispatch, picks, games)
       })

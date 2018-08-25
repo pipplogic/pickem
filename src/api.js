@@ -35,7 +35,7 @@ axios.interceptors.response.use(
   }
 )
 
-export function loadWeek (year, week) {
+export function loadWeekGames (year, week) {
   return axios
     .get(`/api/seasons/${year}/weeks/${week}`, {
       headers: {
@@ -48,6 +48,16 @@ export function loadWeek (year, week) {
       }
       return games
     })
+}
+
+export function loadWeek (year, week) {
+  return axios
+    .get(`/api/seasons/${year}/weeks/${week}`, {
+      headers: {
+        Authorization: authToken
+      }
+    })
+    .then(({ data }) => data)
 }
 
 export const registerUser = payload => axios.post('/api/register', payload)

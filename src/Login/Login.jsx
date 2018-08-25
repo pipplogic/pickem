@@ -6,6 +6,7 @@ import Send from '@material-ui/icons/Send'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Login ({
   classes,
@@ -50,6 +51,14 @@ export default function Login ({
         )}
         {!submitting && <Send className={classes.rightIcon} />}
       </Button>
+      <div>
+        <Typography>
+          <Link to='/register'>Register Here</Link>
+        </Typography>
+        <Typography>
+          <Link to='/forgot-password'>Forgot Password?</Link>
+        </Typography>
+      </div>
     </form>
   )
 }

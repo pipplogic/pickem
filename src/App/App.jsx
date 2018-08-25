@@ -8,22 +8,11 @@ import Register from '../Register'
 import Footer from '../Footer'
 import ForgotPassword from '../ForgotPassword'
 import Header from '../Header'
-import Selections from '../Selections'
-import Week from '../Week'
 import ConfirmUser from '../ConfirmUser'
 import Theme from '../Theme'
 import RequireLogin from '../RequireLogin'
-
-const classesProp = (...classNames) =>
-  PropTypes.shape(
-    classNames.reduce(
-      (propType, className) => ({
-        ...propType,
-        [className]: PropTypes.string.isRequired
-      }),
-      {}
-    )
-  )
+import WeekView from '../WeekView'
+import { requireStrings } from '../propType'
 
 export default class App extends React.Component {
   componentDidMount () {
@@ -51,17 +40,19 @@ export default class App extends React.Component {
                   exact
                   path='/login'
                   render={() => (
-                    <RequireLogin loginPage inverted redirectTo='/week'>
+                    <RequireLogin inverted redirectTo='/week/1'>
                       <Login />
                     </RequireLogin>
                   )}
                 />
                 <Route
-                  path='/week'
-                  render={() => (
-                    <RequireLogin weekPage redirect>
-                      <Selections className={classes.selections} />
-                      <Week className={classes.week} />
+                  path='/week/:weekNumber'
+                  render={({ match: { params: { weekNumber } } }) => (
+                    <RequireLogin redirect>
+                      <WeekView
+                        weekNumber={weekNumber}
+                        className={classes.week}
+                      />
                     </RequireLogin>
                   )}
                 />
@@ -77,6 +68,6 @@ export default class App extends React.Component {
 }
 
 App.propTypes = {
-  classes: classesProp('body', 'root', 'selections', 'week').isRequired,
+  classes: requireStrings('body', 'root', 'selections', 'week'),
   loadExistingSession: PropTypes.func.isRequired
 }

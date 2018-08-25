@@ -4,15 +4,24 @@ import Select from '@material-ui/core/Select'
 import Lock from '@material-ui/icons/Lock'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { idType } from '../propType'
 
-function PointPicker ({ className, pick, options, handlePointChange }) {
+function PointPicker ({
+  className,
+  score,
+  options,
+  locked,
+  poolId,
+  handleScoreChangeForPool,
+  gameId
+}) {
   return (
     <FormControl className={className}>
       <Select
-        value={pick.score || ''}
-        onChange={handlePointChange}
-        IconComponent={pick.locked ? Lock : undefined}
-        disabled={pick.locked}
+        value={score}
+        onChange={handleScoreChangeForPool({ poolId, gameId })}
+        IconComponent={locked ? Lock : undefined}
+        disabled={locked}
       >
         {options.map(option => (
           <MenuItem key={option} value={option}>
@@ -26,11 +35,11 @@ function PointPicker ({ className, pick, options, handlePointChange }) {
 
 PointPicker.propTypes = {
   className: PropTypes.string,
-  handlePointChange: PropTypes.func.isRequired,
-  pick: PropTypes.shape({
-    locked: PropTypes.bool,
-    score: PropTypes.number
-  }).isRequired,
+  gameId: idType.isRequired,
+  handleScoreChangeForPool: PropTypes.func.isRequired,
+  locked: PropTypes.bool.isRequired,
+  poolId: idType.isRequired,
+  score: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   options: PropTypes.arrayOf(PropTypes.number).isRequired
 }
 

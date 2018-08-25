@@ -151,7 +151,7 @@ app.post('/api/users/forgot-password', proxyRequest({
 }))
 
 app.post('/api/users/confirm', proxyRequest({
-  url: '/api/v1/user/register',
+  url: '/api/v1/user/confirm',
   method: 'POST',
   useClientAuth: false,
   reqBodyMapper: (req) => {
@@ -183,5 +183,20 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 
-app.listen(PORT)
+console.log('try to start up', process.pid)
+const server = app.listen(PORT)
+
 console.log(`Running on port ${PORT}`)
+
+const handleShutdown = () => {
+  console.log('Shutting down...', process.pid)
+  server.close()
+}
+
+process.on('cleanup', handleShutdown)
+process.on('exit', handleShutdown)
+
+process.once('SIGUSR2', function () {
+  handleShutdown()
+  process.kill(process.pid, 'SIGUSR2')
+})

@@ -1,27 +1,31 @@
-import { getAvailableScores } from '../scoreUtils'
+import {
+  getGameById,
+  getActivePool,
+  isGameLocked,
+  getPickScore
+} from '../reducers'
+import { getScoreOptions, pickPoints } from '../reducers/pickPoints'
 
-export const mapState = ({ picks, week: { games } }, { gameId }) => {
-  const pick = picks.get(gameId)
-  const gameIds = [...games.keys()]
+export const mapState = (state, { gameId }) => {
+  const game = getGameById(state)(gameId)
+  const locked = isGameLocked(state)(gameId)
 
-  const options = pick.locked
-    ? [pick.score]
-    : getAvailableScores(gameIds, picks)
+  const poolId = getActivePool(state)
+  const score = getPickScore(state)(poolId)(gameId) || ''
 
-  return { pick, picks, gameIds, options }
+  const options = getScoreOptions(state)(poolId)(game.weekId)
+
+  return { score, options, locked, poolId }
 }
 
-export const mapDispatch = (dispatch, { gameId }) => ({
-  handlePointChangeForGames: gameIds => ev => {
-    const score = ev.target.value
-
-    dispatch({ type: 'SCORE_MOVE', gameId, gameIds, score })
+export const mapDispatch = {
+  handleScoreChangeForPool: ({ poolId, gameId }) => (
+    dispatch,
+    getState
+  ) => ev => {
+    return pickPoints({ gameId, poolId, score: ev.target.value })(
+      dispatch,
+      getState
+    )
   }
-})
-
-export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...stateProps,
-  handlePointChange: ev =>
-    dispatchProps.handlePointChangeForGames(stateProps.gameIds)(ev),
-  ...ownProps
-})
+}

@@ -1,0 +1,276 @@
+{
+  "games": [
+    {
+      "gameId": 871,
+      "homeTeam": {
+        "teamId": 20,
+        "city": "Philadelphia",
+        "teamName": "Eagles",
+        "abbreviation": "PHI"
+      },
+      "awayTeam": {
+        "teamId": 32,
+        "city": "Atlanta",
+        "teamName": "Falcons",
+        "abbreviation": "ATL"
+      },
+      "gameTime": "2018-09-06 20:20",
+      "gameTimeEpoch": 1536279600000
+    },
+    {
+      "gameId": 872,
+      "homeTeam": {
+        "teamId": 10,
+        "city": "Baltimore",
+        "teamName": "Ravens",
+        "abbreviation": "BAL"
+      },
+      "awayTeam": {
+        "teamId": 13,
+        "city": "Buffalo",
+        "teamName": "Bills",
+        "abbreviation": "BUF"
+      },
+      "gameTime": "2018-09-09 13:00",
+      "gameTimeEpoch": 1536512400000
+    },
+    {
+      "gameId": 873,
+      "homeTeam": {
+        "teamId": 1,
+        "city": "Indianapolis",
+        "teamName": "Colts",
+        "abbreviation": "IND"
+      },
+      "awayTeam": {
+        "teamId": 16,
+        "city": "Cincinnati",
+        "teamName": "Bengals",
+        "abbreviation": "CIN"
+      },
+      "gameTime": "2018-09-09 13:00",
+      "gameTimeEpoch": 1536512400000
+    },
+    {
+      "gameId": 874,
+      "homeTeam": {
+        "teamId": 28,
+        "city": "New England",
+        "teamName": "Patriots",
+        "abbreviation": "NE"
+      },
+      "awayTeam": {
+        "teamId": 8,
+        "city": "Houston",
+        "teamName": "Texans",
+        "abbreviation": "HOU"
+      },
+      "gameTime": "2018-09-09 13:00",
+      "gameTimeEpoch": 1536512400000
+    },
+    {
+      "gameId": 875,
+      "homeTeam": {
+        "teamId": 19,
+        "city": "New York",
+        "teamName": "Giants",
+        "abbreviation": "NYG"
+      },
+      "awayTeam": {
+        "teamId": 7,
+        "city": "Jacksonville",
+        "teamName": "Jaguars",
+        "abbreviation": "JAX"
+      },
+      "gameTime": "2018-09-09 13:00",
+      "gameTimeEpoch": 1536512400000
+    },
+    {
+      "gameId": 876,
+      "homeTeam": {
+        "teamId": 9,
+        "city": "Cleveland",
+        "teamName": "Browns",
+        "abbreviation": "CLE"
+      },
+      "awayTeam": {
+        "teamId": 27,
+        "city": "Pittsburgh",
+        "teamName": "Steelers",
+        "abbreviation": "PIT"
+      },
+      "gameTime": "2018-09-09 13:00",
+      "gameTimeEpoch": 1536512400000
+    },
+    {
+      "gameId": 877,
+      "homeTeam": {
+        "teamId": 15,
+        "city": "Minnesota",
+        "teamName": "Vikings",
+        "abbreviation": "MIN"
+      },
+      "awayTeam": {
+        "teamId": 25,
+        "city": "San Francisco",
+        "teamName": "49ers",
+        "abbreviation": "SF"
+      },
+      "gameTime": "2018-09-09 13:00",
+      "gameTimeEpoch": 1536512400000
+    },
+    {
+      "gameId": 878,
+      "homeTeam": {
+        "teamId": 21,
+        "city": "New Orleans",
+        "teamName": "Saints",
+        "abbreviation": "NO"
+      },
+      "awayTeam": {
+        "teamId": 31,
+        "city": "Tampa Bay",
+        "teamName": "Buccaneers",
+        "abbreviation": "TB"
+      },
+      "gameTime": "2018-09-09 13:00",
+      "gameTimeEpoch": 1536512400000
+    },
+    {
+      "gameId": 879,
+      "homeTeam": {
+        "teamId": 14,
+        "city": "Miami",
+        "teamName": "Dolphins",
+        "abbreviation": "MIA"
+      },
+      "awayTeam": {
+        "teamId": 26,
+        "city": "Tennessee",
+        "teamName": "Titans",
+        "abbreviation": "TEN"
+      },
+      "gameTime": "2018-09-09 13:00",
+      "gameTimeEpoch": 1536512400000
+    },
+    {
+      "gameId": 880,
+      "homeTeam": {
+        "teamId": 6,
+        "city": "Los Angeles",
+        "teamName": "Chargers",
+        "abbreviation": "LAC"
+      },
+      "awayTeam": {
+        "teamId": 5,
+        "city": "Kansas City",
+        "teamName": "Chiefs",
+        "abbreviation": "KC"
+      },
+      "gameTime": "2018-09-09 16:05",
+      "gameTimeEpoch": 1536523500000
+    },
+    {
+      "gameId": 881,
+      "homeTeam": {
+        "teamId": 11,
+        "city": "Carolina",
+        "teamName": "Panthers",
+        "abbreviation": "CAR"
+      },
+      "awayTeam": {
+        "teamId": 30,
+        "city": "Dallas",
+        "teamName": "Cowboys",
+        "abbreviation": "DAL"
+      },
+      "gameTime": "2018-09-09 16:25",
+      "gameTimeEpoch": 1536524700000
+    },
+    {
+      "gameId": 882,
+      "homeTeam": {
+        "teamId": 2,
+        "city": "Denver",
+        "teamName": "Broncos",
+        "abbreviation": "DEN"
+      },
+      "awayTeam": {
+        "teamId": 23,
+        "city": "Seattle",
+        "teamName": "Seahawks",
+        "abbreviation": "SEA"
+      },
+      "gameTime": "2018-09-09 16:25",
+      "gameTimeEpoch": 1536524700000
+    },
+    {
+      "gameId": 883,
+      "homeTeam": {
+        "teamId": 18,
+        "city": "Arizona",
+        "teamName": "Cardinals",
+        "abbreviation": "ARI"
+      },
+      "awayTeam": {
+        "teamId": 17,
+        "city": "Washington",
+        "teamName": "Redskins",
+        "abbreviation": "WAS"
+      },
+      "gameTime": "2018-09-09 16:25",
+      "gameTimeEpoch": 1536524700000
+    },
+    {
+      "gameId": 884,
+      "homeTeam": {
+        "teamId": 12,
+        "city": "Green Bay",
+        "teamName": "Packers",
+        "abbreviation": "GB"
+      },
+      "awayTeam": {
+        "teamId": 4,
+        "city": "Chicago",
+        "teamName": "Bears",
+        "abbreviation": "CHI"
+      },
+      "gameTime": "2018-09-09 20:20",
+      "gameTimeEpoch": 1536538800000
+    },
+    {
+      "gameId": 885,
+      "homeTeam": {
+        "teamId": 3,
+        "city": "Detroit",
+        "teamName": "Lions",
+        "abbreviation": "DET"
+      },
+      "awayTeam": {
+        "teamId": 22,
+        "city": "New York",
+        "teamName": "Jets",
+        "abbreviation": "NYJ"
+      },
+      "gameTime": "2018-09-10 19:10",
+      "gameTimeEpoch": 1536621000000
+    },
+    {
+      "gameId": 886,
+      "homeTeam": {
+        "teamId": 29,
+        "city": "Oakland",
+        "teamName": "Raiders",
+        "abbreviation": "OAK"
+      },
+      "awayTeam": {
+        "teamId": 24,
+        "city": "Los Angeles",
+        "teamName": "Rams",
+        "abbreviation": "LA"
+      },
+      "gameTime": "2018-09-10 22:20",
+      "gameTimeEpoch": 1536632400000
+    }
+  ]
+}

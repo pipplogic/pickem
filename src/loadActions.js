@@ -1,4 +1,4 @@
-import { loadWeek } from './api'
+import { loadWeekGames } from './api'
 import { getAvailableScores } from './scoreUtils'
 import { setInvalidAuth } from './Login/loginDuck'
 
@@ -51,7 +51,7 @@ export function actionsForGames (dispatch, picks, games) {
 }
 
 export function loadGames (dispatch, picks, week) {
-  loadWeek(week.year, week.number)
+  loadWeekGames(week.year, week.number)
     .then(games => {
       actionsForGames(dispatch, picks, games)
     })

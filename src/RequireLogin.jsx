@@ -17,8 +17,10 @@ const RequireLogin = ({
   redirect,
   redirectTo
 }) => {
-  const shouldShow =
-    (loggedIn && !inverted) || (!loggedIn && initialized && inverted)
+  if (!initialized) {
+    return null
+  }
+  const shouldShow = (loggedIn && !inverted) || (!loggedIn && inverted)
 
   if (shouldShow) {
     return children
