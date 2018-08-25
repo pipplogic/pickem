@@ -11,7 +11,7 @@ import Header from '../Header'
 import ConfirmUser from '../ConfirmUser'
 import Theme from '../Theme'
 import RequireLogin from '../RequireLogin'
-import WeekView from '../WeekView'
+import Week from '../Week'
 import { requireStrings } from '../propType'
 
 export default class App extends React.Component {
@@ -49,10 +49,7 @@ export default class App extends React.Component {
                   path='/week/:weekNumber'
                   render={({ match: { params: { weekNumber } } }) => (
                     <RequireLogin redirect>
-                      <WeekView
-                        weekNumber={weekNumber}
-                        className={classes.week}
-                      />
+                      <Week weekNumber={weekNumber} className={classes.week} />
                     </RequireLogin>
                   )}
                 />

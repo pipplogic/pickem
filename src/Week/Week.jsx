@@ -10,7 +10,7 @@ import Game from '../Game'
 import GameHeader from '../GameHeader'
 import { idType, requireStrings } from '../propType'
 
-class WeekView extends Component {
+class Week extends Component {
   componentDidMount () {
     this.loadWeek()
   }
@@ -57,7 +57,7 @@ class WeekView extends Component {
   }
 }
 
-WeekView.propTypes = {
+Week.propTypes = {
   weekNumber: idType.isRequired,
   className: PropTypes.string,
   classes: requireStrings('header'),
@@ -67,4 +67,4 @@ WeekView.propTypes = {
   gameIds: PropTypes.arrayOf(idType.isRequired).isRequired
 }
 
-export default WeekView
+export default Week

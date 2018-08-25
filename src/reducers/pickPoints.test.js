@@ -1,5 +1,5 @@
 /* eslint-env jest  */
-import { getScoreOptions, pickPoints } from './pickPoints'
+import { getScoreOptions, updatePickPoints } from './pickPoints'
 import { addError } from './status'
 import { getPickId, updateScore, switchScores } from './picksDuck'
 
@@ -11,14 +11,16 @@ const poolId = 'pool1'
 
 const state = {
   pools: {
-    [poolId]: {
-      scoring: [1, 2, 3, 10]
-    },
-    pool2: {
-      scoring: [1, 1, 1, 1, 5, 6, 7]
+    byId: {
+      [poolId]: {
+        scoring: [1, 2, 3, 10]
+      },
+      pool2: {
+        scoring: [1, 1, 1, 1, 5, 6, 7]
+      }
     }
   },
-  weekView: {
+  week: {
     games: {
       oldGame: {
         gameTime: past,
@@ -92,7 +94,7 @@ describe('pointOptions', () => {
   })
 })
 
-describe('pickPoints', () => {
+describe('updatePickPoints', () => {
   let dispatch = jest.fn()
 
   beforeEach(() => {
@@ -100,7 +102,7 @@ describe('pickPoints', () => {
   })
 
   it('should not change points for game in the past', () => {
-    pickPoints({
+    updatePickPoints({
       gameId: 'oldGame',
       poolId,
       score: 42
@@ -118,7 +120,7 @@ describe('pickPoints', () => {
   it('should allow changing to unpicked score', () => {
     const score = 42
     const gameId = 'game1'
-    pickPoints({
+    updatePickPoints({
       gameId,
       poolId,
       score
@@ -136,7 +138,7 @@ describe('pickPoints', () => {
   it('should allow changing to a score picked a different week', () => {
     const gameId = 'game1'
     const score = 5
-    pickPoints({
+    updatePickPoints({
       gameId,
       poolId,
       score
@@ -154,7 +156,7 @@ describe('pickPoints', () => {
   it('should allow changing to a score from a frozen game', () => {
     const gameId = 'game1'
     const score = 10
-    pickPoints({
+    updatePickPoints({
       gameId,
       poolId,
       score
@@ -172,7 +174,7 @@ describe('pickPoints', () => {
   it('should be able to flip 2 picks', () => {
     const gameId = 'game1'
     const score = 2
-    pickPoints({
+    updatePickPoints({
       gameId,
       poolId,
       score

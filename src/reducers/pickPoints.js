@@ -1,4 +1,4 @@
-import { getGameById, getGameIdsForWeek } from '../WeekView/weekDuck'
+import { getGameById, getGameIdsForWeek } from '../Week/weekDuck'
 import { getWeekState, getPicksState, getPoolsState } from '../reducers'
 import { getPick, switchScores, updateScore } from './picksDuck'
 import { addError } from './status'
@@ -42,7 +42,7 @@ export const getScoreOptions = state => poolId => weekId => {
   }, allScoringOptions)
 }
 
-export const pickPoints = ({ gameId, poolId, score }) => (
+export const updatePickPoints = ({ gameId, poolId, score }) => (
   dispatch,
   getState
 ) => {

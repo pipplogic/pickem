@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import withStyles from '@material-ui/core/styles/withStyles'
 
-import WeekView from './WeekView'
+import Week from './Week'
 import styles from './styles'
 import { loadWeek, getGameIdsForWeek } from './weekDuck'
 import { getWeekState } from '../reducers'
@@ -15,6 +15,4 @@ const mapStateToProps = (state, { weekNumber }) => {
   return { loading, error, gameIds }
 }
 
-export default connect(mapStateToProps, { loadWeek })(
-  withStyles(styles)(WeekView)
-)
+export default connect(mapStateToProps, { loadWeek })(withStyles(styles)(Week))

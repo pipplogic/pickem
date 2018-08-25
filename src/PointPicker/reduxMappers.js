@@ -2,9 +2,9 @@ import {
   getGameById,
   getActivePool,
   isGameLocked,
-  getPickScore
+  getPickScore,
+  getScoreOptions, updatePickPoints
 } from '../reducers'
-import { getScoreOptions, pickPoints } from '../reducers/pickPoints'
 
 export const mapState = (state, { gameId }) => {
   const game = getGameById(state)(gameId)
@@ -23,7 +23,7 @@ export const mapDispatch = {
     dispatch,
     getState
   ) => ev => {
-    return pickPoints({ gameId, poolId, score: ev.target.value })(
+    return updatePickPoints({ gameId, poolId, score: ev.target.value })(
       dispatch,
       getState
     )

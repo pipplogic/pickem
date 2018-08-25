@@ -1,27 +1,22 @@
 import { combineReducers } from 'redux'
 
 import login from '../Login/loginDuck'
-import picks from './picks'
-import teams from './teams'
-import week from './week'
 import status from './status'
 
 import register from '../Register/registerDuck'
 import confirm from '../ConfirmUser/confirmDuck'
 import forgotPassword from '../ForgotPassword/forgotPasswordDuck'
-import weekView, * as fromWeek from '../WeekView/weekDuck'
+import week, * as fromWeek from '../Week/weekDuck'
 import picksDuck, * as fromPicks from './picksDuck'
 import pools, * as fromPools from './pools'
+import * as fromPickPoints from './pickPoints'
 
 export default combineReducers({
   login,
-  picks,
   register,
-  week,
-  teams,
   confirm,
   forgotPassword,
-  weekView,
+  week,
   picksDuck,
   status,
   pools
@@ -31,7 +26,7 @@ export const getRegisterState = state => state.register
 export const getLoginState = state => state.login
 export const getConfirmState = state => state.confirm
 export const getForgotPasswordState = state => state.forgotPassword
-export const getWeekState = state => state.weekView
+export const getWeekState = state => state.week
 export const getPicksState = state => state.picksDuck
 export const getPoolsState = state => state.pools
 
@@ -52,3 +47,5 @@ export const isGameLocked = state => gameId => {
 }
 
 export const updateTeamPick = fromPicks.updateTeamPick
+export const updatePickPoints = fromPickPoints.updatePickPoints
+export const getScoreOptions = fromPickPoints.getScoreOptions

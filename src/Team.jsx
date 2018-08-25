@@ -12,7 +12,7 @@ import {
   getPickTeamId,
   getActivePool
 } from './reducers'
-import { getTeamById } from './WeekView/weekDuck'
+import { getTeamById } from './Week/weekDuck'
 
 const styles = theme => ({
   btn: {
