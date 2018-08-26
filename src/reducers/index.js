@@ -32,12 +32,19 @@ export const getPoolsState = state => state.pools
 
 export const getActivePool = state =>
   fromPools.getActivePool(getPoolsState(state))
+
 export const getGameById = state => gameId =>
   fromWeek.getGameById(getWeekState(state))(gameId)
-const getPick = state => poolId => gameId =>
-  fromPicks.getPick(getPicksState(state))(poolId)(gameId) || {}
+
+export const getGameIdsForWeek = state => weekId =>
+  fromWeek.getGameIdsForWeek(getWeekState(state))(weekId)
+
+export const getPick = state => poolId => gameId =>
+  fromPicks.getPick(getPicksState(state))(poolId)(gameId) || { gameId, poolId }
+
 export const getPickScore = state => poolId => gameId =>
   getPick(state)(poolId)(gameId).score
+
 export const getPickTeamId = state => poolId => gameId =>
   getPick(state)(poolId)(gameId).teamId
 
@@ -49,3 +56,4 @@ export const isGameLocked = state => gameId => {
 export const updateTeamPick = fromPicks.updateTeamPick
 export const updatePickPoints = fromPickPoints.updatePickPoints
 export const getScoreOptions = fromPickPoints.getScoreOptions
+export const addPicks = fromPicks.addPicks

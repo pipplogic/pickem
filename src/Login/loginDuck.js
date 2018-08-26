@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 
 import { login } from '../api'
 import buildInputReducer from '../reducers/buildInputReducer'
+import { loadPools } from '../reducers/pools'
 
 const INPUT = 'pickem/login/input'
 const SUBMIT = 'pickem/login/submit'
@@ -107,6 +108,8 @@ export const buildHandleSubmit = getLoginState => ev => {
           name: 'pass',
           value: ''
         })
+        // TODO find a different place to load these?
+        loadPools()(dispatch)
       })
       .catch(err => {
         const error = (err || {}).message || 'Unable to login'

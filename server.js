@@ -72,11 +72,11 @@ app.post('/api/login', (req, res) => {
   )
 })
 
-const proxyRequest = ({url: urlParam, method = 'GET', reqBodyMapper = () => {}, useClientAuth = true}) => (req, res) => {
+const proxyRequest = ({url: urlParam, method = 'GET', reqBodyMapper = (req) => (req.body), useClientAuth = true}) => (req, res) => {
   const url = typeof urlParam === 'function' ? urlParam(req) : urlParam
 
   const auth = useClientAuth ? {
-    'bearer': req.header('Authorization').substr('Bearer '.length)
+    'bearer': (req.header('Authorization') || '').substr('Bearer '.length)
   } : {
     username: API_HOST_USERNAME,
     password: API_HOST_PASSWORD
@@ -175,6 +175,43 @@ app.get('/api/seasons/:year/weeks/:week', proxyRequest({
   }
 }))
 
+app.get('/api/seasons/:year/weeks/:week', proxyRequest({
+  url: req => {
+    const {
+      params: { year, week }
+    } = req
+    return `/api/v1/games/season/${year}/week/${week}`
+  }
+}))
+
+app.get('/api/pools', proxyRequest({
+  url: '/api/v1/pool/list'
+}))
+
+app.get('/api/pools/:poolId/options', proxyRequest({
+  url: req => {
+    const {
+      params: { poolId }
+    } = req
+    return `/api/v1/picks/values?poolId=${poolId}&season=2018&week=1`
+  }
+}))
+
+app.get('/api/picks', proxyRequest({
+  url: req => {
+    const {
+      query: { poolId, weekId }
+    } = req
+    const seasonId = 2018
+    return `/api/v1/picks/pool/${poolId}/season/${seasonId}/week/${weekId}`
+  }
+}))
+
+app.post('/api/picks', proxyRequest({
+  url: '/api/v1/picks',
+  method: 'POST'
+}))
+
 app.get(['/api', '/api/*'], (req, res) => {
   res.status(404).send('Not implemented')
 })
@@ -183,13 +220,12 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 
-console.log('try to start up', process.pid)
 const server = app.listen(PORT)
 
 console.log(`Running on port ${PORT}`)
 
 const handleShutdown = () => {
-  console.log('Shutting down...', process.pid)
+  console.log('Shutting down...')
   server.close()
 }
 

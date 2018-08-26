@@ -14,8 +14,6 @@ export const mapState = (state, { gameId }) => {
 }
 
 export const mapDispatch = {
-  selectTeam: ({ poolId, gameId, teamId }) => (dispatch, getState) => () => {
-    console.log('selecting')
-    return dispatch(updateTeamPick({ poolId, gameId, teamId }))
-  }
+  selectTeam: ({ poolId, gameId, teamId }) => (dispatch, getState) => () =>
+    dispatch(updateTeamPick({ poolId, gameId, teamId }))
 }

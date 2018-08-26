@@ -4,6 +4,10 @@ export default theme => {
     header: {
       color: theme.palette.getContrastText(headerColor),
       backgroundColor: headerColor
+    },
+    actions: {
+      display: 'flex',
+      justifyContent: 'center'
     }
   }
 }

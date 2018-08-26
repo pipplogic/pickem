@@ -1,4 +1,7 @@
-export default (actionType, inputName) => (state = '', action = {}) => {
+export default (actionType, inputName, initial = '') => (
+  state = initial,
+  action = {}
+) => {
   if (action.name !== inputName) {
     return state
   }

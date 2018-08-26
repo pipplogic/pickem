@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 const TEAM = 'pickem/picks/team'
 const SCORE = 'pickem/picks/score'
 const SWITCH_SCORES = 'pickem/picks/switch'
+const PICKS_LOADED = 'pickem/picks/loaded'
 
 const picksByIdReducer = (state = {}, action = {}) => {
   switch (action.type) {
@@ -30,6 +31,20 @@ const picksByIdReducer = (state = {}, action = {}) => {
         }
       }
     }
+    case PICKS_LOADED: {
+      const picksMap = action.picks.reduce(
+        (newPicksById, pick) => ({
+          ...newPicksById,
+          [getPickId(pick)]: pick
+        }),
+        {}
+      )
+
+      return {
+        ...state,
+        ...picksMap
+      }
+    }
     default: {
       return state
     }
@@ -49,7 +64,9 @@ export const updateTeamPick = ({ poolId, gameId, teamId }) => ({
   type: TEAM,
   id: getPickId({ poolId, gameId }),
   payload: {
-    teamId
+    teamId,
+    poolId,
+    gameId
   }
 })
 
@@ -67,4 +84,9 @@ export const switchScores = ({ poolId, gameId1, gameId2 }) => ({
   type: SWITCH_SCORES,
   id1: getPickId({ poolId, gameId: gameId1 }),
   id2: getPickId({ poolId, gameId: gameId2 })
+})
+
+export const addPicks = picks => ({
+  type: PICKS_LOADED,
+  picks
 })

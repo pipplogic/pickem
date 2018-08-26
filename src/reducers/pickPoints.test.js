@@ -11,13 +11,9 @@ const poolId = 'pool1'
 
 const state = {
   pools: {
-    byId: {
-      [poolId]: {
-        scoring: [1, 2, 3, 10]
-      },
-      pool2: {
-        scoring: [1, 1, 1, 1, 5, 6, 7]
-      }
+    scoringOptions: {
+      [poolId]: [1, 2, 3, 10],
+      pool2: [1, 1, 1, 1, 5, 6, 7]
     }
   },
   week: {
