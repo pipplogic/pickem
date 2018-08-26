@@ -32,7 +32,9 @@ function Team ({ classes, className, team, onClick, selected, locked }) {
       variant={selected ? 'raised' : 'flat'}
       color={selected ? 'primary' : 'default'}
     >
-      <Typography>{team.city} {team.teamName}</Typography>
+      <Typography>
+        {team.city} {team.teamName}
+      </Typography>
     </Button>
   )
 }

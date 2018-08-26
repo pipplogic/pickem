@@ -3,7 +3,7 @@ import format from 'date-fns/format'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-export default function DateTime ({ date, classes, className }) {
+export default function DateTime ({ date, className }) {
   const weekday = format(date, 'ddd MMM D')
   const time = format(date, 'hh:mm A')
 
