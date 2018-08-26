@@ -19,18 +19,6 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       margin: `0 ${theme.spacing.unit}px`
     }
-  },
-  team: {
-    display: 'flex',
-    flexDirection: 'column',
-    [theme.breakpoints.up('sm')]: {
-      flexDirection: 'row'
-    }
-  },
-  location: {
-    [theme.breakpoints.up('sm')]: {
-      marginRight: theme.spacing.unit
-    }
   }
 })
 
@@ -38,19 +26,18 @@ function Team ({ classes, className, team, onClick, selected, locked }) {
   return (
     <Button
       className={className}
-      classes={{ root: classes.btn, label: classes.team }}
+      classes={{ root: classes.btn }}
       disabled={locked}
       onClick={onClick}
       variant={selected ? 'raised' : 'flat'}
       color={selected ? 'primary' : 'default'}
     >
-      <Typography className={classes.location}>{team.city}</Typography>
-      <Typography>{team.teamName}</Typography>
+      <Typography>{team.city} {team.teamName}</Typography>
     </Button>
   )
 }
 Team.propTypes = {
-  classes: requireStrings('btn', 'team', 'location'),
+  classes: requireStrings('btn'),
   className: PropTypes.string,
   team: PropTypes.shape({
     city: PropTypes.string.isRequired,
