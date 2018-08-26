@@ -1,14 +1,13 @@
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 import cx from 'classnames'
-import moment from 'moment'
+import format from 'date-fns/format'
 import PropTypes from 'prop-types'
 import React from 'react'
 
 function DateTime ({ date, classes, className }) {
-  const mo = moment(date)
-  const weekday = mo.format('ddd MMM DD')
-  const time = mo.format('hh:mm A')
+  const weekday = format(date, 'ddd MMM D')
+  const time = format(date, 'hh:mm A')
 
   return (
     <div className={cx(classes.root, className)}>
