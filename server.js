@@ -191,9 +191,11 @@ app.get('/api/pools', proxyRequest({
 app.get('/api/pools/:poolId/options', proxyRequest({
   url: req => {
     const {
-      params: { poolId }
+      params: { poolId },
+      query: {weekId = 1}
     } = req
-    return `/api/v1/picks/values?poolId=${poolId}&season=2018&week=1`
+    const seasonId = 2018
+    return `/api/v1/picks/values?poolId=${poolId}&season=${seasonId}&week=${weekId}`
   }
 }))
 

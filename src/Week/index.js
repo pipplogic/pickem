@@ -19,7 +19,11 @@ import {
   getPick,
   arePicksModified
 } from '../reducers'
-import { savePicks as apiSavePicks, loadPicks as apiLoadPicks } from '../api'
+import {
+  savePicks as apiSavePicks,
+  loadPicks as apiLoadPicks,
+  loadPoolOptions as apiLoadPoolOptions
+} from '../api'
 
 const mapStateToProps = (state, { weekNumber }) => {
   const weekState = getWeekState(state)
@@ -34,15 +38,16 @@ const mapStateToProps = (state, { weekNumber }) => {
   return { loading, error, poolId, gameIds, saving, saveError, modified }
 }
 
-const loadPicks = ({ poolId, weekId }) => (dispatch, getState) => {
-  apiLoadPicks({ poolId, weekId })
+const loadPicks = ({ poolId, weekId }) => dispatch => {
+  return apiLoadPicks({ poolId, weekId })
     .then(picks => {
       dispatch(addPicks(picks))
+      return picks
     })
     .catch(res => {
       console.log('error loading', res)
+      throw res
     })
-  return null
 }
 
 const savePicks = ({ poolId, weekId }) => (dispatch, getState) => ev => {
@@ -58,6 +63,37 @@ const savePicks = ({ poolId, weekId }) => (dispatch, getState) => ev => {
     .catch(err => dispatch(errorSavingPicks(err)))
 }
 
-export default connect(mapStateToProps, { loadWeek, loadPicks, savePicks })(
-  withStyles(styles)(Week)
-)
+const loadEmAll = ({ weekId, poolId }) => (dispatch, getState) => {
+  const gameIdsAsync = loadWeek(weekId)(dispatch)
+  if (poolId === 'MOCK_POOL') {
+    return
+  }
+  const initialPicksAsync = loadPicks({ poolId, weekId })(dispatch)
+  // TODO eventually use these instead of the global options
+  const pickOptionsAsync = apiLoadPoolOptions({ poolId, weekId })
+
+  initialPicksAsync.then(initialPicks => {
+    if (initialPicks.length > 0) {
+      // Loaded real picks. We're done.
+      return
+    }
+    Promise.all([gameIdsAsync, pickOptionsAsync]).then(
+      ([gameIds, pickOptions]) => {
+        const defaultPicks = gameIds.map((gameId, gameNumber) => ({
+          gameId,
+          poolId,
+          score: pickOptions[gameNumber]
+        }))
+        console.log('making default picks', defaultPicks)
+        dispatch(addPicks(defaultPicks))
+      }
+    )
+  })
+}
+
+export default connect(mapStateToProps, {
+  loadEmAll,
+  loadWeek,
+  loadPicks,
+  savePicks
+})(withStyles(styles)(Week))

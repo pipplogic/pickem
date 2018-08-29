@@ -21,33 +21,15 @@ import { idType, requireStrings } from '../propType'
 
 class Week extends Component {
   componentDidMount () {
-    this.loadWeek()
-    this.loadPicks()
+    const { weekNumber, poolId, loadEmAll } = this.props
+    loadEmAll({ weekId: weekNumber, poolId })
   }
 
   componentDidUpdate (prevProps) {
-    const { weekNumber, poolId } = this.props
-    if (weekNumber !== prevProps.weekNumber) {
-      this.loadWeek()
-      this.loadPicks()
+    const { weekNumber, poolId, loadEmAll } = this.props
+    if (weekNumber !== prevProps.weekNumber || poolId !== prevProps.poolId) {
+      loadEmAll({ weekId: weekNumber, poolId })
     }
-
-    if (poolId !== prevProps.poolId) {
-      this.loadPicks()
-    }
-  }
-
-  loadWeek () {
-    const { weekNumber, loadWeek } = this.props
-    loadWeek(weekNumber)
-  }
-
-  loadPicks () {
-    const { poolId, weekNumber, loadPicks } = this.props
-    if (poolId === 'MOCK_POOL') {
-      return
-    }
-    loadPicks({ poolId, weekId: weekNumber })
   }
 
   render () {
@@ -118,14 +100,13 @@ Week.propTypes = {
   classes: requireStrings('header', 'actions'),
   error: PropTypes.any,
   loading: PropTypes.bool,
-  loadWeek: PropTypes.func.isRequired,
   gameIds: PropTypes.arrayOf(idType.isRequired).isRequired,
   poolId: idType.isRequired,
-  loadPicks: PropTypes.func.isRequired,
   savePicks: PropTypes.func.isRequired,
   saving: PropTypes.bool.isRequired,
   saveError: PropTypes.bool.isRequired,
-  modified: PropTypes.bool.isRequired
+  modified: PropTypes.bool.isRequired,
+  loadEmAll: PropTypes.func.isRequired
 }
 
 export default Week

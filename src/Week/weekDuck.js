@@ -84,13 +84,14 @@ const getGameIds = ({ games }) => games.map(({ gameId }) => gameId)
 
 export const loadWeek = weekNumber => dispatch => {
   dispatch({ type: LOADING })
-  apiLoadWeek(2018, weekNumber)
+  return apiLoadWeek(2018, weekNumber)
     .then(weekInfo => {
       dispatch({ type: TEAMS, payload: getTeamsById(weekInfo) })
       dispatch({ type: GAMES, payload: getGamesById(weekInfo, weekNumber) })
       const gameIds = getGameIds(weekInfo)
       dispatch({ type: WEEK, payload: { [weekNumber]: gameIds } })
       dispatch({ type: LOADED })
+      return gameIds
     })
     .catch(error => {
       dispatch({ type: LOAD_ERROR, error })

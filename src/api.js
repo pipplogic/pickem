@@ -64,8 +64,10 @@ export function loadPools () {
   })
 }
 
-export function loadPoolOptions (poolId) {
-  return axios.get(`/api/pools/${poolId}/options`).then(({ data }) => data)
+export function loadPoolOptions ({ poolId, weekId = 1 }) {
+  return axios
+    .get(`/api/pools/${poolId}/options?weekId=${weekId}`)
+    .then(({ data }) => data)
 }
 
 export function loadPicks ({ poolId, weekId }) {

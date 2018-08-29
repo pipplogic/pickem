@@ -90,7 +90,7 @@ const poolOptions = ({ poolId, options }) => ({
 })
 
 const loadPoolOptions = poolId => dispatch => {
-  apiLoadPoolOptions(poolId).then(options => {
+  apiLoadPoolOptions({ poolId }).then(options => {
     dispatch(
       poolOptions({
         poolId,
