@@ -4,6 +4,8 @@ const TEAM = 'pickem/picks/team'
 const SCORE = 'pickem/picks/score'
 const SWITCH_SCORES = 'pickem/picks/switch'
 const PICKS_LOADED = 'pickem/picks/loaded'
+const SAVING = 'pickem/picks/saving'
+const ERROR = 'pickem/picks/error'
 
 const picksByIdReducer = (state = {}, action = {}) => {
   switch (action.type) {
@@ -51,8 +53,71 @@ const picksByIdReducer = (state = {}, action = {}) => {
   }
 }
 
+const errorReducer = (state = false, action = {}) => {
+  switch (action.type) {
+    case ERROR:
+      return true
+    case SAVING:
+      return false
+    default:
+      return state
+  }
+}
+
+const saving = (state = false, action = {}) => {
+  switch (action.type) {
+    case SAVING:
+      return action.payload
+    case ERROR:
+      return false
+    default:
+      return state
+  }
+}
+
+const modified = (state = false, action = {}) => {
+  switch (action.type) {
+    case SAVING: {
+      if (action.payload === true) {
+        return false
+      }
+      return state
+    }
+
+    case TEAM:
+    case SCORE:
+    case SWITCH_SCORES: {
+      return true
+    }
+    case PICKS_LOADED: {
+      return false
+    }
+    default: {
+      return state
+    }
+  }
+}
+
 export default combineReducers({
-  byId: picksByIdReducer
+  byId: picksByIdReducer,
+  saving,
+  error: errorReducer,
+  modified
+})
+
+export const savingPicks = () => ({
+  type: SAVING,
+  payload: true
+})
+
+export const savedPicks = () => ({
+  type: SAVING,
+  payload: false
+})
+
+export const errorSavingPicks = err => ({
+  type: ERROR,
+  payload: err
 })
 
 export const getPickId = ({ poolId, gameId }) => `POOL_${poolId}_GAME_${gameId}`

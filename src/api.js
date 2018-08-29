@@ -35,17 +35,6 @@ axios.interceptors.response.use(
   }
 )
 
-export function loadWeekGames (year, week) {
-  return axios
-    .get(`/api/seasons/${year}/weeks/${week}`)
-    .then(({ data: { games } }) => {
-      if (!games) {
-        throw new Error('Error loading week')
-      }
-      return games
-    })
-}
-
 export function loadWeek (year, week) {
   return axios
     .get(`/api/seasons/${year}/weeks/${week}`)

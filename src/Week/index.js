@@ -5,11 +5,19 @@ import Week from './Week'
 import styles from './styles'
 import { loadWeek } from './weekDuck'
 import {
+  savingPicks,
+  savedPicks,
+  errorSavingPicks
+} from '../reducers/picksDuck'
+import {
   addPicks,
   getWeekState,
   getActivePool,
   getGameIdsForWeek,
-  getPick
+  isSavingPicks,
+  picksError,
+  getPick,
+  arePicksModified
 } from '../reducers'
 import { savePicks as apiSavePicks, loadPicks as apiLoadPicks } from '../api'
 
@@ -19,12 +27,14 @@ const mapStateToProps = (state, { weekNumber }) => {
   const { loading, error } = weekState
   const gameIds = getGameIdsForWeek(state)(weekNumber) || []
   const poolId = getActivePool(state)
+  const saving = isSavingPicks(state)
+  const saveError = picksError(state)
+  const modified = arePicksModified(state)
 
-  return { loading, error, poolId, gameIds }
+  return { loading, error, poolId, gameIds, saving, saveError, modified }
 }
 
-const loadPicks = ({ poolId, weekId }) => dispatch => {
-  console.log('loading picks')
+const loadPicks = ({ poolId, weekId }) => (dispatch, getState) => {
   apiLoadPicks({ poolId, weekId })
     .then(picks => {
       dispatch(addPicks(picks))
@@ -42,11 +52,10 @@ const savePicks = ({ poolId, weekId }) => (dispatch, getState) => ev => {
   const getGamePick = getPick(state)(poolId)
 
   const picks = gameIds.map(getGamePick)
-
-  console.log('saving...')
+  dispatch(savingPicks())
   apiSavePicks({ poolId, picks })
-    .then(() => console.log('saved!'))
-    .catch(err => console.log('error', err))
+    .then(() => dispatch(savedPicks()))
+    .catch(err => dispatch(errorSavingPicks(err)))
 }
 
 export default connect(mapStateToProps, { loadWeek, loadPicks, savePicks })(

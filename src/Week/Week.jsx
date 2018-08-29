@@ -3,6 +3,14 @@ import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListSubheader from '@material-ui/core/ListSubheader'
+
+import Autorenew from '@material-ui/icons/Autorenew'
+import Check from '@material-ui/icons/Check'
+import Error from '@material-ui/icons/Error'
+import Save from '@material-ui/icons/Save'
+
+import cx from 'classnames'
+
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
@@ -21,6 +29,7 @@ class Week extends Component {
     const { weekNumber, poolId } = this.props
     if (weekNumber !== prevProps.weekNumber) {
       this.loadWeek()
+      this.loadPicks()
     }
 
     if (poolId !== prevProps.poolId) {
@@ -50,7 +59,10 @@ class Week extends Component {
       gameIds,
       savePicks,
       poolId,
-      weekNumber
+      weekNumber,
+      saving,
+      saveError,
+      modified
     } = this.props
 
     if (loading) {
@@ -81,9 +93,18 @@ class Week extends Component {
           <Button
             variant='raised'
             color='primary'
+            disabled={!modified}
             onClick={savePicks({ poolId, weekId: weekNumber })}
           >
             Save
+            {saving && (
+              <Autorenew className={cx(classes.rightIcon, classes.load)} />
+            )}
+            {saveError && (
+              <Error className={cx(classes.rightIcon, classes.error)} />
+            )}
+            {!saving && modified && <Save className={classes.rightIcon} />}
+            {!saving && !modified && <Check className={classes.rightIcon} />}
           </Button>
         </div>
       </React.Fragment>
@@ -101,7 +122,10 @@ Week.propTypes = {
   gameIds: PropTypes.arrayOf(idType.isRequired).isRequired,
   poolId: idType.isRequired,
   loadPicks: PropTypes.func.isRequired,
-  savePicks: PropTypes.func.isRequired
+  savePicks: PropTypes.func.isRequired,
+  saving: PropTypes.bool.isRequired,
+  saveError: PropTypes.bool.isRequired,
+  modified: PropTypes.bool.isRequired
 }
 
 export default Week
