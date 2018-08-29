@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { PropTypes } from 'prop-types'
 
 // TODO Put these somewhere...
-let weekOptionNumbers = [-3, -4, -5]
+let weekOptionNumbers = [-3, -4]
 for (let i = 1; i <= 17; i += 1) {
   weekOptionNumbers.push(i)
 }
