@@ -81,7 +81,7 @@ class Week extends Component {
         <div className={classes.actions}>
           <Button
             variant='raised'
-            color='primary'
+            color='secondary'
             disabled={!modified}
             onClick={savePicks({ poolId, weekId: weekNumber })}
           >
