@@ -4,6 +4,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 import React from 'react'
+import FootballHelmet from 'mdi-material-ui/FootballHelmet'
 
 import { logout } from './api'
 import { requireStrings } from './propType'
@@ -13,7 +14,8 @@ function Header ({ classes }) {
   // TODO Sticky
   return (
     <AppBar position='static'>
-      <Toolbar className={classes.toolbar}>
+      <Toolbar>
+        <FootballHelmet className={classes.logo} />
         <Typography variant='title' className={classes.title}>
           Pick &apos;Em
         </Typography>
@@ -27,13 +29,17 @@ function Header ({ classes }) {
   )
 }
 Header.propTypes = {
-  classes: requireStrings('title')
+  classes: requireStrings('title', 'logo')
 }
 
-const styles = {
+const styles = theme => ({
   title: {
     flexGrow: 1
+  },
+  logo: {
+    transform: 'scaleX(-1)',
+    marginRight: theme.spacing.unit
   }
-}
+})
 
 export default withStyles(styles)(Header)
