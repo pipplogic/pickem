@@ -13,6 +13,11 @@ export function loadToken () {
   return authToken
 }
 
+export function logout () {
+  setToken(null)
+  window.location.assign('/')
+}
+
 function setToken (token) {
   if (token) {
     const authToken = `Bearer ${token}`
@@ -28,8 +33,7 @@ axios.interceptors.response.use(
   response => response,
   error => {
     if (error.response.status === 401) {
-      setToken(null)
-      window.location.assign('/')
+      logout()
       throw new BadAuthentication('User not authenticated')
     }
     throw error
