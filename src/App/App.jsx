@@ -14,6 +14,7 @@ import RequireLogin from '../RequireLogin'
 import Week from '../Week'
 import { requireStrings } from '../propType'
 import Selections from '../Selections'
+import PoolInfo from '../PoolInfo'
 
 export default class App extends React.Component {
   componentDidMount () {
@@ -50,6 +51,7 @@ export default class App extends React.Component {
                   path='/week/:weekNumber'
                   render={({ match: { params: { weekNumber } } }) => (
                     <RequireLogin redirect>
+                      <PoolInfo />
                       <Selections
                         className={classes.selections}
                         currentWeek={weekNumber}

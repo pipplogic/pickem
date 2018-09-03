@@ -41,7 +41,7 @@ export default function StatusPage ({
           classes={{ root: cx(classes.icon, { [classes.spin]: iconSpin }) }}
         />
       )}
-      {children}
+      {children && <Typography variant='headline'>{children}</Typography>}
       {!children && text && <Typography variant='headline'>{text}</Typography>}
     </div>
   )

@@ -33,6 +33,8 @@ export const getPoolsState = state => state.pools
 export const getActivePool = state =>
   fromPools.getActivePool(getPoolsState(state))
 
+export const getPools = state => fromPools.getPools(getPoolsState(state))
+
 export const getGameById = state => fromWeek.getGameById(getWeekState(state))
 
 export const getGameIdsForWeek = state =>
@@ -67,3 +69,4 @@ export const updateTeamPick = fromPicks.updateTeamPick
 export const updatePickPoints = fromPickPoints.updatePickPoints
 export const getScoreOptions = fromPickPoints.getScoreOptions
 export const addPicks = fromPicks.addPicks
+export const selectPool = fromPools.selectPool

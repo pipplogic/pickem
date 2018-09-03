@@ -65,7 +65,7 @@ const savePicks = ({ poolId, weekId }) => (dispatch, getState) => ev => {
 
 const loadEmAll = ({ weekId, poolId }) => (dispatch, getState) => {
   const gameIdsAsync = loadWeek(weekId)(dispatch)
-  if (poolId === 'MOCK_POOL') {
+  if (!poolId || !weekId) {
     return
   }
   const initialPicksAsync = loadPicks({ poolId, weekId })(dispatch)
@@ -84,7 +84,6 @@ const loadEmAll = ({ weekId, poolId }) => (dispatch, getState) => {
           poolId,
           score: pickOptions[gameNumber]
         }))
-        console.log('making default picks', defaultPicks)
         dispatch(addPicks(defaultPicks))
       }
     )

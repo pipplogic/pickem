@@ -54,6 +54,13 @@ class Week extends Component {
     if (error) {
       return <StatusPage className={className} status='error' />
     }
+    if (!poolId) {
+      return (
+        <StatusPage className={className} status='error'>
+          You must join a pool
+        </StatusPage>
+      )
+    }
 
     return (
       <React.Fragment>
@@ -101,7 +108,7 @@ Week.propTypes = {
   error: PropTypes.any,
   loading: PropTypes.bool,
   gameIds: PropTypes.arrayOf(idType.isRequired).isRequired,
-  poolId: idType.isRequired,
+  poolId: idType,
   savePicks: PropTypes.func.isRequired,
   saving: PropTypes.bool.isRequired,
   saveError: PropTypes.bool.isRequired,

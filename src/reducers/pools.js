@@ -8,14 +8,7 @@ const ADD_POOLS = 'pickem/pools/add'
 const SWITCH_POOL = 'pickem/pools/active'
 const SCORING_OPTIONS = 'pcikem/pools/options'
 
-const pools = (
-  state = {
-    MOCK_POOL: {
-      poolId: 'MOCK_POOL'
-    }
-  },
-  action = {}
-) => {
+const pools = (state = {}, action = {}) => {
   switch (action.type) {
     case ADD_POOLS:
       const newPools = action.pools.reduce(
@@ -34,7 +27,7 @@ const pools = (
   }
 }
 
-const active = (state = 'MOCK_POOL', action = {}) => {
+const active = (state = null, action = {}) => {
   switch (action.type) {
     case SWITCH_POOL: {
       return action.poolId
@@ -45,12 +38,7 @@ const active = (state = 'MOCK_POOL', action = {}) => {
   }
 }
 
-const scoringOptions = (
-  state = {
-    MOCK_POOL: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
-  },
-  action = {}
-) => {
+const scoringOptions = (state = {}, action = {}) => {
   switch (action.type) {
     case SCORING_OPTIONS:
       return {
@@ -68,6 +56,8 @@ export default combineReducers({
   scoringOptions
 })
 
+export const getPools = state => Object.values(state.byId)
+
 export const getScoringOptions = state => poolId =>
   state.scoringOptions[poolId] || []
 
@@ -78,7 +68,7 @@ const addPools = pools => ({
   pools
 })
 
-const selectPool = poolId => ({
+export const selectPool = poolId => ({
   type: SWITCH_POOL,
   poolId
 })

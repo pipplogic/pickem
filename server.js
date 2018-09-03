@@ -105,8 +105,6 @@ const proxyRequest = ({url: urlParam, method = 'GET', reqBodyMapper = (req) => (
       if (!responseBody) {
         res.status(204)
       }
-      console.log(`${statusCode} ${method}: ${url} in ${reqEndTime - reqStartTime}ms`)
-
       res.send(responseBody)
     }
   )
