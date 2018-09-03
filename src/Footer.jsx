@@ -13,7 +13,7 @@ function Footer ({ classes, className }) {
       className={className}
     >
       <Typography variant='subheading' align='center'>
-        Written by @PippLogic
+        Written by @PippLogic and @quadglacier
       </Typography>
     </AppBar>
   )
