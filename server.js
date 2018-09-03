@@ -183,7 +183,36 @@ app.get('/api/seasons/:year/weeks/:week', proxyRequest({
 }))
 
 app.get('/api/pools', proxyRequest({
-  url: '/api/v1/pool/list'
+  url: req => {
+    const {
+      query: {pending}
+    } = req
+    if (pending && pending !== 'false') {
+      return '/api/v1/pool/invite'
+    }
+    return '/api/v1/pool/list'
+  }
+}))
+
+app.put('/api/pools/:poolId', proxyRequest({
+  method: 'POST',
+  url: req => {
+    const {
+      params: { poolId }
+    } = req
+    return `/api/v1/pool/${poolId}/invite/respond`
+  },
+
+  reqBodyMapper: (req) => {
+    const {
+      body: { joined, declined }
+    } = req
+    const inviteAction = joined ? 'ACCEPTED' : declined ? 'REJECTED' : 'PENDING'
+
+    return {
+      inviteAction
+    }
+  }
 }))
 
 app.get('/api/pools/:poolId/options', proxyRequest({

@@ -64,6 +64,12 @@ export function loadPools () {
   })
 }
 
+export function loadPoolInvites () {
+  return axios.get('/api/pools?pending=true').then(resp => {
+    return resp.data.filter(invite => invite.status === 'PENDING')
+  })
+}
+
 export function loadPoolOptions ({ poolId, weekId = 1 }) {
   return axios
     .get(`/api/pools/${poolId}/options?weekId=${weekId}`)
@@ -95,4 +101,8 @@ export function savePicks ({ poolId, picks }) {
   const payload = { poolId, gamePicks }
 
   return axios.post('/api/picks', payload)
+}
+
+export function joinPool (poolId) {
+  return axios.put(`/api/pools/${poolId}`, { joined: true })
 }

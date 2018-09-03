@@ -1,12 +1,16 @@
 import { combineReducers } from 'redux'
 import {
   loadPools as apiLoadPools,
-  loadPoolOptions as apiLoadPoolOptions
+  loadPoolOptions as apiLoadPoolOptions,
+  loadPoolInvites as apiLoadPoolInvites,
+  joinPool as apiJoinPool
 } from '../api'
 
 const ADD_POOLS = 'pickem/pools/add'
 const SWITCH_POOL = 'pickem/pools/active'
 const SCORING_OPTIONS = 'pcikem/pools/options'
+const SET_INVITES = 'pickem/pools/invites/set'
+const REMOVE_INVITE = 'pickem/pools/invites/remove'
 
 const pools = (state = {}, action = {}) => {
   switch (action.type) {
@@ -50,11 +54,33 @@ const scoringOptions = (state = {}, action = {}) => {
   }
 }
 
+const invites = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_INVITES: {
+      return action.payload
+    }
+    case REMOVE_INVITE: {
+      return state.filter(invite => invite.poolId !== action.poolId)
+    }
+    default: {
+      return state
+    }
+  }
+}
+
+const setInvites = payload => ({
+  type: SET_INVITES,
+  payload
+})
+
 export default combineReducers({
   byId: pools,
   active,
-  scoringOptions
+  scoringOptions,
+  invites
 })
+
+export const getInvites = state => state.invites
 
 export const getPools = state => Object.values(state.byId)
 
@@ -93,8 +119,25 @@ const loadPoolOptions = poolId => dispatch => {
 export const loadPools = () => dispatch => {
   apiLoadPools().then(pools => {
     dispatch(addPools(pools))
+    if (pools.length === 0) {
+      return
+    }
     const defaultPool = pools[0].poolId
     dispatch(selectPool(defaultPool))
     loadPoolOptions(defaultPool)(dispatch)
+  })
+  apiLoadPoolInvites().then(invites => {
+    dispatch(setInvites(invites))
+  })
+}
+
+export const joinPool = poolId => dispatch => () => {
+  apiJoinPool(poolId).then(() => {
+    dispatch({ type: REMOVE_INVITE, poolId })
+    apiLoadPools().then(pools => {
+      dispatch(addPools(pools))
+    })
+    loadPoolOptions(poolId)(dispatch)
+    dispatch(selectPool(poolId))
   })
 }
