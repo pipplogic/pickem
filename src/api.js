@@ -29,6 +29,7 @@ axios.interceptors.response.use(
   error => {
     if (error.response.status === 401) {
       setToken(null)
+      window.location.assign('/')
       throw new BadAuthentication('User not authenticated')
     }
     throw error
